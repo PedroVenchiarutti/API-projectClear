@@ -19,9 +19,11 @@ clientRouter.get('/client/:id',async(req,res,next)=>{
   
   let id = req.params.id;
 
-  let user = await clientController.getUser(parseInt(id))
-  console.log(user)
-  res.send(user);
+  clientController.getUser(parseInt(id)).then(x=>{
+
+    res.send(x);
+  })
+  
 
 });
 

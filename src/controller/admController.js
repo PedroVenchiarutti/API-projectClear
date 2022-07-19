@@ -15,7 +15,7 @@ module.exports = {
             resolve(res.rows[0]);
           }
         });
-    )}
+    }
   )},
 
   getAdms(){
@@ -29,9 +29,8 @@ module.exports = {
         else{
           resolve(res.rows)
         }
-
-      });
-    )}
+      })    ;
+    })
   },
 
   /* {
@@ -39,16 +38,36 @@ module.exports = {
    *  email,
    *  password
    *  }
-   * 
-  addAdm(adm){
-  },
+   */
 
-  updateAdm(){
+  addAdm(adm){
+
+    return new Promise((resolve,reject)=>{
+
+    });
   
   },
   
-  deleteAdm(){
+  update(adm){
+
+    return new Promise((resolve,reject)=>{
+
+      db.query(`UPDATE adms 
+                  SET name=$1, email=$2 password=$3
+                    WHERE id = $4`,[adm.name,adm.email,adm.password],(err,res)=>{
+
+          if(err !=null){
+            reject(err);
+          } else{
+            resolve(true)
+          }
+        })
+    })
+  },
   
+  remove(id){
+
+    return new Promise((resolve,reject)=>{})
   }
-  */
+  
 }

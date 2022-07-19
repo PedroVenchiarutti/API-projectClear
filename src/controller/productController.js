@@ -6,16 +6,16 @@ module.exports = {
   getProduct(id){
     
     return new Promise((resolve,reject)=>{
-      db.query(`SELECT * FROM products WHERE id= $1`,[íd],(req,res)=>{
+      db.query(`SELECT * FROM products WHERE id= $1`,[id],(err,res)=>{
 
         if(err !=null){
-          return err
+          reject(err)
         }
         else{
-          return res.rows[0];
+          resolve(res.rows[0]);
         }
       })
-    )}  
+    }  
   )},
 
   // search lists
@@ -26,19 +26,19 @@ module.exports = {
         "SELECT * FROM products WHERE categorie = $2 LIMIT $1.$2" :
         "SELECT * FROM products LIMIT $1. $2";
 
-      const params[] = categorie ? 
-        [nLimit,(nLimit+10),categorie],
+      const params = categorie ? 
+        [nLimit,(nLimit+10),categorie]:
         [nLimit,(nLimit+10)]
 
-      db.query(query,params,(req,res)=>{
+      db.query(query,params,(err,res)=>{
 
         if(err !=null){
-          return err
+          reject(err)
         }
         else{
-          return res.rows;
+          resolve(res.rows);
         }
       })
-    )}  
+    }  
   )}
 }

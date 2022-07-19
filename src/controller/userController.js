@@ -29,7 +29,6 @@ module.exports = {
             reject( err);
           }
           else{
-            console.log(res.rows[0])
             resolve(res.rows[0]);
           }
         })
