@@ -14,7 +14,6 @@ module.exports ={
 
     getAll(){
        return new Promise((resolve,reject)=>{
-            
         db.query(`SELECT u.name,r.date,p.id,p.name
                     FROM reservations AS r
                         JOIN users AS u ON u.id = r.user_id
