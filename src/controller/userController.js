@@ -22,7 +22,6 @@ module.exports = {
     getUser(id){
 
       return new Promise((resolve,reject)=>{
-
         db.query("SELECT * FROM users WHERE id = $1;",[id],(err,res)=>{
           if(err){
             console.log(err) 

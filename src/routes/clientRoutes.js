@@ -1,30 +1,30 @@
 const express = require('express');
 
 const db = require('../config/db/dbconnect.js');
-const clientController = require('../controller/userController.js');
+const userController = require("../controller/userController");
 
 const clientRouter = express.Router();
 
-/*
-clientRouter.get('/client', async (req,res,next)=>{
 
-  db.query("SELECT * FROM users WHERE id = $1",[1],(err,results)=>{
-    console.log(results)
-    return res.status(200).send(results)
-  })
-});
-*/
-
-clientRouter.get('/client/:id',async(req,res,next)=>{
-  
+clientRouter.get("/user/:id",(req,res,next)=>{
   let id = req.params.id;
+  userController.getUser(parseInt(id)).then(x=>{
+    res.status(200).send(x);
+  }).catch( err => {
+    res.status(404).send(err);
+  }
+  );
+    ;
+})
 
-  clientController.getUser(parseInt(id)).then(x=>{
+// Rota de atualização de clientes
+clientRouter.put("/client/:id", async (req, res, next) => {
+  res.status(200).send({ message: "Consumir controller ainda!!" });
+});
 
-    res.send(x);
-  })
-  
-
+// Rota de exclusão de clientes
+clientRouter.delete("/client/:id", async (req, res, next) => {
+  res.status(200).send({ message: "Consumir controller ainda!!" });
 });
 
 module.exports = clientRouter;
