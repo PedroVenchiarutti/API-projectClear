@@ -34,7 +34,7 @@ module.exports = {
       })
 
     },
-
+    
     addUser(user){
 
       return new Promise((resolve,reject)=>{

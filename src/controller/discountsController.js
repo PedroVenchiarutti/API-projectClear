@@ -39,7 +39,7 @@ module.exports = {
         [discount.code],
         (err, res) => {
           if (res.rows[0]) {
-            reject("Email already exists");
+            reject("Discounts already exists");
           } else if (err) {
             reject(err);
           } else {
