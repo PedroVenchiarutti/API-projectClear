@@ -17,6 +17,7 @@ const discountsRoutes = require("../routes/discountsRoutes.js");
 const adminRoutes = require("../routes/adminRoutes.js");
 const reservationProceduresRoutes = require("../routes/reservationProceduresRoutes.js");
 const requestRoutes = require("../routes/requestRoutes.js");
+const requestProductsRoutes = require("../routes/requestProductsRoutes.js");
 
 server.use(bodyParser.json());
 server.use(bodyParser.urlencoded({ extended: true }));
@@ -36,6 +37,7 @@ server.use("/api", discountsRoutes);
 server.use("/api", adminRoutes);
 server.use("/api", reservationProceduresRoutes);
 server.use("/api", requestRoutes); 
+server.use("/api", requestProductsRoutes); 
 
 server.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);

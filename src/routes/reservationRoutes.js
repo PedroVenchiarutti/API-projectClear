@@ -15,6 +15,14 @@ reservationsRouter.get("/reservations", async (req, res, next) => {
 
 });
 
+// test
+reservationsRouter.get("/reservations/:id", async(req,res,next)=>{
+
+  reservationController.getByUserId(1).then(x=>{
+    res.send(x);  
+  })
+})
+
 // Rota de criação de reservas
 reservationsRouter.post("/reservations", async (req, res, next) => {
   res.status(200).send({ message: "Consumir controller ainda!!" });

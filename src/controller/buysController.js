@@ -4,7 +4,6 @@ const db = require("../config/db/dbconnect.js");
 module.exports = {
 
 
-
     // Pegar todos produtos
     getAll() {
         return new Promise((resolve, reject) => {

@@ -1,6 +1,15 @@
 const db = require("../config/db/dbconnect.js");
 const express = require("express");
 
+
+const requestController = require("../controller/requestController.js");
+
+/* requestController.getAll().then(request => {
+  res.status(200).send(request);
+}).catch(err => {
+  res.status(500).send(err);
+}) */
+
 const requestRoutes = express.Router();
 
 requestRoutes.get("/requests", async (req, res, next) => {

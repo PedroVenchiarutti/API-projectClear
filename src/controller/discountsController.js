@@ -17,19 +17,7 @@ module.exports = {
         }
       });
     });
-  },
-
-  get(id) {
-    return new Promise((resolve, reject) => {
-      db.query(`SELECT * FROM discounts WHERE id = $1`, [id], (err, res) => {
-        if (err) {
-          reject(err);
-        } else {
-          resolve(res.rows);
-        }
-      });
-    });
-  },
+  }, 
 
   //Inserir desconto
   create(discount) {
