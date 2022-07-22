@@ -1,16 +1,9 @@
 const db = require("../config/db/dbconnect.js");
 const Utils = require("../Utils/Utils.js");
-const procedureController = require('./procedureController');
 
 //Reservation Controller do reservationRouter.js
 
 module.exports ={
-
-    /*
-        reservationsByuser
-        reservations procedures = f
-        crud
-    */
 
     getByUserId(userId){
         
@@ -27,26 +20,16 @@ module.exports ={
                         reject(err)
                     } else{
 
-                        let ids = []; 
-                       
-                        res.rows.forEach(id=>{
-                            ids.push(id.procedure_id);
-                        })
+                        let ids = Utils.resJsonToArray(res.rows,"procedure_id");  
                         
                         Utils.selectMultiID("procedures",ids)
                             .then(procedures=>{
-                               
-                                let count =0;
-                                
-                                procedures.forEach(procedures=>{
+                                 
+                                procedures.forEach(procedure=>{
                                     
-                                    let array = {
-                                        procedures                                       
-                                    };
-                                    list.push(array);                                    
+                                    list.push( procedure);                                    
                                 })
-
-                                    resolve(list)                        
+                                resolve(list)                        
                             })
                             .catch(error=>{
                                 reject(error)
@@ -59,9 +42,7 @@ module.exports ={
     getProcedures(reservation_id){
 
         return new Promise((resolve,reject)=>{
-            
-            const list=[];
-            
+             
             db.query(`SELECT procedure_id FROM reservation_procedures
                         WHERE reservation_id = $1`,
                         [reservation_id],
@@ -70,12 +51,8 @@ module.exports ={
                                 reject(err);
                             } else{
 
-                                let ids = []; 
-                       
-                                res.rows.forEach(id=>{
-                                    ids.push(id.procedure_id);
-                                })
-                                
+                              let ids = Utils.resJsonToArray(res.rows,"procedure_id");
+                           
                                 Utils.selectMultiID(ids)
                                     .then(procedures=>{
                                         resolve(procedures);
@@ -89,10 +66,11 @@ module.exports ={
 
     // paginacao futura
     // select test
+
     getAll(){
        return new Promise((resolve,reject)=>{
        
-    })
+        })
     },
     
     add(userId, reservationProcedures){
@@ -100,7 +78,7 @@ module.exports ={
         return new Promise ((resolve,reject)=>{
 
             db.query(`INSERT INTO reservations (date,userId)
-                        VALUES ($1,$2)`,
+                        VALUES (to_timestamp($1),$2)`,
                         (reservationProcedures.date,userId),
                         (err,res)=>{
                 if(err){
@@ -113,8 +91,7 @@ module.exports ={
                     reservationProcedures.procedures.forEach(procedure => {
                         
                         query += `(${procedure.id},(SELECT id FROM reservations
-                                     WHERE user_id = ${userId} AND date = ${procedure.date})),`
-                        
+                                     WHERE user_id = ${userId} AND date = ${procedure.date})),`                        
                     });
                     
                     // removendo a ultima virgula
@@ -123,7 +100,7 @@ module.exports ={
                     db.query(query,(err,res)=>{
 
                         if(err){
-                            reject(err);
+                            reject(err.message);
                         }
                         else{
                             resolve();
@@ -148,12 +125,11 @@ module.exports ={
             });
             
             // removendo a ultima virgula
-            exec = query.slice(0,-1);
+            query = query.slice(0,-1);
 
             db.query(query,(err,res)=>{
-
                 if(err){
-                    reject(err);
+                    reject(err.message);
                 }
                 else{
                     resolve();
@@ -161,6 +137,7 @@ module.exports ={
                 })
         })
     },
+    
     update(userId,reservation_id,reservationProcedures){
         
         return new Promise ((resolve,reject)=>{
@@ -171,7 +148,7 @@ module.exports ={
                         [reservationProcedures.date,reservation_id,userId],
                         (err,res)=>{
                 if(err){
-                    reject(err)
+                    reject(err.message)
                 }else{ 
                     // update de Procedimentos   
                     db.query(`
@@ -180,7 +157,7 @@ module.exports ={
                         ,[reservation_id],
                         (err,res)=>{
                             if(err){
-                                reject(err)
+                                reject(err.message)
                             }else{
                                 this.addReservation_procedures(reservationProcedures)
                                     .then(response =>resolve())
@@ -191,10 +168,9 @@ module.exports ={
                 }
             })
         })
-
     },
 
-    remove(reservationIds){
+    remove(reservationId,reservationIds){
 
         // arrumar o delete com join   
         return new Promise((resolve,reject)=>{
@@ -202,21 +178,24 @@ module.exports ={
             let query = `DELETE reservation_procedures 
                             WHERE reservation_id in (`;
             
-            let count = 1 ;
-
-            reservationIds.forEach(id=>{
-                query+=`$${count},`;
-                count++;
-            })
-
-            query.slice(0,-1);
-            query += ")";
+            query = Utils.inIds(query,reservationIds);
 
             db.query(query,reservationIds,(err,res)=>{
                 if(err){
-                    reject(err)
+                    reject(err.message)
                 } else{
-                    resolve();
+                    db.query(`
+                        DELETE reservation WHERE id = $1`),
+                        [reservationId],
+                        (error,response)=>{
+
+                            if(error){
+                                reject(error.message);
+                            }
+                            else{
+                                resolve();
+                            }
+                        }                    
                 }
             })
        })

@@ -1,22 +1,7 @@
 const db = require('../config/db/dbconnect');
 
 module.exports ={
-    
-    idAddList(list, query){
-        
-        let num = 1;
-            
-        list.forEach(id => {
-            query += `$${num},`;  
-            num++;  
-        });
-
-        let exec = query.slice(0,-1);
-
-        exec +=`)`; 
-
-        return query;
-    },
+     
     selectMultiID(tableName,ids){
         
         return new Promise((resolve,reject)=>{
@@ -24,6 +9,7 @@ module.exports ={
             const params = []                
 
             let table ;
+
             if(tableName =="procedures"){
                 table = '"procedures"'
             } else
@@ -31,17 +17,11 @@ module.exports ={
                 
             let query = `SELECT * FROM ${table} WHERE id IN (`;
             
-            let num = 1;
-            
+            query = this.inIds(query,ids);
+
             ids.forEach(id => {
-                params.push(parseInt(id));
-                query += `$${num},`;  
-                num = num+1;  
-            });
-
-            query = query.slice(0,-1);
-            query +=`)`; 
-
+                params.push(parseInt(id)); 
+            }); 
             db.query(query,params,(err,res)=>{
                 if(err){
                     reject(err)
@@ -50,9 +30,33 @@ module.exports ={
                 }
             })
         })
+    },
 
-    }
+    inIds(query,params){
+        
+        let count =1;
+        
+        params.forEach(id=>{
+            query+=`$${count},`;
+            count++;
+        });
+        
+        query =query.slice(0,-1);
+        query += ")";
+
+        return query;
+    }, 
+  
+
+    resJsonToArray(list,propName){
+      
+      let array = [];
+
+      list.forEach(element=>{
+        array.push(element[propName])  
+      });
+
+      return array
+    },
     
-    //toTimestamp(){}
-
 }

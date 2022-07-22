@@ -1,7 +1,5 @@
 const db = require('../config/db/dbconnect');
-const productController = require("./productController");
-
-
+const Utils = require('../Utils/Utils.js');
 
 //Request products
 module.exports = {
@@ -18,66 +16,88 @@ module.exports = {
                 (err,res)=>{
 
                     if(err){
-                        reject(err);
+                        reject(err.message);
                     } else{
-                          
-                        let ids = [];
-                        res.rows.forEach(request=>{
-                            ids.push(request.id)
-                        })
-
+                      Utils.selectMultiID("request_products",res.rows)
+                        .then()
+                        .catch()
                     }
                 }); 
-
         })
     },
-   
 
-
-    /* -- Pedro
-
-        TABLES requests, requests_products, products
+    getAll(){        
+        
+        return new Promise((resolve,reject)=>{
     
-        selecionar todas as requests e seus dados relacionados 
-        e os produtos referentes e os produtos
-        referentes a cada uma das requisisoes
+            const list = [];
+            
+            db.query(`
+                SELECT * FROM requests`,
+                (err,requests)=>{
+                    if(err){
+                        reject(err.message)
+                    } else{
+                        db.query(`
+                        SELECT * FROM request_products`,
+                        (error,request_products)=>{
+                            
+                            if(error){
+                                reject(error.message);
+                            } else{
+                                
+                                let productIds = Utils.resJsonToArray(request_products.rows,"product_id") 
 
-        select * from requests W
+                                Utils.selectMultiID("products",productIds)
+                                    .then(products=>{
+                                        requests.rows.forEach(request=>{
+                                        
+                                            let productsArray =[] ;
+                                        
+                                            let qt; 
 
-        retorno da funcao ARRAY DE JSONs 
-        [
-            {
-                request_id,
-                user_id,
-         
-                qt_product,
-                listProduct: {
-                   product:{
-                    name,
-                    value
-                   }
-                }
-            }
-        ]
-        */ 
+                                            request_products.rows.forEach(rp=>{
+                                                
+                                                if(rp.request_id == request.id){
+                                                    
+                                                    qt - rp.qt_product;
 
-    
-    getAll(){
-        let list = [];
-            return new Promise((resolve,reject)=>{
-            db.query(``,(err,res) => {
-                if(err){
-                    reject(err)
-                } else{
-                    resolve(res.rows);
-                }
-            })
+                                                    products.forEach(product=>{
+                                                                    
+                                                        if(rp.product_id == product.id){
+                                                            productsArray.push(product);
+                                                            
+                                                        }
+                                                    })  
+
+                                                }
+                                            });
+                                            
+                                            let requestObj = {date:request.date,
+                                                          products:productsArray}
+                                            
+                                            list.push(requestObj);
+                                                
+                                            productsArray = [];
+                                        });
+                                        resolve(list)
+                                    })
+                                    .catch(error=>{
+                                        reject(error)
+                                    })
+                            }
+
+                        })
+                    }
+                })
         })   
     },
 
-    add(products,user_id){
+    add(user_id,products){
         return new Promise((reject,resolve)=>{
-           
+           db.query(`
+                SELECT 
+           `)
         })
     },
 

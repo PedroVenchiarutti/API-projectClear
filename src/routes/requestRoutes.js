@@ -13,7 +13,12 @@ const requestController = require("../controller/requestController.js");
 const requestRoutes = express.Router();
 
 requestRoutes.get("/requests", async (req, res, next) => {
-  res.status(200).send({ message: "Consumir controller ainda!!" });
+
+  requestController.getAll().then(all=>{
+    res.send(all);
+  }).catch(erro=>{
+    res.send(erro);
+  })
 });
 
 requestRoutes.post("/requests", async (req, res, next) => {
