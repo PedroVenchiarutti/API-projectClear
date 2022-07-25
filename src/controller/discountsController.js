@@ -32,8 +32,8 @@ module.exports = {
             reject(err);
           } else {
             db.query(
-              `INSERT INTO discounts (discount,code) VALUES($1,$2)`,
-              [discount.discount, discount.code],
+              `INSERT INTO discounts (discount,code,dt_limit) VALUES($1,$2,to_timestamp($3))`,
+              [discount.discount, discount.code,discount.dt_limit],
               (err, res) => {
                 if (err != null) {
                   reject(err);

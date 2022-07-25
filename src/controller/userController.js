@@ -1,4 +1,5 @@
 const db = require("../config/db/dbconnect.js");
+const Utils = require("../Utils/Utils.js");
 
 module.exports = {
 
@@ -17,8 +18,25 @@ module.exports = {
           }
         })
       }
-      )},
-  
+    )},
+    
+    getName(ids){
+      return new Promise((resolve,reject)=>{
+        
+        let query = `SELECT name,id FROM users WHERE id IN (`;
+
+        query = Utils.inIds(query,ids)
+        
+        db.query(query,ids,(err,res)=>{
+          if(err){
+            reject(err)
+          } else{
+            resolve(res);
+          } 
+        });
+      })
+    },
+
     getUser(id){
 
       return new Promise((resolve,reject)=>{
@@ -34,13 +52,24 @@ module.exports = {
       })
 
     },
-    
+     
     addUser(user){
 
       return new Promise((resolve,reject)=>{
       
-        db.query(`INSERT INTO users (name,email,password,phone)
-                  VALUES($1,$2,$3,$4)`,[user.name,user.email,user.password,user.phone],(err,res)=>{
+        db.query(`
+          INSERT INTO users 
+            (name,email,password,phone,cpf,sexo,birth,img_url)
+              VALUES($1,$2,$3,$4,$5,$6,to_timestamp($7),$8)`,
+              [user.name,
+              user.email,
+              user.password,
+              user.phone,
+              user.cpf,
+              user.sexo,
+              user.birth,
+              user.img_url
+              ],(err,res)=>{
 
           if(err){
             reject(err);

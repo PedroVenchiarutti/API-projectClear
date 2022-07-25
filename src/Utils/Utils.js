@@ -3,7 +3,6 @@ const db = require('../config/db/dbconnect');
 module.exports ={
      
     selectMultiID(tableName,ids){
-        
         return new Promise((resolve,reject)=>{
         
             const params = []                
@@ -22,6 +21,7 @@ module.exports ={
             ids.forEach(id => {
                 params.push(parseInt(id)); 
             }); 
+
             db.query(query,params,(err,res)=>{
                 if(err){
                     reject(err)
@@ -57,6 +57,6 @@ module.exports ={
       });
 
       return array
-    },
+    }
     
 }

@@ -8,6 +8,11 @@ const discountsRoutes = express.Router();
 
 // Rota de listagem de descontos
 discountsRoutes.get("/discounts", async (req, res, next) => {
+  /**
+  #swagger.tags = ['discount']
+  #swagger.summary="busca todos os cupons de discontos"
+ */
+  
   discountsController
     .getAll()
     .then((discounts) => {
@@ -20,6 +25,19 @@ discountsRoutes.get("/discounts", async (req, res, next) => {
 
 // Rota de criação de descontos
 discountsRoutes.post("/discounts", async (req, res, next) => {
+  /**
+    #swagger.tags = ['discount']
+    #swagger.summary="Cria um novo cupon de disconto"
+    #swagger.parameters[''] => {
+      in:"body",
+      description:"modelo de dados do Cupon de disconto",
+      schema:{
+        $disocunt:50,
+        $code:"AUAU",
+        dt_limit:1658762344027
+      }
+  }
+ */
   discountsController
     .create(req.body)
     .then((discounts) => {
@@ -32,7 +50,20 @@ discountsRoutes.post("/discounts", async (req, res, next) => {
 
 // Rota de atualização de descontos
 discountsRoutes.put("/discounts/:id", async (req, res, next) => {
-  console.log(req.body);
+  /**
+    #swagger.tags = ['discount']
+    #swagger.summary="Atualiza um novo cupon de disconto"
+    #swagger.parameters[''] => {
+      in:"body",
+      description:"modelo de dados do Cupon de disconto",
+      schema:{
+        $disocunt:50,
+        $code:"AUAU",
+        dt_limit:1658762344027
+      }
+  }
+ */
+ 
   discountsController
     .update(req.body, req.params.id)
     .then((discounts) => {
@@ -45,6 +76,14 @@ discountsRoutes.put("/discounts/:id", async (req, res, next) => {
 
 // Rota de consulta de descontos por id
 discountsRoutes.get("/discounts/:id", async (req, res, next) => {
+/**
+    #swagger.tags = ['discount']
+    #swagger.summary=""
+    #swagger.parameters['id'] => {
+      in:"path",
+  }
+ */
+
   discountsController
     .get(req.params.id)
     .then((discounts) => {
@@ -57,7 +96,14 @@ discountsRoutes.get("/discounts/:id", async (req, res, next) => {
 
 // Rota de exclusão de descontos
 discountsRoutes.delete("/discounts/:id", async (req, res, next) => {
-  console.log(req.params.id);
+/**
+    #swagger.tags = ['discount']
+    #swagger.summary="Remove o cupon de disconto"
+    #swagger.parameters['id'] => {
+      in:"path",
+  }
+ */
+
   discountsController
     .delete(req.params.id)
     .then((discounts) => {

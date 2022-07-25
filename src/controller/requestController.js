@@ -1,5 +1,6 @@
 const db = require('../config/db/dbconnect');
 const Utils = require('../Utils/Utils.js');
+const userController = require('./userController');
 
 //Request products
 module.exports = {
@@ -26,14 +27,18 @@ module.exports = {
         })
     },
 
-    getAll(){        
+    getAll(userId=null){        
         
         return new Promise((resolve,reject)=>{
     
             const list = [];
+    
+            let query = userId ?
+                `SELECT * FROM requests WHERE id = ${userId}` :
+                "SELECT * FROM requests";
             
-            db.query(`
-                SELECT * FROM requests`,
+            
+            db.query(query,
                 (err,requests)=>{
                     if(err){
                         reject(err.message)
@@ -50,43 +55,56 @@ module.exports = {
 
                                 Utils.selectMultiID("products",productIds)
                                     .then(products=>{
-                                        requests.rows.forEach(request=>{
-                                        
-                                            let productsArray =[] ;
-                                        
-                                            let qt; 
 
-                                            request_products.rows.forEach(rp=>{
+                                        userController.getName(Utils.resJsonToArray(requests.rows,"user_id"))
+                                            .then(users=>{
+                                            
+                                                requests.rows.forEach(request=>{
                                                 
-                                                if(rp.request_id == request.id){
-                                                    
-                                                    qt - rp.qt_product;
+                                                    let productsArray =[] ;
+                                            
+                                                    let qt; 
+                                                    let user = null;
 
-                                                    products.forEach(product=>{
-                                                                    
-                                                        if(rp.product_id == product.id){
-                                                            productsArray.push(product);
-                                                            
+                                                    users.rows.forEach(element=>{
+                                                        if(element.id == request.user_id){
+                                                            user = element;
                                                         }
-                                                    })  
+                                                    })
 
-                                                }
+                                                request_products.rows.forEach(rp=>{
+
+                                                    if(rp.request_id == request.id){
+
+                                                        qt = rp.qt_product;
+
+                                                        products.forEach(product=>{
+
+                                                            if(rp.product_id == product.id){
+                                                                product.qt = qt;
+                                                                productsArray.push(product);
+                                                            }
+                                                        })  
+                                                    }
+                                                });  
+                                                list.push({
+                                                    date:request.date,
+                                                    user,
+                                                    products:productsArray
+                                                });
+
+                                                productsArray = [];
                                             });
-                                            
-                                            let requestObj = {date:request.date,
-                                                          products:productsArray}
-                                            
-                                            list.push(requestObj);
-                                                
-                                            productsArray = [];
-                                        });
-                                        resolve(list)
+                                            resolve(list)
                                     })
                                     .catch(error=>{
                                         reject(error)
                                     })
-                            }
+ 
+                                            })
+                                            .catch()                                        
 
+                           }
                         })
                     }
                 })

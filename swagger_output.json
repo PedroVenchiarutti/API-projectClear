@@ -13,13 +13,18 @@
   "paths": {
     "/api/user/{id}": {
       "get": {
+        "tags": [
+          "client"
+        ],
+        "summary": "busca um unico cadastro de cliente no banco de dados",
         "description": "",
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
-            "type": "string"
+            "type": "intenger",
+            "description": "O codigo identificador do usuario no banco de dados"
           }
         ],
         "responses": {
@@ -32,15 +37,141 @@
         }
       }
     },
-    "/api/client/{id}": {
-      "put": {
+    "/api/client": {
+      "post": {
+        "tags": [
+          "client"
+        ],
+        "summary": "Cria uma nova conta de cliente.",
         "description": "",
         "parameters": [
           {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
+            "name": "user",
+            "in": "body",
+            "description": "Modelo de Usuario",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "example": "Oliver"
+                },
+                "email": {
+                  "type": "string",
+                  "example": "oliver@gmail.com"
+                },
+                "password": {
+                  "type": "string",
+                  "example": "auau123"
+                },
+                "phone": {
+                  "type": "number",
+                  "example": 1398765432
+                },
+                "cpf": {
+                  "type": "number",
+                  "example": 88888888888
+                },
+                "sexo": {
+                  "type": "string",
+                  "example": "M"
+                },
+                "birth": {
+                  "type": "number",
+                  "example": 1658757654250
+                },
+                "img_url": {
+                  "type": "string",
+                  "example": "link.com.br/img.png"
+                }
+              },
+              "required": [
+                "name",
+                "email",
+                "password",
+                "phone",
+                "cpf",
+                "sexo",
+                "birth",
+                "img_url"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/client/": {
+      "put": {
+        "tags": [
+          "client"
+        ],
+        "summary": "Altera os dados de uma conta client. ",
+        "description": "",
+        "parameters": [
+          {
+            "name": "user",
+            "in": "body",
+            "description": "Modelo de Usuario",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "number",
+                  "example": 12
+                },
+                "name": {
+                  "type": "string",
+                  "example": "Oliver"
+                },
+                "email": {
+                  "type": "string",
+                  "example": "oliver@gmail.com"
+                },
+                "password": {
+                  "type": "string",
+                  "example": "auau123"
+                },
+                "phone": {
+                  "type": "number",
+                  "example": 1398765432
+                },
+                "cpf": {
+                  "type": "number",
+                  "example": 88888888888
+                },
+                "sexo": {
+                  "type": "string",
+                  "example": "M"
+                },
+                "birth": {
+                  "type": "number",
+                  "example": 1658757654250
+                },
+                "img_url": {
+                  "type": "string",
+                  "example": "link.com.br/img.png"
+                }
+              },
+              "required": [
+                "id",
+                "name",
+                "email",
+                "password",
+                "phone",
+                "cpf",
+                "sexo",
+                "birth",
+                "img_url"
+              ]
+            }
           }
         ],
         "responses": {
@@ -48,15 +179,22 @@
             "description": "OK"
           }
         }
-      },
+      }
+    },
+    "/api/client/{id}": {
       "delete": {
+        "tags": [
+          "client"
+        ],
+        "summary": "Deleta um usuario do banco de dado a partir do seu id.",
         "description": "",
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
-            "type": "string"
+            "type": "intenger",
+            "description": "O codigo identificador do usuario no banco de dados"
           }
         ],
         "responses": {
@@ -68,91 +206,119 @@
     },
     "/api/product": {
       "get": {
+        "tags": [
+          "product"
+        ],
+        "summary": "",
         "description": "",
         "parameters": [],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
+        "responses": {}
       },
       "post": {
+        "tags": [
+          "product"
+        ],
+        "summary": "Adiciona um produto no bando de dados",
         "description": "",
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "product",
+            "in": "body",
+            "description": "modelo de Produto a ser enviado",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "nome": {
+                  "type": "string",
+                  "example": "Creme para pentear"
+                },
+                "value": {
+                  "type": "number",
+                  "example": 45.8
+                },
+                "description": {
+                  "type": "string",
+                  "example": "loren ipsum...."
+                },
+                "qt": {
+                  "type": "number",
+                  "example": 67
+                }
+              },
+              "required": [
+                "nome",
+                "value",
+                "description",
+                "qt"
+              ]
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         }
       },
       "put": {
+        "tags": [
+          "product"
+        ],
+        "summary": "Atualizacao dos dados de um produto",
         "description": "",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "OK"
+        "parameters": [
+          {
+            "name": "product",
+            "in": "body",
+            "description": "modelo de Produto a ser enviado",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "nome": {
+                  "type": "string",
+                  "example": "Creme para pentear"
+                },
+                "value": {
+                  "type": "number",
+                  "example": 45.8
+                },
+                "description": {
+                  "type": "string",
+                  "example": "loren ipsum...."
+                },
+                "qt": {
+                  "type": "number",
+                  "example": 67
+                }
+              },
+              "required": [
+                "nome",
+                "value",
+                "description",
+                "qt"
+              ]
+            }
           }
-        }
-      },
-      "delete": {
-        "description": "",
-        "parameters": [],
+        ],
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         }
       }
     },
     "/api/product/{id}": {
-      "patch": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/users": {
       "get": {
-        "description": "",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      },
-      "post": {
-        "description": "",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      },
-      "put": {
-        "description": "",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/users/{id}": {
-      "patch": {
+        "tags": [
+          "product"
+        ],
+        "summary": "Busca um produto pelo seu id",
         "description": "",
         "parameters": [
           {
@@ -165,28 +331,43 @@
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         }
       },
       "delete": {
+        "tags": [
+          "product"
+        ],
+        "summary": "Remove um produto do banco de dados",
         "description": "",
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
-            "type": "string"
+            "type": "itenger",
+            "description": "Codigo identificador do produto"
           }
         ],
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         }
       }
     },
     "/api/procedures": {
       "get": {
+        "tags": [
+          "procedure"
+        ],
+        "summary": "Busca todos os procedimentos cadastrados.",
         "description": "",
         "parameters": [],
         "responses": {
@@ -199,8 +380,40 @@
         }
       },
       "post": {
+        "tags": [
+          "procedure"
+        ],
+        "summary": "Adiciona um procedimento",
         "description": "",
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "procedure",
+            "in": "body",
+            "description": "modelo de dados dos Procedimentos",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "example": "Corte de cabelo"
+                },
+                "value": {
+                  "type": "number",
+                  "example": 35
+                },
+                "categorie": {
+                  "type": "string",
+                  "example": "corte"
+                }
+              },
+              "required": [
+                "name",
+                "value",
+                "categorie"
+              ]
+            }
+          }
+        ],
         "responses": {
           "201": {
             "description": "Created"
@@ -211,8 +424,40 @@
         }
       },
       "put": {
+        "tags": [
+          "procedure"
+        ],
+        "summary": "Atualiza um procedimento",
         "description": "",
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "procedure",
+            "in": "body",
+            "description": "modelo de dados dos Procedimentos",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "example": "Corte de cabelo"
+                },
+                "value": {
+                  "type": "number",
+                  "example": 35
+                },
+                "categorie": {
+                  "type": "string",
+                  "example": "corte"
+                }
+              },
+              "required": [
+                "name",
+                "value",
+                "categorie"
+              ]
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK"
@@ -225,6 +470,10 @@
     },
     "/api/procedures/{id}": {
       "get": {
+        "tags": [
+          "procedure"
+        ],
+        "summary": "Busca um procedimento pelo seu id",
         "description": "",
         "parameters": [
           {
@@ -244,6 +493,10 @@
         }
       },
       "delete": {
+        "tags": [
+          "procedure"
+        ],
+        "summary": "Remove um procedimento",
         "description": "",
         "parameters": [
           {
@@ -303,11 +556,14 @@
     },
     "/api/reservations": {
       "get": {
-        "description": "",
+        "description": "Obtem todas as reservas ja realizadas",
         "parameters": [],
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         }
       },
@@ -339,7 +595,7 @@
         }
       }
     },
-    "/api/reservations/{id}": {
+    "/api/reservations/user/{id}": {
       "get": {
         "description": "",
         "parameters": [
@@ -353,28 +609,19 @@
         "responses": {
           "200": {
             "description": "OK"
-          }
-        }
-      },
-      "patch": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
           }
         }
       }
     },
     "/api/discounts": {
       "get": {
+        "tags": [
+          "discount"
+        ],
+        "summary": "busca todos os cupons de discontos",
         "description": "",
         "parameters": [],
         "responses": {
@@ -387,8 +634,39 @@
         }
       },
       "post": {
+        "tags": [
+          "discount"
+        ],
+        "summary": "Cria um novo cupon de disconto",
         "description": "",
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "",
+            "in": "body",
+            "description": "modelo de dados do Cupon de disconto",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "disocunt": {
+                  "type": "number",
+                  "example": 50
+                },
+                "code": {
+                  "type": "string",
+                  "example": "AUAU"
+                },
+                "dt_limit": {
+                  "type": "number",
+                  "example": 1658762344027
+                }
+              },
+              "required": [
+                "disocunt",
+                "code"
+              ]
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK"
@@ -401,6 +679,10 @@
     },
     "/api/discounts/{id}": {
       "put": {
+        "tags": [
+          "discount"
+        ],
+        "summary": "Atualiza um novo cupon de disconto",
         "description": "",
         "parameters": [
           {
@@ -408,6 +690,32 @@
             "in": "path",
             "required": true,
             "type": "string"
+          },
+          {
+            "name": "",
+            "in": "body",
+            "description": "modelo de dados do Cupon de disconto",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "disocunt": {
+                  "type": "number",
+                  "example": 50
+                },
+                "code": {
+                  "type": "string",
+                  "example": "AUAU"
+                },
+                "dt_limit": {
+                  "type": "number",
+                  "example": 1658762344027
+                }
+              },
+              "required": [
+                "disocunt",
+                "code"
+              ]
+            }
           }
         ],
         "responses": {
@@ -420,6 +728,10 @@
         }
       },
       "get": {
+        "tags": [
+          "discount"
+        ],
+        "summary": "",
         "description": "",
         "parameters": [
           {
@@ -439,6 +751,10 @@
         }
       },
       "delete": {
+        "tags": [
+          "discount"
+        ],
+        "summary": "Remove o cupon de disconto",
         "description": "",
         "parameters": [
           {
@@ -460,8 +776,20 @@
     },
     "/api/admin/users": {
       "get": {
+        "tags": [
+          "admin"
+        ],
+        "summary": "Busca todos os administradores cadastrados no banco de dados",
         "description": "",
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Codigo identificador de usuario no banco de dados",
+            "type": "integer",
+            "required": true
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK"
@@ -469,8 +797,40 @@
         }
       },
       "post": {
+        "tags": [
+          "admin"
+        ],
+        "summary": "Efetua a criação do admin no banco de dados.",
         "description": "",
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "admin",
+            "in": "body",
+            "description": "Modelo de Admin",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "example": "Oliver o Adm"
+                },
+                "email": {
+                  "type": "string",
+                  "example": "oliver@gmail.com"
+                },
+                "password": {
+                  "type": "string",
+                  "example": "auau123"
+                }
+              },
+              "required": [
+                "name",
+                "email",
+                "password"
+              ]
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK"
@@ -481,8 +841,40 @@
         }
       },
       "put": {
+        "tags": [
+          "admin"
+        ],
+        "summary": "Efetua a alteraçao das informaões do admin.",
         "description": "",
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "admin",
+            "in": "body",
+            "description": "Modelo de admin",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "example": "Oliver o adm"
+                },
+                "email": {
+                  "type": "string",
+                  "example": "oliver@gmail.com"
+                },
+                "password": {
+                  "type": "string",
+                  "example": "auau123"
+                }
+              },
+              "required": [
+                "name",
+                "email",
+                "password"
+              ]
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK"
@@ -491,7 +883,11 @@
       }
     },
     "/api/admin/users/{id}": {
-      "patch": {
+      "delete": {
+        "tags": [
+          "admin"
+        ],
+        "summary": "Deleta uma conta de administrador.",
         "description": "",
         "parameters": [
           {
@@ -499,16 +895,42 @@
             "in": "path",
             "required": true,
             "type": "string"
+          },
+          {
+            "name": "admin",
+            "in": "path",
+            "type": "integer",
+            "description": "Codigo identificador de usuario no banco de dados.",
+            "required": true
           }
         ],
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
           }
         }
-      },
-      "delete": {
-        "description": "",
+      }
+    },
+    "/api/requests": {
+      "get": {
+        "description": "Obtem todos as requisisoes ja realizadas no sistema",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/requests/user/{id}": {
+      "get": {
+        "description": "Obtem todos as requisisoes ja realizadas no sistema",
         "parameters": [
           {
             "name": "id",
@@ -523,69 +945,6 @@
           },
           "404": {
             "description": "Not Found"
-          }
-        }
-      }
-    },
-    "/api/reservations/procedures": {
-      "get": {
-        "description": "",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      },
-      "post": {
-        "description": "",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      },
-      "put": {
-        "description": "",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/reservations/procedures/{id}": {
-      "patch": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      },
-      "delete": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
           }
         }
       }

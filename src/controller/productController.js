@@ -24,7 +24,7 @@ module.exports = {
       })
     }  
   )},
-
+  
   add(product){
 
     return new Promise((resolve,reject)=>{
@@ -35,7 +35,7 @@ module.exports = {
           [product.name,
            product.value,
            product.description,
-          product.qt],(err,res)=>{
+           product.qt],(err,res)=>{
 
             if(err != null)
               reject(err);

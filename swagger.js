@@ -9,6 +9,8 @@ const doc = {
   };
   
 const outputFile = './swagger_output.json'
-const endpointsFiles = ['./src/config/server'];
+const endpointsFiles = ['./src/config/server.js'];
 
-swaggerAutogen(outputFile, endpointsFiles,doc)
+console.log(endpointsFiles);
+
+swaggerAutogen(outputFile, endpointsFiles,doc);

@@ -1,5 +1,6 @@
 const db = require("../config/db/dbconnect.js");
 const Utils = require("../Utils/Utils.js");
+const userController = require('./userController');
 
 //Reservation Controller do reservationRouter.js
 
@@ -12,7 +13,7 @@ module.exports ={
             const list = []
             
             db.query(
-                `SELECT rp.procedure_id FROM reservations as r
+                `SELECT rp.procedure_id,r.date FROM reservations as r
 	                JOIN reservation_procedures AS rp ON r.id = rp.reservation_id 
 	                WHERE user_id = $1`,
                 [userId],(err,res)=>{
@@ -24,11 +25,7 @@ module.exports ={
                         
                         Utils.selectMultiID("procedures",ids)
                             .then(procedures=>{
-                                 
-                                procedures.forEach(procedure=>{
-                                    
-                                    list.push( procedure);                                    
-                                })
+                                list.push(procedures)
                                 resolve(list)                        
                             })
                             .catch(error=>{
@@ -66,10 +63,81 @@ module.exports ={
 
     // paginacao futura
     // select test
-
-    getAll(){
+    // usuario ou all
+    getAll(userId = null){
        return new Promise((resolve,reject)=>{
-       
+            
+            const list = [];
+            let query = userId ?
+                `SELECT * FROM reservations WHERE id = ${userId}` :
+                "SELECT * FROM reservations";
+            
+            db.query(query,(reservationErr,reservations)=>{
+
+                    if(reservationErr){
+                        reject({error:reservationErr.message});
+                    } else {
+                        
+                        let query = `SELECT * FROM reservation_procedures
+                            WHERE reservation_id IN (`;
+                        
+                        let params = Utils.resJsonToArray(reservations.rows,"id")
+                        
+                        query = Utils.inIds(query,params) ;
+                        
+                        db.query(query,params,(rpError,rpResolve)=>{
+                            
+                            if(rpError){
+                                reject(rpError)
+                            } else{
+                                Utils.selectMultiID("procedures",Utils.resJsonToArray(rpResolve.rows,"procedure_id"))
+                                    .then(procedures=>{
+                                   
+                                    console.log(Utils.resJsonToArray(reservations.rows,"user_id"));
+                                
+                                    userController.getName(Utils.resJsonToArray(reservations.rows,"user_id")).then(users=>{
+                                        
+                                        let procedureArray = [];
+                                        let user = null;
+                                        
+                                        reservations.rows.forEach(reservation=>{
+
+                                            users.rows.forEach(userElement=>{
+                                                if(userElement.id == reservation.user_id){
+                                                    user = userElement
+                                                }
+                                            })
+
+                                            rpResolve.rows.forEach(rp=>{
+
+                                                procedures.forEach(procedure=>{
+                                                    
+                                                    if(rp.procedure_id == procedure.id){
+                                                        procedureArray.push(procedure);
+                                                    }
+
+                                                })
+                                            })
+
+                                            list.push({
+                                                reservation,
+                                                user,
+                                                procedures:procedureArray});
+                                        })
+                                    
+                                    resolve(list);
+                                    }).catch(error=>{
+
+                                        reject(error.message)
+                                    })                                        
+
+                                }).catch(error=>{
+                                    reject({error})
+                                })
+                            }
+                        })
+                    }
+                })
         })
     },
     
