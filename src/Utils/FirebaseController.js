@@ -1,0 +1,1 @@
+/* configurar para manda foto para firebase */
