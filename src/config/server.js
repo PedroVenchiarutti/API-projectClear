@@ -1,8 +1,10 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
-
 const server = express();
+const swaggerUI = require("swagger-ui-express");
+const swaggerFile = require("../../swagger_output.json");
+
 const allowCors = require("./cors");
 const PORT = 3333;
 
@@ -37,7 +39,9 @@ server.use("/api", discountsRoutes);
 server.use("/api", adminRoutes);
 server.use("/api", reservationProceduresRoutes);
 server.use("/api", requestRoutes); 
-server.use("/api", requestProductsRoutes); 
+server.use("/api", requestProductsRoutes);
+ 
+server.use("/docs",swaggerUI.serve,swaggerUI.setup(swaggerFile));
 
 server.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);

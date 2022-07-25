@@ -8,7 +8,7 @@ const adminRoutes = express.Router();
 // Rota de listagem de usuários
 adminRoutes.get("/admin/users", async (req, res, next) => {
   admController.getAll().then(user => {
-    res.status(200).json(user);
+    res.status(200).send(user);
   })
 });
 
