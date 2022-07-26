@@ -1,7 +1,7 @@
 {
   "swagger": "2.0",
   "info": {
-    "title": "ElleganceAPI",
+    "title": "ElegancceAPI",
     "description": "",
     "version": "1.0.0"
   },
@@ -212,7 +212,14 @@
         "summary": "",
         "description": "",
         "parameters": [],
-        "responses": {}
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
       },
       "post": {
         "tags": [
@@ -556,7 +563,11 @@
     },
     "/api/reservations": {
       "get": {
-        "description": "Obtem todas as reservas ja realizadas",
+        "tags": [
+          "reservations"
+        ],
+        "summary": "Busca todas as reservas e seus procedimentos",
+        "description": "",
         "parameters": [],
         "responses": {
           "200": {
@@ -568,35 +579,121 @@
         }
       },
       "post": {
+        "tags": [
+          "reservations"
+        ],
+        "summary": "Cria uma nova reserva",
         "description": "",
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "reservation",
+            "in": "body",
+            "decription": "Modelo de dados a ser seguido",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "user_id": {
+                  "type": "number",
+                  "example": 4
+                },
+                "date": {
+                  "type": "number",
+                  "example": 1658838525051
+                },
+                "procedures": {
+                  "type": "array",
+                  "example": [
+                    1,
+                    2,
+                    3,
+                    4
+                  ],
+                  "items": {
+                    "type": "number"
+                  }
+                }
+              },
+              "required": [
+                "user_id",
+                "date",
+                "procedures"
+              ]
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         }
       },
       "put": {
+        "tags": [
+          "reservations"
+        ],
+        "summary": "Atualiza uma reserva",
         "description": "",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "OK"
+        "parameters": [
+          {
+            "name": "reservation",
+            "in": "body",
+            "decription": "Modelo de dados a ser seguido",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "number",
+                  "example": 4
+                },
+                "user_id": {
+                  "type": "number",
+                  "example": 4
+                },
+                "date": {
+                  "type": "number",
+                  "example": 1658838525051
+                },
+                "procedures": {
+                  "type": "array",
+                  "example": [
+                    1,
+                    2,
+                    3,
+                    4
+                  ],
+                  "items": {
+                    "type": "number"
+                  }
+                }
+              },
+              "required": [
+                "id",
+                "user_id",
+                "date",
+                "procedures"
+              ]
+            }
           }
-        }
-      },
-      "delete": {
-        "description": "",
-        "parameters": [],
+        ],
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         }
       }
     },
     "/api/reservations/user/{id}": {
       "get": {
+        "tags": [
+          "reservations"
+        ],
+        "summary": "Busca reservas relaciondas a um usuario especifico.",
         "description": "",
         "parameters": [
           {
@@ -612,6 +709,31 @@
           },
           "404": {
             "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/reservations/{id}": {
+      "delete": {
+        "tags": [
+          "reservations"
+        ],
+        "summary": "Deleta uma reserva",
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         }
       }
@@ -854,6 +976,10 @@
             "schema": {
               "type": "object",
               "properties": {
+                "id": {
+                  "type": "number",
+                  "example": 12
+                },
                 "name": {
                   "type": "string",
                   "example": "Oliver o adm"
@@ -868,6 +994,7 @@
                 }
               },
               "required": [
+                "id",
                 "name",
                 "email",
                 "password"
@@ -878,6 +1005,9 @@
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         }
       }
@@ -895,28 +1025,25 @@
             "in": "path",
             "required": true,
             "type": "string"
-          },
-          {
-            "name": "admin",
-            "in": "path",
-            "type": "integer",
-            "description": "Codigo identificador de usuario no banco de dados.",
-            "required": true
           }
         ],
         "responses": {
           "200": {
             "description": "OK"
           },
-          "404": {
-            "description": "Not Found"
+          "400": {
+            "description": "Bad Request"
           }
         }
       }
     },
     "/api/requests": {
       "get": {
-        "description": "Obtem todos as requisisoes ja realizadas no sistema",
+        "tags": [
+          "requests"
+        ],
+        "summary": "Busca todos os pedidos",
+        "description": "",
         "parameters": [],
         "responses": {
           "200": {
@@ -926,11 +1053,118 @@
             "description": "Not Found"
           }
         }
+      },
+      "post": {
+        "tags": [
+          "requests"
+        ],
+        "summary": "Realiza um novo pedido",
+        "description": "",
+        "parameters": [
+          {
+            "name": "",
+            "in": "body",
+            "description": "Modelo de dados",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "user_id": {
+                  "type": "number",
+                  "example": 1
+                },
+                "products": {
+                  "type": "object",
+                  "properties": {
+                    "qt_product": {
+                      "type": "number",
+                      "example": 22
+                    },
+                    "product_id": {
+                      "type": "number",
+                      "example": 1
+                    }
+                  },
+                  "required": [
+                    "qt_product",
+                    "product_id"
+                  ]
+                }
+              },
+              "required": [
+                "user_id",
+                "products"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "requests"
+        ],
+        "summary": "Atualiza um novo pedido",
+        "description": "",
+        "parameters": [
+          {
+            "name": "",
+            "in": "body",
+            "description": "Modelo de dados",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "request_id": {
+                  "type": "number",
+                  "example": 1
+                },
+                "user_id": {
+                  "type": "number",
+                  "example": 1
+                },
+                "products": {
+                  "type": "object",
+                  "properties": {
+                    "qt_product": {
+                      "type": "number",
+                      "example": 22
+                    },
+                    "product_id": {
+                      "type": "number",
+                      "example": 1
+                    }
+                  },
+                  "required": [
+                    "qt_product",
+                    "product_id"
+                  ]
+                }
+              },
+              "required": [
+                "request_id",
+                "user_id",
+                "products"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
       }
     },
     "/api/requests/user/{id}": {
       "get": {
-        "description": "Obtem todos as requisisoes ja realizadas no sistema",
+        "tags": [
+          "requests"
+        ],
+        "summary": "Busca todos os pedidos",
+        "description": "",
         "parameters": [
           {
             "name": "id",
@@ -945,6 +1179,28 @@
           },
           "404": {
             "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/requests/{id}": {
+      "delete": {
+        "tags": [
+          "requests"
+        ],
+        "summary": "Delete um pedido",
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
           }
         }
       }

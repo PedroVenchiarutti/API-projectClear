@@ -1,7 +1,6 @@
 const db = require("../config/db/dbconnect.js");
 const express = require("express");
 
-
 //Controller
 const buysController = require("../controller/buysController.js");
 

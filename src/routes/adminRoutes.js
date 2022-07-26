@@ -11,7 +11,7 @@ adminRoutes.get("/admin/users", async (req, res, next) => {
   /* 
     #swagger.tags = ['admin']
     #swagger.summary = 'Busca todos os administradores cadastrados no banco de dados
-    #swagger.parameters['id'] ={
+    #swagger.parameters['id'] =>{
       in: "path",
       description:"Codigo identificador de usuario no banco de dados",
       type:'integer'
@@ -20,7 +20,7 @@ adminRoutes.get("/admin/users", async (req, res, next) => {
 
   admController.getAll().then(user => {
     res.status(200).send(user);
-  })
+  })  
 });
 
 // Rota de criação de usuários ADMIN
@@ -55,32 +55,36 @@ adminRoutes.put("/admin/users", async (req, res, next) => {
     in: 'body',
     description: "Modelo de admin",
     schema:{
+      $id:12,
       $name:"Oliver o adm",
       $email:"oliver@gmail.com",
       $password:"auau123",
     }
   } 
-   */
-  res.status(200).send({ message: "Consumir controller ainda!!" });
+  */
+
+  let adm = req.body;
+
+  admController.update(adm)
+    .then(response=>{
+        res.send(response)
+    })
+    .catch(error=>{
+      res.status(500).send(error.message);
+    })
 });
 
 // Rota de exclusão de usuários ADMIN
 adminRoutes.delete("/admin/users/:id", async (req, res, next) => {
   /*
     #swagger.tags = ['admin']
-    #swagger.summary = 'Deleta uma conta de administrador.'
-    #swagger.parameters['admin']=>{
-      in:"path",
-      type:"integer",
-      description:"Codigo identificador de usuario no banco de dados."
-    }
-
+    #swagger.summary = 'Deleta uma conta de administrador.' 
   */
   let id = req.params.id;
   admController.remove(parseInt(id)).then(user=> {
     res.status(200).send(user);
   }).catch( err => {
-    res.status(404).send(err);
+    res.status(400).send(err.message);
   });
 });
 module.exports = adminRoutes;

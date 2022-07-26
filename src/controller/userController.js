@@ -1,6 +1,8 @@
 const db = require("../config/db/dbconnect.js");
 const Utils = require("../Utils/Utils.js");
 
+const adminController = require("./admController.js");
+
 module.exports = {
 
     login(email,password){
@@ -40,10 +42,13 @@ module.exports = {
     getUser(id){
 
       return new Promise((resolve,reject)=>{
+        
+      // verificar se email ja existe
+
         db.query("SELECT * FROM users WHERE id = $1;",[id],(err,res)=>{
           if(err){
             console.log(err) 
-            reject( err);
+            reject(err);
           }
           else{
             resolve(res.rows[0]);

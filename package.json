@@ -5,7 +5,7 @@
   "license": "MIT",
   "scripts": {
     "start": "nodemon ./src/loader.js",
-    "swagger": "node ./swagger.js"
+    "swagger": "node ./src/config/swagger.js"
   },
   "dependencies": {
     "bcrypt": "^5.0.1",

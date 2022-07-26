@@ -47,29 +47,31 @@ module.exports = {
 
   add(adm) {
     return new Promise((resolve, reject) => {
-      db.query(
-        "SELECT * FROM adms WHERE email = $1",
+      db.query(`SELECT email FROM adms WHERE email = $1`,
         [adm.email],
-        (err, res) => {
-          if (res.rows[0].email) {
-            reject("Email already exists");
-          } else if (err) {
+        (err,res)=>{
+          if(err){
             reject(err);
-          } else {
-            db.query(
-              "INSERT INTO adms(name,email,password) VALUES($1,$2,$3)",
-              [adm.name, adm.email, adm.password],
-              (err, res) => {
-                if (err != null) {
-                  reject(err);
-                } else {
-                  resolve("Usuario adicionado com sucesso");
-                }
-              }
-            );
-          }
-        }
-      );
+          } else{
+            if(res.rows == []){
+                reject("Adm ja cadastrado?")
+            }else{
+              
+              db.query(`
+                INSERT INTO adms (name,email,password) 
+                  VALUES ($1,$2,$3);`,
+                [adm.name,adm.email,adm.password],
+                (error,res)=>{
+                  if(error){
+                    reject(error)
+                  } else{
+                    resolve();
+                  }
+                })
+            }
+          }   
+          
+        })
     });
   },
 
@@ -77,11 +79,11 @@ module.exports = {
     return new Promise((resolve, reject) => {
       db.query(
         `UPDATE adms 
-                  SET name=$1, email=$2 password=$3
-                    WHERE id = $4`,
-        [adm.name, adm.email, adm.password],
+          SET name=$1, email=$2, password=$3
+              WHERE id = $4`,
+        [adm.name, adm.email, adm.password,adm.id],
         (err, res) => {
-          if (err != null) {
+          if (err) {
             reject(err);
           } else {
             resolve(true);

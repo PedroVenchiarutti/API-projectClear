@@ -5,14 +5,17 @@ module.exports = {
   // search lists
   getProductList(nLimit, categorie=null){
     return new Promise((resolve,reject)=>{
+     
+      // paginacao futura
+
       const query = categorie ? 
-        "SELECT * FROM products WHERE categorie = $2 LIMIT $1.$2" :
-        "SELECT * FROM products LIMIT $1. $2";
+        "SELECT * FROM products WHERE categorie = $2 LIMIT $1 OFFSET $2" :
+        "SELECT * FROM products LIMIT $1  OFFSET $2";
 
       const params = categorie ? 
         [nLimit,(nLimit+10),categorie]:
-        [nLimit,(nLimit+10)]
-
+        [10,0]
+      
       db.query(query,params,(err,res)=>{
 
         if(err !=null){

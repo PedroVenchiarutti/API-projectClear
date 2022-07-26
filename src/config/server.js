@@ -3,7 +3,7 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const server = express();
 const swaggerUI = require("swagger-ui-express");
-const swaggerFile = require("../../swagger_output.json");
+const swaggerFile = require("./swagger_output.json");
 
 const allowCors = require("./cors");
 const PORT = 3333;
@@ -26,6 +26,7 @@ server.use(allowCors);
 server.use(cors());
 
 // rotas abertas
+// login - produtos - cadastro 
 
 // rotas fechadas // futuramente
 server.use("/api", clientRoutes);

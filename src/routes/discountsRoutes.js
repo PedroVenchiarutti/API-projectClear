@@ -80,7 +80,7 @@ discountsRoutes.get("/discounts/:id", async (req, res, next) => {
     #swagger.tags = ['discount']
     #swagger.summary=""
     #swagger.parameters['id'] => {
-      in:"path",
+      in:"path"
   }
  */
 

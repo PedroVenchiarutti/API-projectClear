@@ -14,7 +14,13 @@ productRouter.get("/product", async (req, res, next) => {
   #swagger.tags = ['product']
   #swagger.summary=""
  */
-  
+  productController.getProductList(10)
+    .then(response=>{
+      res.send(response);
+    })
+    .catch(error=>{
+      res.status(404).send(error.message);
+    })  
 });
 
 // product by id
