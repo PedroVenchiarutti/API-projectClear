@@ -1,68 +1,108 @@
 const db = require('../config/db/dbconnect');
 const Utils = require('../Utils/Utils');
 
-module.exports = {
 
-    // seleciona a partir de um array de ids
-    getById(ids){
-        return Utils.selectMultiID('Procedures',ids)        
-    },
+// seleciona a partir de um array de ids
+exports.getById = (req, res) => {
 
-    getAll(){
-        return new Promise((resolve,reject) => {
-            db.query(`SELECT * FROM procedures`, (err, res) => {
-                if (err) {
-                    reject(err)
-                } else {
-                    resolve(res.rows)
-                }
-            })
-        })
-    },
+  return Utils.selectMultiID('Procedures', ids)
+}
 
-    add(procedure){
-        return new Promise((resolve,reject)=> { 
-            db.query(`INSERT INTO procedures(name,value,categorie) VALUES($1,$2,$3)`),
-                [procedure.name,procedure.value,procedure.categorie],
-                (err,res)=>{
-                    if(err){
-                        reject(err)
-                    } else{
-                        resolve(res.rows)
-                    }
-            }
-        })
-    },
+exports.getAll = (req, res) => {
+  /**
+     #swagger.tags = ['procedure']
+     #swagger.summary="Busca todos os procedimentos cadastrados."
+  */
+  try {
 
-    update(id,procedure){
-        return new Promise((resolve,reject) => {
-            db.query(`
-                UPDATE procedures 
-                    SET name = $1, value = $2, categorie = $3
-                     WHERE id = $4`),
-                [procedure.name, procedure.value, procedure.categorie, id], 
-                (err, res) => {
-                
-                if(err){
-                    reject(err)
-                }else {
-                    resolve(res.rows);
-                }
-            } 
-        })
-    },
+    db.exec(`SELECT * FROM "procedures"`)
+      .then(procedures => {
+        res.send(procedures)
+      })
+      .catch(e => res.send(e.message))
+  } catch {}
+}
 
-    delete(id){
-        return new Promise((resolve,reject) => {
-            db.query(`DELETE FROM procedures WHERE id = $1`),
-                [id],
-                (err,res)=>{
-                if(err){
-                    reject(err)
-                } else{
-                    resolve(res.rows)
-                }
-            }
-        })
+exports.add = (req, res) => {
+
+  /**
+      #swagger.tags = ['procedure']
+      #swagger.summary="Adiciona um procedimento"
+      #swagger.parameters['procedure'] => {
+        in:"body",
+        description:"modelo de dados dos Procedimentos",
+        schema:{
+          $name:"Corte de cabelo",
+          $value:35.00,
+          $categorie:"corte"
+        }
     }
+   */
+
+  try {
+
+    db.exec(`INSERT INTO procedures(name,value,categorie) VALUES($1,$2,$3)`,
+      [procedure.name, procedure.value, procedure.categorie])
+  .then(response => {
+      res.send(response)
+    })
+    .catch(e => res.send(e.message))
+}
+catch {}
+}
+
+exports.update = (req, res) => {
+  /**
+      #swagger.tags = ['procedure']
+      #swagger.summary="Atualiza um procedimento"
+      #swagger.parameters['procedure'] => {
+        in:"body",
+        description:"modelo de dados dos Procedimentos",
+        schema:{
+          $name:"Corte de cabelo",
+          $value:35.00,
+          $categorie:"corte"
+        }
+    }
+   */
+
+  try {
+    db.exec(`
+        UPDATE procedures 
+          SET name = $1, value = $2, categorie = $3
+             WHERE id = $4`,
+      [procedure.name, procedure.value, procedure.categorie, id])
+  .then(reponse => {
+      res.send(response)
+    })
+    .catch(e => {
+      res.send(e.message)
+    })
+
+} catch {}
+}
+
+
+exports.remove = (req, res) => {
+  /**
+      #swagger.tags = ['procedure']
+      #swagger.summary="Remove um procedimento"
+      #swagger.parameters['id'] => {
+        in:"path",
+    }
+   */
+  try {
+
+    db.exec(`DELETE FROM procedures WHERE id = $1`,
+      [id])
+  .then(response => {
+      res.send()
+    })
+    .catch(e => {
+      res.send(e.message)
+    })
+}
+catch {
+
+}
 }

@@ -11,7 +11,7 @@
     "http"
   ],
   "paths": {
-    "/api/user/{id}": {
+    "/api/client/{id}": {
       "get": {
         "tags": [
           "client"
@@ -30,9 +30,27 @@
         "responses": {
           "200": {
             "description": "OK"
-          },
-          "404": {
-            "description": "Not Found"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "client"
+        ],
+        "summary": "Deleta um usuario do banco de dado a partir do seu id.",
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "intenger",
+            "description": "O codigo identificador do usuario no banco de dados"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
           }
         }
       }
@@ -101,14 +119,9 @@
         "responses": {
           "200": {
             "description": "OK"
-          },
-          "500": {
-            "description": "Internal Server Error"
           }
         }
-      }
-    },
-    "/api/client/": {
+      },
       "put": {
         "tags": [
           "client"
@@ -181,737 +194,14 @@
         }
       }
     },
-    "/api/client/{id}": {
-      "delete": {
-        "tags": [
-          "client"
-        ],
-        "summary": "Deleta um usuario do banco de dado a partir do seu id.",
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "intenger",
-            "description": "O codigo identificador do usuario no banco de dados"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/product": {
-      "get": {
-        "tags": [
-          "product"
-        ],
-        "summary": "",
-        "description": "",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "404": {
-            "description": "Not Found"
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "product"
-        ],
-        "summary": "Adiciona um produto no bando de dados",
-        "description": "",
-        "parameters": [
-          {
-            "name": "product",
-            "in": "body",
-            "description": "modelo de Produto a ser enviado",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "nome": {
-                  "type": "string",
-                  "example": "Creme para pentear"
-                },
-                "value": {
-                  "type": "number",
-                  "example": 45.8
-                },
-                "description": {
-                  "type": "string",
-                  "example": "loren ipsum...."
-                },
-                "qt": {
-                  "type": "number",
-                  "example": 67
-                }
-              },
-              "required": [
-                "nome",
-                "value",
-                "description",
-                "qt"
-              ]
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      },
-      "put": {
-        "tags": [
-          "product"
-        ],
-        "summary": "Atualizacao dos dados de um produto",
-        "description": "",
-        "parameters": [
-          {
-            "name": "product",
-            "in": "body",
-            "description": "modelo de Produto a ser enviado",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "nome": {
-                  "type": "string",
-                  "example": "Creme para pentear"
-                },
-                "value": {
-                  "type": "number",
-                  "example": 45.8
-                },
-                "description": {
-                  "type": "string",
-                  "example": "loren ipsum...."
-                },
-                "qt": {
-                  "type": "number",
-                  "example": 67
-                }
-              },
-              "required": [
-                "nome",
-                "value",
-                "description",
-                "qt"
-              ]
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      }
-    },
-    "/api/product/{id}": {
-      "get": {
-        "tags": [
-          "product"
-        ],
-        "summary": "Busca um produto pelo seu id",
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      },
-      "delete": {
-        "tags": [
-          "product"
-        ],
-        "summary": "Remove um produto do banco de dados",
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "itenger",
-            "description": "Codigo identificador do produto"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      }
-    },
-    "/api/procedures": {
-      "get": {
-        "tags": [
-          "procedure"
-        ],
-        "summary": "Busca todos os procedimentos cadastrados.",
-        "description": "",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "procedure"
-        ],
-        "summary": "Adiciona um procedimento",
-        "description": "",
-        "parameters": [
-          {
-            "name": "procedure",
-            "in": "body",
-            "description": "modelo de dados dos Procedimentos",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "name": {
-                  "type": "string",
-                  "example": "Corte de cabelo"
-                },
-                "value": {
-                  "type": "number",
-                  "example": 35
-                },
-                "categorie": {
-                  "type": "string",
-                  "example": "corte"
-                }
-              },
-              "required": [
-                "name",
-                "value",
-                "categorie"
-              ]
-            }
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "Created"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      },
-      "put": {
-        "tags": [
-          "procedure"
-        ],
-        "summary": "Atualiza um procedimento",
-        "description": "",
-        "parameters": [
-          {
-            "name": "procedure",
-            "in": "body",
-            "description": "modelo de dados dos Procedimentos",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "name": {
-                  "type": "string",
-                  "example": "Corte de cabelo"
-                },
-                "value": {
-                  "type": "number",
-                  "example": 35
-                },
-                "categorie": {
-                  "type": "string",
-                  "example": "corte"
-                }
-              },
-              "required": [
-                "name",
-                "value",
-                "categorie"
-              ]
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      }
-    },
-    "/api/procedures/{id}": {
-      "get": {
-        "tags": [
-          "procedure"
-        ],
-        "summary": "Busca um procedimento pelo seu id",
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      },
-      "delete": {
-        "tags": [
-          "procedure"
-        ],
-        "summary": "Remove um procedimento",
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      }
-    },
-    "/api/buy": {
-      "get": {
-        "description": "",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      },
-      "post": {
-        "description": "",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      },
-      "delete": {
-        "description": "",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      }
-    },
-    "/api/reservations": {
-      "get": {
-        "tags": [
-          "reservations"
-        ],
-        "summary": "Busca todas as reservas e seus procedimentos",
-        "description": "",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "reservations"
-        ],
-        "summary": "Cria uma nova reserva",
-        "description": "",
-        "parameters": [
-          {
-            "name": "reservation",
-            "in": "body",
-            "decription": "Modelo de dados a ser seguido",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "user_id": {
-                  "type": "number",
-                  "example": 4
-                },
-                "date": {
-                  "type": "number",
-                  "example": 1658838525051
-                },
-                "procedures": {
-                  "type": "array",
-                  "example": [
-                    1,
-                    2,
-                    3,
-                    4
-                  ],
-                  "items": {
-                    "type": "number"
-                  }
-                }
-              },
-              "required": [
-                "user_id",
-                "date",
-                "procedures"
-              ]
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      },
-      "put": {
-        "tags": [
-          "reservations"
-        ],
-        "summary": "Atualiza uma reserva",
-        "description": "",
-        "parameters": [
-          {
-            "name": "reservation",
-            "in": "body",
-            "decription": "Modelo de dados a ser seguido",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "id": {
-                  "type": "number",
-                  "example": 4
-                },
-                "user_id": {
-                  "type": "number",
-                  "example": 4
-                },
-                "date": {
-                  "type": "number",
-                  "example": 1658838525051
-                },
-                "procedures": {
-                  "type": "array",
-                  "example": [
-                    1,
-                    2,
-                    3,
-                    4
-                  ],
-                  "items": {
-                    "type": "number"
-                  }
-                }
-              },
-              "required": [
-                "id",
-                "user_id",
-                "date",
-                "procedures"
-              ]
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      }
-    },
-    "/api/reservations/user/{id}": {
-      "get": {
-        "tags": [
-          "reservations"
-        ],
-        "summary": "Busca reservas relaciondas a um usuario especifico.",
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "404": {
-            "description": "Not Found"
-          }
-        }
-      }
-    },
-    "/api/reservations/{id}": {
-      "delete": {
-        "tags": [
-          "reservations"
-        ],
-        "summary": "Deleta uma reserva",
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      }
-    },
-    "/api/discounts": {
-      "get": {
-        "tags": [
-          "discount"
-        ],
-        "summary": "busca todos os cupons de discontos",
-        "description": "",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "404": {
-            "description": "Not Found"
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "discount"
-        ],
-        "summary": "Cria um novo cupon de disconto",
-        "description": "",
-        "parameters": [
-          {
-            "name": "",
-            "in": "body",
-            "description": "modelo de dados do Cupon de disconto",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "disocunt": {
-                  "type": "number",
-                  "example": 50
-                },
-                "code": {
-                  "type": "string",
-                  "example": "AUAU"
-                },
-                "dt_limit": {
-                  "type": "number",
-                  "example": 1658762344027
-                }
-              },
-              "required": [
-                "disocunt",
-                "code"
-              ]
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "404": {
-            "description": "Not Found"
-          }
-        }
-      }
-    },
-    "/api/discounts/{id}": {
-      "put": {
-        "tags": [
-          "discount"
-        ],
-        "summary": "Atualiza um novo cupon de disconto",
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "",
-            "in": "body",
-            "description": "modelo de dados do Cupon de disconto",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "disocunt": {
-                  "type": "number",
-                  "example": 50
-                },
-                "code": {
-                  "type": "string",
-                  "example": "AUAU"
-                },
-                "dt_limit": {
-                  "type": "number",
-                  "example": 1658762344027
-                }
-              },
-              "required": [
-                "disocunt",
-                "code"
-              ]
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "404": {
-            "description": "Not Found"
-          }
-        }
-      },
-      "get": {
-        "tags": [
-          "discount"
-        ],
-        "summary": "",
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "404": {
-            "description": "Not Found"
-          }
-        }
-      },
-      "delete": {
-        "tags": [
-          "discount"
-        ],
-        "summary": "Remove o cupon de disconto",
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "404": {
-            "description": "Not Found"
-          }
-        }
-      }
-    },
-    "/api/admin/users": {
+    "/api/admin": {
       "get": {
         "tags": [
           "admin"
         ],
         "summary": "Busca todos os administradores cadastrados no banco de dados",
         "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "Codigo identificador de usuario no banco de dados",
-            "type": "integer",
-            "required": true
-          }
-        ],
+        "parameters": [],
         "responses": {
           "200": {
             "description": "OK"
@@ -956,9 +246,6 @@
         "responses": {
           "200": {
             "description": "OK"
-          },
-          "500": {
-            "description": "Internal Server Error"
           }
         }
       },
@@ -1006,13 +293,36 @@
           "200": {
             "description": "OK"
           },
-          "500": {
-            "description": "Internal Server Error"
+          "400": {
+            "description": "Bad Request"
           }
         }
       }
     },
-    "/api/admin/users/{id}": {
+    "/api/admin/{id}": {
+      "get": {
+        "tags": [
+          "admin"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "description": "Codigo identificador de usuario no banco de dados"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
       "delete": {
         "tags": [
           "admin"
@@ -1030,69 +340,54 @@
         "responses": {
           "200": {
             "description": "OK"
-          },
-          "400": {
-            "description": "Bad Request"
           }
         }
       }
     },
-    "/api/requests": {
+    "/api/dicount": {
       "get": {
         "tags": [
-          "requests"
+          "discount"
         ],
-        "summary": "Busca todos os pedidos",
+        "summary": "busca todos os cupons de discontos",
         "description": "",
         "parameters": [],
         "responses": {
           "200": {
             "description": "OK"
-          },
-          "404": {
-            "description": "Not Found"
           }
         }
       },
       "post": {
         "tags": [
-          "requests"
+          "discount"
         ],
-        "summary": "Realiza um novo pedido",
+        "summary": "Cria um novo cupon de disconto",
         "description": "",
         "parameters": [
           {
             "name": "",
             "in": "body",
-            "description": "Modelo de dados",
+            "description": "modelo de dados do Cupon de disconto",
             "schema": {
               "type": "object",
               "properties": {
-                "user_id": {
+                "disocunt": {
                   "type": "number",
-                  "example": 1
+                  "example": 50
                 },
-                "products": {
-                  "type": "object",
-                  "properties": {
-                    "qt_product": {
-                      "type": "number",
-                      "example": 22
-                    },
-                    "product_id": {
-                      "type": "number",
-                      "example": 1
-                    }
-                  },
-                  "required": [
-                    "qt_product",
-                    "product_id"
-                  ]
+                "code": {
+                  "type": "string",
+                  "example": "AUAU"
+                },
+                "dt_limit": {
+                  "type": "number",
+                  "example": 1658762344027
                 }
               },
               "required": [
-                "user_id",
-                "products"
+                "disocunt",
+                "code"
               ]
             }
           }
@@ -1105,48 +400,34 @@
       },
       "put": {
         "tags": [
-          "requests"
+          "discount"
         ],
-        "summary": "Atualiza um novo pedido",
+        "summary": "Atualiza um novo cupon de disconto",
         "description": "",
         "parameters": [
           {
             "name": "",
             "in": "body",
-            "description": "Modelo de dados",
+            "description": "modelo de dados do Cupon de disconto",
             "schema": {
               "type": "object",
               "properties": {
-                "request_id": {
+                "disocunt": {
                   "type": "number",
-                  "example": 1
+                  "example": 50
                 },
-                "user_id": {
+                "code": {
+                  "type": "string",
+                  "example": "AUAU"
+                },
+                "dt_limit": {
                   "type": "number",
-                  "example": 1
-                },
-                "products": {
-                  "type": "object",
-                  "properties": {
-                    "qt_product": {
-                      "type": "number",
-                      "example": 22
-                    },
-                    "product_id": {
-                      "type": "number",
-                      "example": 1
-                    }
-                  },
-                  "required": [
-                    "qt_product",
-                    "product_id"
-                  ]
+                  "example": 1658762344027
                 }
               },
               "required": [
-                "request_id",
-                "user_id",
-                "products"
+                "disocunt",
+                "code"
               ]
             }
           }
@@ -1156,14 +437,12 @@
             "description": "OK"
           }
         }
-      }
-    },
-    "/api/requests/user/{id}": {
-      "get": {
+      },
+      "delete": {
         "tags": [
-          "requests"
+          "discount"
         ],
-        "summary": "Busca todos os pedidos",
+        "summary": "Remove o cupon de disconto",
         "description": "",
         "parameters": [
           {
@@ -1176,19 +455,249 @@
         "responses": {
           "200": {
             "description": "OK"
-          },
-          "404": {
-            "description": "Not Found"
           }
         }
       }
     },
-    "/api/requests/{id}": {
+    "/api/product": {
+      "get": {
+        "tags": [
+          "product"
+        ],
+        "summary": "Lista todos os produtos",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "product"
+        ],
+        "summary": "Adiciona um produto no bando de dados",
+        "description": "",
+        "parameters": [
+          {
+            "name": "product",
+            "in": "body",
+            "description": "modelo de Produto a ser enviado",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "nome": {
+                  "type": "string",
+                  "example": "Creme para pentear"
+                },
+                "value": {
+                  "type": "number",
+                  "example": 45.8
+                },
+                "description": {
+                  "type": "string",
+                  "example": "loren ipsum...."
+                },
+                "qt": {
+                  "type": "number",
+                  "example": 67
+                },
+                "brand": {
+                  "type": "string",
+                  "example": "avon"
+                }
+              },
+              "required": [
+                "nome",
+                "value",
+                "description",
+                "qt",
+                "brand"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "product"
+        ],
+        "summary": "Atualizacao dos dados de um produto",
+        "description": "",
+        "parameters": [
+          {
+            "name": "product",
+            "in": "body",
+            "description": "modelo de Produto a ser enviado",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "nome": {
+                  "type": "string",
+                  "example": "Creme para pentear"
+                },
+                "value": {
+                  "type": "number",
+                  "example": 45.8
+                },
+                "description": {
+                  "type": "string",
+                  "example": "loren ipsum...."
+                },
+                "qt": {
+                  "type": "number",
+                  "example": 67
+                },
+                "brand": {
+                  "type": "string",
+                  "example": "avon"
+                }
+              },
+              "required": [
+                "nome",
+                "value",
+                "description",
+                "qt",
+                "brand"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
       "delete": {
         "tags": [
-          "requests"
+          "product"
         ],
-        "summary": "Delete um pedido",
+        "summary": "Remove um produto do banco de dados",
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Codigo identificador do produto",
+            "type": "intenger",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/procedure": {
+      "get": {
+        "tags": [
+          "procedure"
+        ],
+        "summary": "Busca todos os procedimentos cadastrados.",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "procedure"
+        ],
+        "summary": "Adiciona um procedimento",
+        "description": "",
+        "parameters": [
+          {
+            "name": "procedure",
+            "in": "body",
+            "description": "modelo de dados dos Procedimentos",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "example": "Corte de cabelo"
+                },
+                "value": {
+                  "type": "number",
+                  "example": 35
+                },
+                "categorie": {
+                  "type": "string",
+                  "example": "corte"
+                }
+              },
+              "required": [
+                "name",
+                "value",
+                "categorie"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "procedure"
+        ],
+        "summary": "Atualiza um procedimento",
+        "description": "",
+        "parameters": [
+          {
+            "name": "procedure",
+            "in": "body",
+            "description": "modelo de dados dos Procedimentos",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "example": "Corte de cabelo"
+                },
+                "value": {
+                  "type": "number",
+                  "example": 35
+                },
+                "categorie": {
+                  "type": "string",
+                  "example": "corte"
+                }
+              },
+              "required": [
+                "name",
+                "value",
+                "categorie"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "procedure"
+        ],
+        "summary": "Remove um procedimento",
         "description": "",
         "parameters": [
           {

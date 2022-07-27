@@ -6,8 +6,8 @@ const userController = require("../controller/userController");
 const clientRouter = express.Router();
 
 
-clientRouter.get("/user/:id",(req,res,next)=>{
-  
+clientRouter.get("/user/:id", (req, res, next) => {
+
   /*
     #swagger.tags = ['client']
     #swagger.summary="busca um unico cadastro de cliente no banco de dados"
@@ -18,19 +18,17 @@ clientRouter.get("/user/:id",(req,res,next)=>{
   }
    
    */
-  
+
   let id = req.params.id;
-  
-  userController.getUser(parseInt(id)).then(x=>{
+
+  userController.getUser(parseInt(id)).then(x => {
     res.status(200).send(x);
-  }).catch( err => {
+  }).catch(err => {
     res.status(404).send(err);
-  }
-  );
-    ;
+  });;
 })
 
-clientRouter.post('/client', async(req,res,next)=>{
+clientRouter.post('/client', async (req, res, next) => {
 
   /*
     #swagger.tags = ['client']
@@ -51,17 +49,17 @@ clientRouter.post('/client', async(req,res,next)=>{
   } 
    */
   userController.addUser(req.body)
-    .then(response=>{
+    .then(response => {
       res.send(response);
     })
-    .catch(error=>{
+    .catch(error => {
       res.status(500).send(error.message);
     })
 });
 
 // Rota de atualização de clientes
 clientRouter.put("/client/", async (req, res, next) => {
-  
+
   /*
    #swagger.tags = ['client']  
    #swagger.summary = 'Altera os dados de uma conta client. '
@@ -81,7 +79,9 @@ clientRouter.put("/client/", async (req, res, next) => {
     }
   } 
    */
-  res.status(200).send({ message: "Consumir controller ainda!!" });
+  res.status(200).send({
+    message: "Consumir controller ainda!!"
+  });
 });
 
 // Rota de exclusão de clientes
@@ -97,7 +97,9 @@ clientRouter.delete("/client/:id", async (req, res, next) => {
   }
    
    */
-  res.status(200).send({ message: "Consumir controller ainda!!" });
+  res.status(200).send({
+    message: "Consumir controller ainda!!"
+  });
 });
 
 module.exports = clientRouter;
