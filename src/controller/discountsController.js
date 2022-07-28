@@ -1,8 +1,6 @@
-const db = require("../config/dbconnect.js");
-
-/* 
-    CRUD OPERATIONS
-*/
+const discountRepository = require('../repositories/discountRepository.js');
+const validate = require('../middlewares/validationMiddleware.js');
+const discountSchema = require('../validations/discountValidation.js');
 
 // GET ALL DISCOUNTS
 exports.getAll = (req, res) => {
@@ -12,14 +10,13 @@ exports.getAll = (req, res) => {
  */
 
   try {
-    db.exec(`SELECT * FROM discounts`)
+    discountRepository.getAll()
       .then(discounts => {
         res.send(discounts)
       })
-      .catch(e => {
-        res.send(e.message)
+      .catch(err => {
+        res.status(500).send(err)
       })
-
   } catch {
     res.send('f api')
   }
@@ -29,21 +26,14 @@ exports.getAll = (req, res) => {
 exports.getByCode = (req, res) => {
 
   try {
-    db.exec('SELECT discount FROM discounts WHERE code = $1',
-        [discount.code])
-      .then(discount => {
-        res.send(discount);
-      })
-      .catch(e => {
-        res.send(e.message)
-      })
+
   } catch {
     res.send('f api')
   }
 }
 
 //Inserir desconto
-exports.add = (req, res) => {
+exports.add = validate(discountSchema), (req, res) => {
   /**
     #swagger.tags = ['discount']
     #swagger.summary="Cria um novo cupon de disconto"
@@ -61,10 +51,12 @@ exports.add = (req, res) => {
   try {
 
     const discount = req.body;
-    db.exec(`INSERT INTO discounts (discount,code,dt_limit) VALUES($1,$2,to_timestamp($3))`,
-        [discount.discount, discount.code, discount.dt_limit])
+    discountRepository.add(disocunt)
       .then(response => {
-        res.send('ok')
+        res.send()
+      })
+      .catch(err => {
+        res.status(400).send(err)
       })
   } catch {
 
@@ -72,7 +64,7 @@ exports.add = (req, res) => {
 
 }
 
-exports.update = (req, res) => {
+exports.update = validate(discountSchema), (req, res) => {
   /**
     #swagger.tags = ['discount']
     #swagger.summary="Atualiza um novo cupon de disconto"
@@ -91,13 +83,13 @@ exports.update = (req, res) => {
 
     const discount = req.body;
 
-    db.exec(`UPDATE discounts SET discount = $1, code = $2, dt_limit = $3 WHERE id = $4`,
-        [discount.discount, discount.code, discount.dt_limit, discount.id])
+    discountRepository.update(discount)
       .then(response => {
-        res.send()
+        res.send(response)
       })
-      .catch(e => {
-        res.send(e.message)
+      .catch(err => {
+
+        res.status(400).send(err)
       })
 
   } catch {
@@ -105,9 +97,11 @@ exports.update = (req, res) => {
   }
 
 }
+
 // Remover desconto
 
 exports.remove = (req, res) => {
+
   /**
       #swagger.tags = ['discount']
       #swagger.summary="Remove o cupon de disconto"
@@ -116,17 +110,7 @@ exports.remove = (req, res) => {
     }
    */
 
-
-  try {
-    db.exec(`DELETE FROM discounts WHERE id = $1`,
-        [req.params.ids])
-      .then(response => {
-        res.sen(response)
-      })
-      .catch(e => {
-        res.send(e.message)
-      })
-  } catch {
+  try {} catch {
     res.send('f api')
   }
 }

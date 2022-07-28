@@ -1,6 +1,6 @@
 const db = require('../config/dbconnect');
 const Utils = require('../helpers/Utils');
-
+const a = require('../repositories/genericQuerys.js');
 
 // seleciona a partir de um array de ids
 exports.getById = (req, res) => {
@@ -15,11 +15,7 @@ exports.getAll = (req, res) => {
   */
   try {
 
-    db.exec(`SELECT * FROM "procedures"`)
-      .then(procedures => {
-        res.send(procedures)
-      })
-      .catch(e => res.send(e.message))
+    
   } catch {}
 }
 
@@ -41,13 +37,7 @@ exports.add = (req, res) => {
 
   try {
 
-    db.exec(`INSERT INTO procedures(name,value,categorie) VALUES($1,$2,$3)`,
-      [procedure.name, procedure.value, procedure.categorie])
-  .then(response => {
-      res.send(response)
-    })
-    .catch(e => res.send(e.message))
-}
+  }
 catch {}
 }
 
@@ -67,19 +57,7 @@ exports.update = (req, res) => {
    */
 
   try {
-    db.exec(`
-        UPDATE procedures 
-          SET name = $1, value = $2, categorie = $3
-             WHERE id = $4`,
-      [procedure.name, procedure.value, procedure.categorie, id])
-  .then(reponse => {
-      res.send(response)
-    })
-    .catch(e => {
-      res.send(e.message)
-    })
-
-} catch {}
+    } catch {}
 }
 
 
@@ -93,15 +71,7 @@ exports.remove = (req, res) => {
    */
   try {
 
-    db.exec(`DELETE FROM procedures WHERE id = $1`,
-      [id])
-  .then(response => {
-      res.send()
-    })
-    .catch(e => {
-      res.send(e.message)
-    })
-}
+    }
 catch {
 
 }

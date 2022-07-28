@@ -16,7 +16,7 @@ function newClient() {
   return client
 }
 
-// Para multiplso selects
+// Para multiplos selects
 exports.newClient = () => newClient();
 
 exports.exec = (query, params = []) =>{

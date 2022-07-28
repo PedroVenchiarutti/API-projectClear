@@ -23,13 +23,22 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "type": "intenger",
+            "type": "integer",
             "description": "O codigo identificador do usuario no banco de dados"
           }
         ],
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         }
       },
@@ -51,147 +60,29 @@
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         }
       }
     },
     "/api/client": {
       "post": {
-        "tags": [
-          "client"
-        ],
-        "summary": "Cria uma nova conta de cliente.",
         "description": "",
-        "parameters": [
-          {
-            "name": "user",
-            "in": "body",
-            "description": "Modelo de Usuario",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "name": {
-                  "type": "string",
-                  "example": "Oliver"
-                },
-                "email": {
-                  "type": "string",
-                  "example": "oliver@gmail.com"
-                },
-                "password": {
-                  "type": "string",
-                  "example": "auau123"
-                },
-                "phone": {
-                  "type": "number",
-                  "example": 1398765432
-                },
-                "cpf": {
-                  "type": "number",
-                  "example": 88888888888
-                },
-                "sexo": {
-                  "type": "string",
-                  "example": "M"
-                },
-                "birth": {
-                  "type": "number",
-                  "example": 1658757654250
-                },
-                "img_url": {
-                  "type": "string",
-                  "example": "link.com.br/img.png"
-                }
-              },
-              "required": [
-                "name",
-                "email",
-                "password",
-                "phone",
-                "cpf",
-                "sexo",
-                "birth",
-                "img_url"
-              ]
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
+        "parameters": [],
+        "responses": {}
       },
       "put": {
-        "tags": [
-          "client"
-        ],
-        "summary": "Altera os dados de uma conta client. ",
         "description": "",
-        "parameters": [
-          {
-            "name": "user",
-            "in": "body",
-            "description": "Modelo de Usuario",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "id": {
-                  "type": "number",
-                  "example": 12
-                },
-                "name": {
-                  "type": "string",
-                  "example": "Oliver"
-                },
-                "email": {
-                  "type": "string",
-                  "example": "oliver@gmail.com"
-                },
-                "password": {
-                  "type": "string",
-                  "example": "auau123"
-                },
-                "phone": {
-                  "type": "number",
-                  "example": 1398765432
-                },
-                "cpf": {
-                  "type": "number",
-                  "example": 88888888888
-                },
-                "sexo": {
-                  "type": "string",
-                  "example": "M"
-                },
-                "birth": {
-                  "type": "number",
-                  "example": 1658757654250
-                },
-                "img_url": {
-                  "type": "string",
-                  "example": "link.com.br/img.png"
-                }
-              },
-              "required": [
-                "id",
-                "name",
-                "email",
-                "password",
-                "phone",
-                "cpf",
-                "sexo",
-                "birth",
-                "img_url"
-              ]
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
+        "parameters": [],
+        "responses": {}
       }
     },
     "/api/admin": {
@@ -205,124 +96,24 @@
         "responses": {
           "200": {
             "description": "OK"
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "admin"
-        ],
-        "summary": "Efetua a criação do admin no banco de dados.",
-        "description": "",
-        "parameters": [
-          {
-            "name": "admin",
-            "in": "body",
-            "description": "Modelo de Admin",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "name": {
-                  "type": "string",
-                  "example": "Oliver o Adm"
-                },
-                "email": {
-                  "type": "string",
-                  "example": "oliver@gmail.com"
-                },
-                "password": {
-                  "type": "string",
-                  "example": "auau123"
-                }
-              },
-              "required": [
-                "name",
-                "email",
-                "password"
-              ]
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      },
-      "put": {
-        "tags": [
-          "admin"
-        ],
-        "summary": "Efetua a alteraçao das informaões do admin.",
-        "description": "",
-        "parameters": [
-          {
-            "name": "admin",
-            "in": "body",
-            "description": "Modelo de admin",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "id": {
-                  "type": "number",
-                  "example": 12
-                },
-                "name": {
-                  "type": "string",
-                  "example": "Oliver o adm"
-                },
-                "email": {
-                  "type": "string",
-                  "example": "oliver@gmail.com"
-                },
-                "password": {
-                  "type": "string",
-                  "example": "auau123"
-                }
-              },
-              "required": [
-                "id",
-                "name",
-                "email",
-                "password"
-              ]
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "400": {
-            "description": "Bad Request"
-          }
-        }
-      }
-    },
-    "/api/admin/{id}": {
-      "get": {
-        "tags": [
-          "admin"
-        ],
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "integer",
-            "description": "Codigo identificador de usuario no banco de dados"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
           },
           "500": {
             "description": "Internal Server Error"
           }
         }
       },
+      "post": {
+        "description": "",
+        "parameters": [],
+        "responses": {}
+      },
+      "put": {
+        "description": "",
+        "parameters": [],
+        "responses": {}
+      }
+    },
+    "/api/admin/{id}": {
       "delete": {
         "tags": [
           "admin"
@@ -337,11 +128,7 @@
             "type": "string"
           }
         ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
+        "responses": {}
       }
     },
     "/api/dicount": {
@@ -355,88 +142,21 @@
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         }
       },
       "post": {
-        "tags": [
-          "discount"
-        ],
-        "summary": "Cria um novo cupon de disconto",
         "description": "",
-        "parameters": [
-          {
-            "name": "",
-            "in": "body",
-            "description": "modelo de dados do Cupon de disconto",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "disocunt": {
-                  "type": "number",
-                  "example": 50
-                },
-                "code": {
-                  "type": "string",
-                  "example": "AUAU"
-                },
-                "dt_limit": {
-                  "type": "number",
-                  "example": 1658762344027
-                }
-              },
-              "required": [
-                "disocunt",
-                "code"
-              ]
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
+        "parameters": [],
+        "responses": {}
       },
       "put": {
-        "tags": [
-          "discount"
-        ],
-        "summary": "Atualiza um novo cupon de disconto",
         "description": "",
-        "parameters": [
-          {
-            "name": "",
-            "in": "body",
-            "description": "modelo de dados do Cupon de disconto",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "disocunt": {
-                  "type": "number",
-                  "example": 50
-                },
-                "code": {
-                  "type": "string",
-                  "example": "AUAU"
-                },
-                "dt_limit": {
-                  "type": "number",
-                  "example": 1658762344027
-                }
-              },
-              "required": [
-                "disocunt",
-                "code"
-              ]
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
+        "parameters": [],
+        "responses": {}
       },
       "delete": {
         "tags": [
@@ -605,11 +325,7 @@
         "summary": "Busca todos os procedimentos cadastrados.",
         "description": "",
         "parameters": [],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
+        "responses": {}
       },
       "post": {
         "tags": [
@@ -646,11 +362,7 @@
             }
           }
         ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
+        "responses": {}
       },
       "put": {
         "tags": [
@@ -687,11 +399,7 @@
             }
           }
         ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
+        "responses": {}
       },
       "delete": {
         "tags": [
@@ -707,11 +415,7 @@
             "type": "string"
           }
         ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
+        "responses": {}
       }
     }
   }
