@@ -5,6 +5,8 @@ const Routes = express.Router();
 // Este arquivo contera apenas as 
 // rotas privadas futuramente
 
+const validate = require('../middlewares/validationMiddleware')
+const client = require("../validations/clientvalidation")
 
 // controlers
 const admController = require('../controller/admController.js');
@@ -16,7 +18,7 @@ const procedureController = require('../controller/procedureController.js');
 // clients Routes
 
 Routes.get('/client/:id',clientController.get );
-Routes.post('/client', clientController.add);
+Routes.post('/client',validate(client), clientController.add);
 Routes.put('/client', clientController.update);
 Routes.delete('/client/:id', clientController.remove)
 

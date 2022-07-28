@@ -1,4 +1,4 @@
-const db = require("../config/db/dbconnect.js");
+const db = require("../config/dbconnect.js");
 const Utils = require("../Utils/Utils.js");
 const userController = require('./userController');
 

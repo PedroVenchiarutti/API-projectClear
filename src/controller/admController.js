@@ -1,4 +1,4 @@
-const db = require("../config/db/dbconnect.js");
+const db = require("../config/dbconnect.js");
 
 exports.getAll = (req, res) => {
   /* 

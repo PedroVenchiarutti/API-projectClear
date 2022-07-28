@@ -1,4 +1,4 @@
-const db = require('../config/db/dbconnect');
+const db = require('../config/dbconnect');
 
 module.exports ={
      

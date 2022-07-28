@@ -1,4 +1,10 @@
-const db = require("../config/db/dbconnect.js");
+const db = require("../config/dbconnect.js");
+
+const validation = require('../middlewares/validationMiddleware');
+const clientSchema = require('../validations/clientvalidation');
+
+const clientRepository = require('../repositories/clientRepositorie');
+const { response } = require("express");
 
 exports.get = (req, res) => {
   /*
@@ -26,7 +32,7 @@ exports.get = (req, res) => {
 
 }
 
-exports.add = (req, res) => {
+exports.add =  (req, res) => {
   /*
      #swagger.tags = ['client']
      #swagger.summary = 'Cria uma nova conta de cliente.'
@@ -45,20 +51,24 @@ exports.add = (req, res) => {
      }
    } 
     */
-  try {
-    db.exec(`INSERT INTO users 
-            (name,email,password,phone,cpf,sexo,birth,img_url)`,
-        [user.name, user.email, user.password, user.phone, user.cpf, user.sexo, user.birth, user.img_url])
-      .then(response => {
-        res.send(response)
+   console.log("alguem me salva")
+   try {
+    const client = req.body;
+   
+    console.log("O yup nao é tao ruim")
+    clientRepository.newClient(client)
+      .then(response=>{
+          res.send("deu bom")
       })
-      .catch(e => {
-        res.send(e.message)
-      })
-  } catch {
-    res.send("F Api");
-  }
+      .catch(e=>{
+        response.send(e)
+      });
+  
 
+  } catch(e) {
+    throw e
+    res.send(e);
+  }
 }
 
 exports.update = (req, res) => {

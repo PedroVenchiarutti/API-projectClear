@@ -1,5 +1,5 @@
-const db = require('../config/db/dbconnect');
-const Utils = require('../Utils/Utils');
+const db = require('../config/dbconnect');
+const Utils = require('../helpers/Utils');
 
 
 // seleciona a partir de um array de ids

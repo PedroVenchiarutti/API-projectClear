@@ -7,8 +7,6 @@ const swaggerUI = require("swagger-ui-express");
 const swaggerFile = require("./swagger_output.json");
 
 const allowCors = require("./cors");
-const PORT = 3333;
-
 
 server.use(bodyParser.json());
 server.use(bodyParser.urlencoded({
@@ -19,9 +17,5 @@ server.use(cors());
 
 server.use('/api', routes)
 server.use("/docs", swaggerUI.serve, swaggerUI.setup(swaggerFile));
-
-server.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
 
 module.exports = server;
