@@ -1,29 +1,44 @@
-const admRepository = require('../repositories/adminRepository.js');
-
 const validate = require('../middlewares/validationMiddleware.js');
 const admSchema = require('../validations/adminValidation.js');
+const idSchema = require('../validations/idValidation.js');
+const genericQuerys = require('../repositories/genericQuerys.js');
 
 exports.getAll = (req, res) => {
   /* 
     #swagger.tags = ['admin']
     #swagger.summary = 'Busca todos os administradores cadastrados no banco de dados'
-    */
-    
-  try{
-    admRepository.getAll()
-      .then(adms=>{
-        console.log(adms)
-        res.send(adms)
-      })
-      .catch(err=>{
-        
-      res.status(500).send(err)
-      })
-  }catch{
-      res.status(500)
-  }
+  */
+
+  genericQuerys.select("users")
+    .then(adms => {
+      res.send(adms)
+    })
+    .catch(err => {
+      res.status(400).send(err);
+    })
 }
 
+exports.getByid = async (req, res) => {
+
+  try {
+
+    const id = req.params.id;
+
+    await idSchema.validate(id);
+
+    genericQuerys.select('users', id)
+      .then(adm => {
+        res.send(adm)
+      })
+      .catch(err => {
+        res.status(500).send(err)
+      })
+
+  } catch (err) {
+
+    res.status(400).send(err)
+  }
+}
 
 exports.add = validate(admSchema), (req, res) => {
   /*
@@ -40,24 +55,24 @@ exports.add = validate(admSchema), (req, res) => {
     } 
     */
 
-  try{
-    
+  try {
+
     const adm = req.body;
 
-    adminRepository.add(adm)
-      .then(response=>{
+    genericQuerys.insertTable("adms", adm)
+      .then(response => {
         res.send();
       })
-      .catch(err=>{
-      res.status(500).send(err)
+      .catch(err => {
+        res.status(500).send(err)
       });
-  }
-  catch(e){
+  } catch (e) {
 
+    res.status(500).send(err)
   }
 }
 
-exports.update = validate(admSchema),(req, res) => {
+exports.update = validate(admSchema), (req, res) => {
   /*
   #swagger.tags = ['admin']
   #swagger.summary = 'Efetua a alteraçao das informaões do admin.'
@@ -73,25 +88,46 @@ exports.update = validate(admSchema),(req, res) => {
   } 
   */
 
-    try{
-    
-      const adm = req.body;
+  try {
 
-      adminRepository.upadte(adm)
-        .then(response=>{
-          res.send()
-        })
-        .catch(err=>{
-          res.status(500).send(err);
-        })
-    } catch(e){
+    const adm = req.body;
 
-    }
+    genericQuerys.updateTable(adm)
+      .then(response => {
+        res.send()
+      })
+      .catch(err => {
+        res.status(500).send(err);
+      })
+  } catch (err) {
+
+    res.status(500).send(err);
+  }
 }
 
-exports.remove = (req, res) => {
+exports.remove = async (req, res) => {
   /*
      #swagger.tags = ['admin']
      #swagger.summary = 'Deleta uma conta de administrador.' 
-     */
+    */
+
+  try {
+
+    const id = req.params.id;
+
+    await idSchema.validate(id);
+
+    genericQuerys.deleteTable("adms", id)
+      .then(response => {
+        res.send(response)
+      })
+      .catch(err => {
+
+        res.status(500).send(err);
+      })
+
+  } catch (err) {
+
+    res.status(500).send(err);
+  }
 }

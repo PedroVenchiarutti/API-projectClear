@@ -1,14 +1,11 @@
-const db = require("../config/dbconnect.js");
-
 const validate = require('../middlewares/validationMiddleware');
-const {
-  clientSchema,
-  clientId
-} = require('../validations/clientvalidation');
+const idValidation = require('../validations/idValidation.js');
 
-const clientRepository = require('../repositories/clientRepositorie');
+const clientSchema = require('../validations/clientvalidation');
 
-exports.getByid = (req, res) => {
+const genericQuerys = require('../repositories/genericQuerys.js')
+
+exports.getByid = async (req, res) => {
   /*
       #swagger.tags = ['client']
       #swagger.summary="busca um unico cadastro de cliente no banco de dados"
@@ -18,32 +15,28 @@ exports.getByid = (req, res) => {
         type:"integer"
       }
      
-     */
+  */
 
   try {
-    const id = ({
-      id: parseInt(req.params.id)
-    })
 
-    clientId.isValid(id)
-      .then(valid => {
-        clientRepository.getByid(id.id)
-          .then(client => {
-            res.status(200).send(client)
-          }).catch(e => {
-            res.status(404).send()
-          })
-      }).catch(error => {
-        res.status(400).send(error)
+    const id = req.params.id;
+
+    await idValidation.validate(id);
+
+    genericQuerys.select("users",id).then(client => {
+        res.send(client[0])
       })
-  } catch {
-    res.status(500).send(error)
-  }
+      .catch(err => {
+        res.send(err)
+      })
 
+  } catch (e) {
+    res.send(e)
+  }
 }
 
 exports.add = validate(clientSchema), (req, res) => {
-  
+
   /*
      #swagger.tags = ['client']
      #swagger.summary = 'Cria uma nova conta de cliente.'
@@ -62,11 +55,11 @@ exports.add = validate(clientSchema), (req, res) => {
      }
    } 
   */
-  
+
   try {
     const client = req.body;
 
-    clientRepository.newClient(client)
+    genericQuerys.insertTable("users",client)
       .then(response => {
         res.send("deu bom")
       })
@@ -108,7 +101,7 @@ exports.update = validate(clientSchema), (req, res) => {
       res.status(500).send("error");
     }
 
-    clientRepository.update(client)
+    genericQuerys.insertTable(client)
       .then(reponse => {
         res.send()
       })
@@ -119,7 +112,7 @@ exports.update = validate(clientSchema), (req, res) => {
   }
 }
 
-exports.remove = (req, res) => {
+exports.remove = async (req, res) => {
   /* 
    #swagger.tags = ['client']
    #swagger.summary = 'Deleta um usuario do banco de dado a partir do seu id.'
@@ -128,25 +121,23 @@ exports.remove = (req, res) => {
      description:"O codigo identificador do usuario no banco de dados",
      type:"intenger"
    }
-    
-    */
-  try {
-    const id = ({
-      id: parseInt(req.params.id)
-    })
+   */
 
-    clientId.isValid(id)
-      .then(valid => {
-        clientRepository.remoove(id.id)
-          .then(client => {
-            res.status(200).send()
-          }).catch(e => {
-            res.status(404).send()
-          })
-      }).catch(error => {
-        res.status(400).send(error)
+  try {
+
+    const id = req.params.id;
+
+    await idValidation.validate(id);
+
+      genericQuerys.deleteTable(id)
+      .then(client => {
+        res.send(client)
       })
-  } catch {
-    res.status(500).send(error)
+      .catch(err => {
+        res.status(400).send(err)
+      })
+  } catch (e) {
+    console.log(e)
+    res.send(e)
   }
 }

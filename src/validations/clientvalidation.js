@@ -11,9 +11,6 @@ const clientSchema = yup.object({
     img_url: yup.string().url().notRequired()
 })
 
-const clientId = yup.object({
-    id: yup.number("Não é um numero").required("id necessario").integer("Numero Quebrado")
-});
 
 
-module.exports = {clientSchema,clientId}
+module.exports = clientSchema;

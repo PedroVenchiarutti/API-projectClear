@@ -1,7 +1,6 @@
 const db = require('../config/dbconnect');
 const Utils = require('../Utils/Utils.js');
-const userController = require('./userController');
-
+/*
 //Request products
 module.exports = {
 

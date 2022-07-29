@@ -33,7 +33,7 @@ module.exports ={
     },
 
     inIds(query,params){
-        
+        console.log(query,params)        
         let count =1;
         
         params.forEach(id=>{

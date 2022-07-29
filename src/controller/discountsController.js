@@ -1,6 +1,7 @@
 const discountRepository = require('../repositories/discountRepository.js');
 const validate = require('../middlewares/validationMiddleware.js');
 const discountSchema = require('../validations/discountValidation.js');
+const genericQuerys = require('../repositories/genericQuerys.js');
 
 // GET ALL DISCOUNTS
 exports.getAll = (req, res) => {
@@ -10,7 +11,7 @@ exports.getAll = (req, res) => {
  */
 
   try {
-    discountRepository.getAll()
+    genericQuerys.select("discounts")
       .then(discounts => {
         res.send(discounts)
       })

@@ -1,6 +1,5 @@
 const db = require('../config/dbconnect');
 const Utils = require('../helpers/Utils');
-const a = require('../repositories/genericQuerys.js');
 
 // seleciona a partir de um array de ids
 exports.getById = (req, res) => {

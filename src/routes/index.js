@@ -5,6 +5,7 @@ const Routes = express.Router();
 // Este arquivo contera apenas as 
 // rotas privadas futuramente
 
+
 // controlers
 const admController = require('../controller/admController.js');
 const clientController = require('../controller/clientController.js');

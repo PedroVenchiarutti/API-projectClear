@@ -13,5 +13,4 @@ const bodyValidation = (schema) => async (req, res, next) => {
   }
 }
 
-
 module.exports =  bodyValidation
