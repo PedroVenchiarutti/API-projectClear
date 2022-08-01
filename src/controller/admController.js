@@ -9,7 +9,7 @@ exports.getAll = (req, res) => {
     #swagger.summary = 'Busca todos os administradores cadastrados no banco de dados'
   */
 
-  genericQuerys.select("users")
+  genericQuerys.select("adms")
     .then(adms => {
       res.send(adms)
     })
@@ -20,24 +20,17 @@ exports.getAll = (req, res) => {
 
 exports.getByid = async (req, res) => {
 
-  try {
+  const id = req.params.id;
 
-    const id = req.params.id;
 
-    await idSchema.validate(id);
+  genericQuerys.select('adms', id)
+    .then(adm => {
+      res.send(adm)
+    })
+    .catch(err => {
+      res.status(500).send(err)
+    })
 
-    genericQuerys.select('users', id)
-      .then(adm => {
-        res.send(adm)
-      })
-      .catch(err => {
-        res.status(500).send(err)
-      })
-
-  } catch (err) {
-
-    res.status(400).send(err)
-  }
 }
 
 exports.add = validate(admSchema), (req, res) => {
@@ -55,21 +48,16 @@ exports.add = validate(admSchema), (req, res) => {
     } 
     */
 
-  try {
 
-    const adm = req.body;
+  const adm = req.body;
 
-    genericQuerys.insertTable("adms", adm)
-      .then(response => {
-        res.send();
-      })
-      .catch(err => {
-        res.status(500).send(err)
-      });
-  } catch (e) {
-
-    res.status(500).send(err)
-  }
+  genericQuerys.insertTable("adms", adm)
+    .then(response => {
+      res.send();
+    })
+    .catch(err => {
+      res.status(500).send(err)
+    });
 }
 
 exports.update = validate(admSchema), (req, res) => {
@@ -88,21 +76,16 @@ exports.update = validate(admSchema), (req, res) => {
   } 
   */
 
-  try {
 
-    const adm = req.body;
+  const adm = req.body;
 
-    genericQuerys.updateTable(adm)
-      .then(response => {
-        res.send()
-      })
-      .catch(err => {
-        res.status(500).send(err);
-      })
-  } catch (err) {
-
-    res.status(500).send(err);
-  }
+  genericQuerys.updateTable(adm)
+    .then(response => {
+      res.send()
+    })
+    .catch(err => {
+      res.status(500).send(err);
+    })
 }
 
 exports.remove = async (req, res) => {
@@ -111,23 +94,17 @@ exports.remove = async (req, res) => {
      #swagger.summary = 'Deleta uma conta de administrador.' 
     */
 
-  try {
+  const id = req.params.id;
 
-    const id = req.params.id;
+  genericQuerys.deleteTable("adms", id)
+    .then(response => {
+      res.send(response)
+    })
+    .catch(err => {
 
-    await idSchema.validate(id);
+      res.status(500).send(err);
+    })
 
-    genericQuerys.deleteTable("adms", id)
-      .then(response => {
-        res.send(response)
-      })
-      .catch(err => {
-
-        res.status(500).send(err);
-      })
-
-  } catch (err) {
-
-    res.status(500).send(err);
-  }
 }
+
+exports.dashboard = (req, res, next) => {}

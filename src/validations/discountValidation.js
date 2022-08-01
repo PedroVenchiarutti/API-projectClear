@@ -1,6 +1,6 @@
 const yup = require('yup');
 
-const discountSchema = yup.object({
+const discountSchema = yup.object().shape({
 
   discount: yup.number().required().positive().integer(),
   code: yup.string().required(),

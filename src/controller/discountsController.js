@@ -3,38 +3,45 @@ const validate = require('../middlewares/validationMiddleware.js');
 const discountSchema = require('../validations/discountValidation.js');
 const genericQuerys = require('../repositories/genericQuerys.js');
 
+const apiError = require('../error/apiError.js');
+
+
 // GET ALL DISCOUNTS
-exports.getAll = (req, res) => {
+exports.getAll = (req, res, next) => {
   /**
   #swagger.tags = ['discount']
   #swagger.summary="busca todos os cupons de discontos"
  */
 
-  try {
-    genericQuerys.select("discounts")
-      .then(discounts => {
-        res.send(discounts)
-      })
-      .catch(err => {
-        res.status(500).send(err)
-      })
-  } catch {
-    res.send('f api')
-  }
+  genericQuerys.select("discounts")
+    .then(discounts => {
+      res.send(discounts)
+    })
+    .catch(e => {
+      next(apiError.badRequest(e.message))
+    })
 }
 
 // discount/code
 exports.getByCode = (req, res) => {
+  /**
+    #swagger.tags = ['discount']
+    #swagger.summary="busca todos os cupons de discontos"
+ */
 
-  try {
+  const code = req.body.code;
 
-  } catch {
-    res.send('f api')
-  }
+  discountRepository.getByCode(code)
+    .then(response => {
+      res.send(response);
+    }, (e) => {
+      next(apiError.badRequest(e.message));
+    })
 }
 
 //Inserir desconto
-exports.add = validate(discountSchema), (req, res) => {
+exports.add = validate(discountSchema), (req, res, next) => {
+
   /**
     #swagger.tags = ['discount']
     #swagger.summary="Cria um novo cupon de disconto"
@@ -49,23 +56,19 @@ exports.add = validate(discountSchema), (req, res) => {
   }
  */
 
-  try {
+  const discount = req.body;
 
-    const discount = req.body;
-    discountRepository.add(disocunt)
-      .then(response => {
-        res.send()
-      })
-      .catch(err => {
-        res.status(400).send(err)
-      })
-  } catch {
-
-  }
+  discountRepository.add(disocunt)
+    .then(response => {
+      res.send()
+    })
+    .catch(e => {
+      next(apiError.badRequest(e.message))
+    })
 
 }
 
-exports.update = validate(discountSchema), (req, res) => {
+exports.update = validate(discountSchema), (req, res, next) => {
   /**
     #swagger.tags = ['discount']
     #swagger.summary="Atualiza um novo cupon de disconto"
@@ -80,22 +83,15 @@ exports.update = validate(discountSchema), (req, res) => {
   }
  */
 
-  try {
+  const discount = req.body;
 
-    const discount = req.body;
-
-    discountRepository.update(discount)
-      .then(response => {
-        res.send(response)
-      })
-      .catch(err => {
-
-        res.status(400).send(err)
-      })
-
-  } catch {
-    res.send('f api')
-  }
+  discountRepository.update(discount)
+    .then(response => {
+      res.send(response)
+    })
+    .catch(e => {
+      next(apiError.badRequest(e.message))
+    })
 
 }
 
@@ -111,7 +107,10 @@ exports.remove = (req, res) => {
     }
    */
 
-  try {} catch {
-    res.send('f api')
-  }
+  genericQuerys.deleteTable("discounts", id)
+    .then(resposne => {
+      res.send();
+    }, (e) => {
+      next(apiError.badRequest(e.message))
+    })
 }

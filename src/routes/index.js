@@ -4,7 +4,7 @@ const Routes = express.Router();
 
 // Este arquivo contera apenas as 
 // rotas privadas futuramente
-
+const validate = require('../middlewares/idValidationMiddleware.js');
 
 // controlers
 const admController = require('../controller/admController.js');
@@ -13,8 +13,10 @@ const discountController = require('../controller/discountsController.js');
 const productController = require('../controller/productController.js');
 const procedureController = require('../controller/procedureController.js');
 
-// clients Routes
+// validando id
+Routes.use(validate());
 
+// clients Routes
 Routes.get('/client/:id',clientController.getByid );
 Routes.post('/client', clientController.add);
 Routes.put('/client', clientController.update);
@@ -45,7 +47,7 @@ Routes.delete("/product", productController.remove)
 
 Routes.get('/procedure', procedureController.getAll)
 Routes.post('/procedure',procedureController.add)
-Routes.put('/procedure', procedureController.update)
+Routes.put('/procedure/:id', procedureController.update)
 Routes.delete('/procedure',procedureController.remove)
 
 /*

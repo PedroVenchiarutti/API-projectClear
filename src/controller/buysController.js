@@ -1,54 +1,24 @@
-const db = require("../config/db/dbconnect.js");
+const apiError = require('../error/apiError.js');
+const buysRepository = require('../repositories/BuysRepositories.js');
 
+exports.getBuys = (req, res, next) => {
 
-// Pegar todos produtos
-exports.getAll() {
-    return new Promise((resolve, reject) => {
-      db.query("SELECT * FROM buys", (err, result) => {
-        if (err) {
-          reject(err);
-        } else {
-          resolve(result.rows);
-        }
-      })
-    })
-  },
+  const userId = req.params.id;
 
-  // Pegar um produto pelo id
-  exports.getBy(id) {
-    return new Promises((resolve, reject) => {
-      db.query(`SELECT FROM buys WHERE id = $1`, [id], (err, result) => {
-        if (err) {
-          reject(err);
-        } else {
-          resolve(result.rows);
-        }
-      })
-    })
-  }
-
-// Criar um produto
-exports.create(buy) {
-    return new Promise((resolve, reject) => {
-      db.query(`INSERT INTO buys (value,request_id) VALUES ($1,$2)`, [parseFloat(buy.value), buy.request_id], (err, result) => {
-        if (err) {
-          reject(err);
-        } else {
-          resolve(result.rows);
-        }
-      })
+  buysRepository.getAll(userId)
+    .then(buys => {
+      res.send(buys)
+    }, (e) => {
+      next(apiError.badRequest(e.message))
     })
 
 }
 
-exports.delete(id) {
-    return new Promise((resolve, reject) => {
-      db.query(`DELETE FROM buys WHERE id = $1`, [id], (err, result) => {
-        if (err) {
-          reject(err);
-        } else {
-          resolve(result.rows);
-        }
-      })
-    })
+exports.add = (req, res, next) => {
+  // avaliar a possibilidade da compra estar "totalmente realcionada ao discount"
+}
+
+exports.getBuys = (req, res, next) => {
+
+  // get All buy And users name;  
 }

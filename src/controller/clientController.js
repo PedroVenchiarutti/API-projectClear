@@ -5,7 +5,9 @@ const clientSchema = require('../validations/clientvalidation');
 
 const genericQuerys = require('../repositories/genericQuerys.js')
 
-exports.getByid = async (req, res) => {
+const apiError = require('../error/apiError.js')
+
+exports.getByid = async (req, res, next) => {
   /*
       #swagger.tags = ['client']
       #swagger.summary="busca um unico cadastro de cliente no banco de dados"
@@ -23,15 +25,20 @@ exports.getByid = async (req, res) => {
 
     await idValidation.validate(id);
 
-    genericQuerys.select("users",id).then(client => {
-        res.send(client[0])
+    genericQuerys.select("users", id).then(client => {
+        if (client[0])
+          res.send(client[0])
+        else {
+          next(apiError.notFound("Usuario não encontrado"))
+        }
       })
       .catch(err => {
-        res.send(err)
+        next(apiError.badRequest(e.message));
+
       })
 
   } catch (e) {
-    res.send(e)
+    next(apiError.badRequest(e.message));
   }
 }
 
@@ -56,20 +63,17 @@ exports.add = validate(clientSchema), (req, res) => {
    } 
   */
 
-  try {
-    const client = req.body;
+  const client = req.body;
 
-    genericQuerys.insertTable("users",client)
-      .then(response => {
-        res.send("deu bom")
-      })
-      .catch(e => {
-        res.send(e)
-      });
+  genericQuerys.insertTable("users", client)
+    .then(response => {
+      res.send("deu bom")
+    })
+    .catch(e => {
 
-  } catch (e) {
-    res.send(e);
-  }
+      next(apiError.badRequest(e.message));
+    });
+
 }
 
 exports.update = validate(clientSchema), (req, res) => {
@@ -93,23 +97,22 @@ exports.update = validate(clientSchema), (req, res) => {
     } 
      */
 
-  try {
 
-    const client = req.body;
+  const client = req.body;
 
-    if (client.id || typeof client.id == "number") {
-      res.status(500).send("error");
-    }
-
-    genericQuerys.insertTable(client)
-      .then(reponse => {
-        res.send()
-      })
-      .catch();
-
-  } catch {
-    res.send("bugmon, gonna catch´em all")
+  if (client.id || typeof client.id == "number") {
+    res.status(500).send("error");
   }
+
+  genericQuerys.insertTable(client)
+    .then(reponse => {
+      res.send()
+    })
+    .catch(e => {
+
+      next(apiError.badRequest(e.message));
+    });
+
 }
 
 exports.remove = async (req, res) => {
@@ -129,15 +132,20 @@ exports.remove = async (req, res) => {
 
     await idValidation.validate(id);
 
-      genericQuerys.deleteTable(id)
+    genericQuerys.deleteTable(id)
       .then(client => {
-        res.send(client)
+        if (client[0])
+          res.send(client)
+        else {
+          next(apiError.notFound('conta nao encontrada'))
+        }
       })
       .catch(err => {
-        res.status(400).send(err)
+
+        next(apiError.badRequest(ermessage));
       })
   } catch (e) {
-    console.log(e)
-    res.send(e)
+
+    next(apiError.badRequest(e.message));
   }
 }

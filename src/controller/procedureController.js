@@ -1,24 +1,28 @@
-const db = require('../config/dbconnect');
 const Utils = require('../helpers/Utils');
 
-// seleciona a partir de um array de ids
-exports.getById = (req, res) => {
+const apiError = require('../error/apiError.js');
+const genericQuerys = require('../repositories/genericQuerys.js');
 
-  return Utils.selectMultiID('Procedures', ids)
-}
+const validationSchema = require('../validations/procedureValidation.js')
+const validate = require('../middlewares/validationMiddleware.js');
 
-exports.getAll = (req, res) => {
+
+exports.getAll = (req, res, next) => {
   /**
      #swagger.tags = ['procedure']
      #swagger.summary="Busca todos os procedimentos cadastrados."
   */
-  try {
 
-    
-  } catch {}
+  genericQuerys.select("procedures")
+    .then(procedures => {
+      res.send(procedures)
+    })
+    .catch(e => {
+      next(apiError.badRequest(e.message))
+    })
 }
 
-exports.add = (req, res) => {
+exports.add = validate(validationSchema), (req, res, next) => {
 
   /**
       #swagger.tags = ['procedure']
@@ -34,13 +38,18 @@ exports.add = (req, res) => {
     }
    */
 
-  try {
+  const body = req.body;
 
-  }
-catch {}
+  genericQuerys.insertTable("procedures", body)
+    .then(response => {
+      res.send();
+    })
+    .catch(e => {
+      next(apiError.badRequest(e.message))
+    })
 }
 
-exports.update = (req, res) => {
+exports.update = validate(validationSchema), (req, res, next) => {
   /**
       #swagger.tags = ['procedure']
       #swagger.summary="Atualiza um procedimento"
@@ -55,23 +64,38 @@ exports.update = (req, res) => {
     }
    */
 
-  try {
-    } catch {}
+  const body = req.body;
+
+  genericQuerys.upadateTable('procedures', body)
+    .then(response => {
+      res.send();
+    })
+    .catch(e => {
+
+      next(apiError.badRequest(e.message))
+    })
+
 }
 
 
-exports.remove = (req, res) => {
+exports.remove = (req, res, next) => {
+
   /**
       #swagger.tags = ['procedure']
       #swagger.summary="Remove um procedimento"
       #swagger.parameters['id'] => {
-        in:"path",
+        in:"path"
     }
    */
-  try {
 
-    }
-catch {
+  const id = req.params.id;
 
-}
+  genericQuerys.deleteTable("procedure", id)
+    .then(response => {
+      res.send(response)
+    })
+    .catch(e => {
+
+      next(apiError.badRequest(e.message))
+    });
 }

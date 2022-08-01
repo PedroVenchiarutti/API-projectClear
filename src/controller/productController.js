@@ -1,4 +1,8 @@
 const db = require("../config/dbconnect.js");
+const genericQuerys = require('../repositories/genericQuerys');
+const validate = require('../middlewares/validationMiddleware.js');
+const schema = require('../validations/productValidation.js');
+const apiError = require('../error/apiError.js');
 
 /*
 // search lists
@@ -28,40 +32,38 @@ getProductList(nLimit, categorie=null){
 )},
 */
 
-exports.getAll = (req, res) => {
+exports.getAll = (req, res, next) => {
   /**
     #swagger.tags = ['product']
     #swagger.summary="Lista todos os produtos"
    */
-  try {
-    db.exec(`SELECT * FROM products`)
-      .then(products => {
-        res.send(products)
-      })
-      .catch(e => {
-        res.send(e.message)
-      })
-  } catch {
 
-  }
+  genericQuerys.select("products")
+    .then(products => {
+      res.send(products);
+    }, (e) => {
+      next(apiError.badRequest(e.message))
+    })
 }
 
-exports.getById = (req, res) => {
-  try {
-    const id = req.params.id;
-    db.exec('SELECT * FROM products WHERE id = $1', [id])
-      .then(product => {
-        res.send(product)
-      })
-      .catch(e => {
-        res.send(e.message)
-      })
-  } catch {
+exports.getById = (req, res, next) => {
+  /**
+   #swagger.tags = ['product']
+   #swagger.summary="Lista todos os produtos"
+  */
 
-  }
+  const id = req.params.id;
+
+  genericQuerys.select("products", id)
+    .then(product => {
+      res.send(product);
+    }, (e) => {
+      next(apiError.badRequest(e.message))
+    })
+
 }
 
-exports.add = (req, res) => {
+exports.add = validate(schema), (req, res, next) => {
   /**
     #swagger.tags = ['product']
     #swagger.summary="Adiciona um produto no bando de dados"
@@ -76,30 +78,20 @@ exports.add = (req, res) => {
         $brand:"avon"
       }
     }
-   */
-  try {
-    const product = req.body;
+    */
 
-    db.exec(
-        `INSERT INTO products 
-          (name,value,description,qt,brand)
-          VALUES ($1,$2,$3,$4)`,
-        [product.name,
-          product.value,
-          product.description,
-          product.qt,
-          product.brand
-        ])
-      .then(reponse => {
-        res.send(response)
-      })
-      .catch(e => res.send(e.message))
+  const product = req.body;
 
-
-  } catch {}
+  genericQuerys.insertTable("products", prodcut)
+    .then(response => {
+      res.send();
+    }, (e) => {
+      next(apiError.badRequest(e.message))
+    })
 }
 
-exports.update = (req, res) => {
+exports.update = validate(schema), (req, res, next) => {
+
   /**
     #swagger.tags = ['product']
     #swagger.summary="Atualizacao dos dados de um produto"
@@ -115,28 +107,18 @@ exports.update = (req, res) => {
       }
     }
    */
-  try {
-    const product = req.body;
-    db.exec(`UPDATE products 
-                SET name=$1,value=$2,description=$3,qt=$4,brand=$5 WHERE id = $6`,
-        [product.name,
-          product.values,
-          product.description,
-          product.qt,
-          product.brand,
-          product.id
-        ])
-      .then(response => {
-        res.send("ok")
-      })
-      .catch(e => {
-        res.send(e.message)
-      })
 
-  } catch {}
+  const product = req.body;
+
+  genericQuerys.updateTable("products", product)
+    .then(response => {
+      res.send()
+    }, (e) => {
+      next(apiError.badRequest(e.message))
+    })
 }
 
-exports.remove = (req, res) => {
+exports.remove = (req, res, next) => {
   /**
     #swagger.tags = ['product']
     #swagger.summary="Remove um produto do banco de dados"
@@ -146,17 +128,14 @@ exports.remove = (req, res) => {
       type:"intenger"
     }
    */
-  try {
-    const id = req.params.id;
 
-    db.exec("DELETE FROM products WHERE id = $1", [id])
-      .then(response => {
-        res.send(repsonse)
-      })
-      .catch(e => {
-        res.send(e.message)
-      })
-  } catch {
+  const id = req.params.id;
 
-  }
+  genericQuerys.deleteTable('products', id)
+    .then(response => {
+      res.send();
+    }, (e) => {
+      next(apiError.badRequest(e.message))
+    })
+
 }

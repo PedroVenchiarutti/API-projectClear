@@ -1,6 +1,6 @@
 const yup = require('yup');
 
-const adminSchema = yup.object({
+const adminSchema = yup.object().shape({
   
   name: yup.string().required(),
   email: yup.string().required().email(),

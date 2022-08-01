@@ -26,6 +26,41 @@ module.exports = {
         })
     })
   },
+  // multiples ids
+  selectMultiID(tableName, ids) {
+    return new Promise((resolve, reject) => {
+
+      const params = []
+
+      let table;
+
+      if (tableName == "procedures") {
+        table = '"procedures"'
+      } else
+        table = tableName;
+
+      let query = `SELECT * FROM ${table} WHERE id IN (`;
+
+      query = this.inIds(query, ids);
+
+      ids.forEach(id => {
+        params.push(parseInt(id));
+      });
+
+      db.query(query, params, (err, res) => {
+        if (err) {
+          reject(err)
+        } else {
+          resolve(res.rows)
+        }
+      })
+    })
+  },
+
+  // select for pagination
+  selectPages(table, qt) {
+
+  },
 
   insertTable(table, params) {
 

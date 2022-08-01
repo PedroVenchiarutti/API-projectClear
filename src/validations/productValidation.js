@@ -1,7 +1,7 @@
 const yup = require('yup');
 
 
-const productSchema = yup.object({
+const productSchema = yup.object().shape({
   
   name: yup.string().required(),
   value: yup.number().required().positive(),

@@ -1,10 +1,10 @@
 const yup = require("yup");
 
-const loginSchema = yup.object({
+const loginSchema = yup.object().shape({
   
   email: yup.strig().email().required(),
   password: yup.string().required().min(6)
 
 });
 
-module.exports - loginSchema;
+module.exports = loginSchema;
