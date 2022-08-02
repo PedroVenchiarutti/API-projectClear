@@ -30,15 +30,6 @@
         "responses": {
           "200": {
             "description": "OK"
-          },
-          "400": {
-            "description": "Bad Request"
-          },
-          "404": {
-            "description": "Not Found"
-          },
-          "500": {
-            "description": "Internal Server Error"
           }
         }
       },
@@ -60,15 +51,6 @@
         "responses": {
           "200": {
             "description": "OK"
-          },
-          "400": {
-            "description": "Bad Request"
-          },
-          "404": {
-            "description": "Not Found"
-          },
-          "500": {
-            "description": "Internal Server Error"
           }
         }
       }
@@ -97,8 +79,8 @@
           "200": {
             "description": "OK"
           },
-          "500": {
-            "description": "Internal Server Error"
+          "400": {
+            "description": "Bad Request"
           }
         }
       },
@@ -108,6 +90,13 @@
         "responses": {}
       },
       "put": {
+        "description": "",
+        "parameters": [],
+        "responses": {}
+      }
+    },
+    "/api/dashboard": {
+      "get": {
         "description": "",
         "parameters": [],
         "responses": {}
@@ -128,7 +117,14 @@
             "type": "string"
           }
         ],
-        "responses": {}
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
       }
     },
     "/api/dicount": {
@@ -142,9 +138,6 @@
         "responses": {
           "200": {
             "description": "OK"
-          },
-          "500": {
-            "description": "Internal Server Error"
           }
         }
       },
@@ -180,120 +173,15 @@
       }
     },
     "/api/product": {
-      "get": {
-        "tags": [
-          "product"
-        ],
-        "summary": "Lista todos os produtos",
+      "post": {
         "description": "",
         "parameters": [],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "product"
-        ],
-        "summary": "Adiciona um produto no bando de dados",
-        "description": "",
-        "parameters": [
-          {
-            "name": "product",
-            "in": "body",
-            "description": "modelo de Produto a ser enviado",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "nome": {
-                  "type": "string",
-                  "example": "Creme para pentear"
-                },
-                "value": {
-                  "type": "number",
-                  "example": 45.8
-                },
-                "description": {
-                  "type": "string",
-                  "example": "loren ipsum...."
-                },
-                "qt": {
-                  "type": "number",
-                  "example": 67
-                },
-                "brand": {
-                  "type": "string",
-                  "example": "avon"
-                }
-              },
-              "required": [
-                "nome",
-                "value",
-                "description",
-                "qt",
-                "brand"
-              ]
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
+        "responses": {}
       },
       "put": {
-        "tags": [
-          "product"
-        ],
-        "summary": "Atualizacao dos dados de um produto",
         "description": "",
-        "parameters": [
-          {
-            "name": "product",
-            "in": "body",
-            "description": "modelo de Produto a ser enviado",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "nome": {
-                  "type": "string",
-                  "example": "Creme para pentear"
-                },
-                "value": {
-                  "type": "number",
-                  "example": 45.8
-                },
-                "description": {
-                  "type": "string",
-                  "example": "loren ipsum...."
-                },
-                "qt": {
-                  "type": "number",
-                  "example": 67
-                },
-                "brand": {
-                  "type": "string",
-                  "example": "avon"
-                }
-              },
-              "required": [
-                "nome",
-                "value",
-                "description",
-                "qt",
-                "brand"
-              ]
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
+        "parameters": [],
+        "responses": {}
       },
       "delete": {
         "tags": [
@@ -318,87 +206,9 @@
       }
     },
     "/api/procedure": {
-      "get": {
-        "tags": [
-          "procedure"
-        ],
-        "summary": "Busca todos os procedimentos cadastrados.",
+      "post": {
         "description": "",
         "parameters": [],
-        "responses": {}
-      },
-      "post": {
-        "tags": [
-          "procedure"
-        ],
-        "summary": "Adiciona um procedimento",
-        "description": "",
-        "parameters": [
-          {
-            "name": "procedure",
-            "in": "body",
-            "description": "modelo de dados dos Procedimentos",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "name": {
-                  "type": "string",
-                  "example": "Corte de cabelo"
-                },
-                "value": {
-                  "type": "number",
-                  "example": 35
-                },
-                "categorie": {
-                  "type": "string",
-                  "example": "corte"
-                }
-              },
-              "required": [
-                "name",
-                "value",
-                "categorie"
-              ]
-            }
-          }
-        ],
-        "responses": {}
-      },
-      "put": {
-        "tags": [
-          "procedure"
-        ],
-        "summary": "Atualiza um procedimento",
-        "description": "",
-        "parameters": [
-          {
-            "name": "procedure",
-            "in": "body",
-            "description": "modelo de dados dos Procedimentos",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "name": {
-                  "type": "string",
-                  "example": "Corte de cabelo"
-                },
-                "value": {
-                  "type": "number",
-                  "example": 35
-                },
-                "categorie": {
-                  "type": "string",
-                  "example": "corte"
-                }
-              },
-              "required": [
-                "name",
-                "value",
-                "categorie"
-              ]
-            }
-          }
-        ],
         "responses": {}
       },
       "delete": {
@@ -415,7 +225,36 @@
             "type": "string"
           }
         ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/procedure/{id}": {
+      "put": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
         "responses": {}
+      }
+    },
+    "/api/reservation": {
+      "get": {
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
       }
     }
   }

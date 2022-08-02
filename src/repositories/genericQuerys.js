@@ -1,7 +1,6 @@
 const db = require('../config/dbconnect.js');
 const utils = require('../helpers/Utils.js');
 
-
 module.exports = {
 
   // select all || por id
@@ -26,6 +25,30 @@ module.exports = {
         })
     })
   },
+
+  verifyIfExists(table, params) {
+
+    return new Promise((resolve, reject) => {
+
+      let query = `SELECT * FROM ${table} WHERE email = $1 AND password = $2`;
+
+      let param = [];
+
+      param.push(params.email);
+      param.push(params.password)
+
+      db.exec(query, param).then(response => {
+
+        if (!response[0]) {
+          resolve()
+        } else {
+          reject("ja cadastrado");
+        }
+      }, (e) => {
+        reject(e);
+      })
+    })
+  },
   // multiples ids
   selectMultiID(tableName, ids) {
     return new Promise((resolve, reject) => {
@@ -41,18 +64,16 @@ module.exports = {
 
       let query = `SELECT * FROM ${table} WHERE id IN (`;
 
-      query = this.inIds(query, ids);
+      query = utils.inIds(query, ids);
 
       ids.forEach(id => {
         params.push(parseInt(id));
       });
 
-      db.query(query, params, (err, res) => {
-        if (err) {
-          reject(err)
-        } else {
-          resolve(res.rows)
-        }
+      db.exec(query, params).then(results => {
+        resolve(results)
+      }, (e) => {
+        reject(e)
       })
     })
   },
@@ -127,7 +148,7 @@ module.exports = {
           resolve(res)
         })
         .catch(err => {
-          reject(res)
+          reject(err)
         })
 
     })
@@ -138,12 +159,30 @@ module.exports = {
 
     return new Promise((resolve, reject) => {
 
+      // change to in ids
       db.exec(`DELETE FROM ${table} WHERE id = $1`, [id])
         .then(response => {
           resolve()
         })
         .catch(err => {
           reject(err);
+        })
+    })
+  },
+
+  deleteMultiId(table, ids) {
+    
+    return new Promise((resolve, reject) => {
+
+      let query = `DELETE FROM ${table} WHERE id IN (`
+
+      query = utils.inIds(query, ids);
+
+      db.exec(query, ids)
+        .then(results => {
+          resolve()
+        }, (e) => {
+          reject(e);
         })
     })
   }

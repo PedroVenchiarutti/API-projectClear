@@ -12,6 +12,7 @@ const clientController = require('../controller/clientController.js');
 const discountController = require('../controller/discountsController.js');
 const productController = require('../controller/productController.js');
 const procedureController = require('../controller/procedureController.js');
+const reservationController = require('../controller/reservationController');
 
 // validando id
 Routes.use(validate());
@@ -25,6 +26,7 @@ Routes.delete('/client/:id', clientController.remove)
 // adms
 
 Routes.get('/admin', admController.getAll);
+Routes.get('/dashboard',admController.dashboard);
 Routes.post('/admin', admController.add);
 Routes.put('/admin', admController.update);
 Routes.delete('/admin/:id', admController.remove);
@@ -32,24 +34,22 @@ Routes.delete('/admin/:id', admController.remove);
 
 // discount
 Routes.get("/dicount",discountController.getAll);
-//Routes.get("/dicount/code", discountController.getByCode);
 Routes.post("/dicount", discountController.add);
 Routes.put("/dicount", discountController.update);
 Routes.delete("/dicount", discountController.remove);
 
 // product
-Routes.get("/product", productController.getAll)
 Routes.post("/product", productController.add)
 Routes.put("/product", productController.update)
 Routes.delete("/product", productController.remove)
 
 // procedure
 
-Routes.get('/procedure', procedureController.getAll)
 Routes.post('/procedure',procedureController.add)
 Routes.put('/procedure/:id', procedureController.update)
 Routes.delete('/procedure',procedureController.remove)
 
+Routes.get('/reservation',reservationController.getAll)
 /*
 // request
 Routes.get('/request')
@@ -60,7 +60,6 @@ Routes.delete('/request')
 
 
 // reservation
-Routes.get('/reservation')
 Routes.get('/reservation')
 Routes.post('/reservation')
 Routes.put('/reservation')

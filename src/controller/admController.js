@@ -76,7 +76,6 @@ exports.update = validate(admSchema), (req, res) => {
   } 
   */
 
-
   const adm = req.body;
 
   genericQuerys.updateTable(adm)
