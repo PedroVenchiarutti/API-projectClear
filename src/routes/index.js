@@ -2,9 +2,13 @@ const express = require("express");
 
 const Routes = express.Router();
 
-// Este arquivo contera apenas as 
-// rotas privadas futuramente
-const validate = require('../middlewares/idValidationMiddleware.js');
+const validationMiddleware =require('../middlewares/validationMiddleware.js');
+
+
+// yup schemas
+const adminSchema = require('../validations/adminValidation.js');
+
+
 
 // controlers
 const admController = require('../controller/admController.js');
@@ -14,9 +18,6 @@ const productController = require('../controller/productController.js');
 const procedureController = require('../controller/procedureController.js');
 const reservationController = require('../controller/reservationController');
 
-// validando id
-Routes.use(validate());
-
 // clients Routes
 Routes.get('/client/:id',clientController.getByid );
 Routes.post('/client', clientController.add);
@@ -24,6 +25,7 @@ Routes.put('/client', clientController.update);
 Routes.delete('/client/:id', clientController.remove)
 
 // adms
+
 
 Routes.get('/admin', admController.getAll);
 Routes.get('/dashboard',admController.dashboard);
@@ -49,7 +51,13 @@ Routes.post('/procedure',procedureController.add)
 Routes.put('/procedure/:id', procedureController.update)
 Routes.delete('/procedure',procedureController.remove)
 
-Routes.get('/reservation',reservationController.getAll)
+// reservation
+Routes.get('/reservation',reservationController.getAll);
+//Routes.get('/reservation');
+Routes.post('/reservation',reservationController.add);
+Routes.put('/reservation/:id',reservationController.update)
+Routes.delete('/reservation',reservationController.remove)
+
 /*
 // request
 Routes.get('/request')
@@ -58,12 +66,6 @@ Routes.post('/request')
 Routes.put('/request')
 Routes.delete('/request')
 
-
-// reservation
-Routes.get('/reservation')
-Routes.post('/reservation')
-Routes.put('/reservation')
-Routes.delete('/reservation')
 */
 
 module.exports = Routes;

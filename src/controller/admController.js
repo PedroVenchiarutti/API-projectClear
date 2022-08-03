@@ -1,6 +1,5 @@
 const validate = require('../middlewares/validationMiddleware.js');
 const admSchema = require('../validations/adminValidation.js');
-const idSchema = require('../validations/idValidation.js');
 const genericQuerys = require('../repositories/genericQuerys.js');
 
 exports.getAll = (req, res) => {
@@ -33,7 +32,8 @@ exports.getByid = async (req, res) => {
 
 }
 
-exports.add = validate(admSchema), (req, res) => {
+exports.add = (req, res,next) => {
+  
   /*
     #swagger.tags = ['admin']
     #swagger.summary = 'Efetua a criação do admin no banco de dados.'
@@ -47,7 +47,6 @@ exports.add = validate(admSchema), (req, res) => {
       }
     } 
     */
-
 
   const adm = req.body;
 

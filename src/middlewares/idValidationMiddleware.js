@@ -2,7 +2,6 @@ const idSchema = require('../validations/idValidation.js');
 const apiError = require('../error/apiError.js')
 const client = require('../controller/clientController.js')
 
-
 const idValidation = () => async (req, res, next) => {
 
   const id = req.params.id;
@@ -11,7 +10,8 @@ const idValidation = () => async (req, res, next) => {
 
     await idSchema.validate(id);
     req.params.id = id;
-    next(client.getById);
+    
+    / next();
 
   } catch (e) {
 

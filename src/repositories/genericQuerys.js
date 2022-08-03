@@ -25,7 +25,7 @@ module.exports = {
         })
     })
   },
-
+  
   verifyIfExists(table, params) {
 
     return new Promise((resolve, reject) => {
@@ -152,16 +152,20 @@ module.exports = {
         })
 
     })
-
   },
 
-  deleteTable(table, id) {
+  deleteTable(table, id,prop="") {
 
     return new Promise((resolve, reject) => {
 
+      let query = prop ? 
+        `DELETE FROM ${table} WHERE ${prop} = $1`: 
+        `DELETE FROM ${table} WHERE id = $1`
+ 
       // change to in ids
-      db.exec(`DELETE FROM ${table} WHERE id = $1`, [id])
-        .then(response => {
+      
+      db.exec(query,[id])
+       .then(response => {
           resolve()
         })
         .catch(err => {

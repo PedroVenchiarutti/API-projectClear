@@ -38,26 +38,26 @@
 <div align="center">
 
 <a href="https://github.com/Smooke09">
-<img src="https://avatars.githubusercontent.com/u/90714214?v=4" title="Senhor Elegante" style="height:50px; border-radius:100%"/>
+  <img src="https://avatars.githubusercontent.com/u/90714214?v=4" title="Senhor Elegante" style="height:50px; border-radius:100%"/>
 </a>
 
 <a href="https://github.com/BrenoOliveira2002">
-<img src="https://avatars.githubusercontent.com/u/103545297?v=4" style="height:50px; border-radius:100%"/>
+  <img src="https://avatars.githubusercontent.com/u/103545297?v=4" title="Shape de Grillo" style="height:50px; border-radius:100%"/>
 </a>
 
 <a href="https://github.com/CaioCDJ">
-<img src="https://avatars.githubusercontent.com/u/48222542?v=4" title="O brabo" style="height:50px; border-radius:100%"/>
+  <img src="https://avatars.githubusercontent.com/u/48222542?v=4" title="O brabo" style="height:50px; border-radius:100%"/>
 </a>
 
 <a href="https://github.com/amandacgoncalves">
-<img src="https://avatars.githubusercontent.com/u/102832741?v=4" style="height:50px; border-radius:100%"/>
+  <img src="https://avatars.githubusercontent.com/u/102832741?v=4" title="Representa a Autoestima do Grupo" style="height:50px; border-radius:100%"/>
 </a>
 
 <a href="https://github.com/RyanGualberto">
-<img src="https://avatars.githubusercontent.com/u/88859663?v=4" style="height:50px; border-radius:100%"/>
+  <img src="https://avatars.githubusercontent.com/u/88859663?v=4" style="height:50px; border-radius:100%"/>
 </a>
-</div>
 
+</div>
 
 ## FrontEnd do Projeto
 

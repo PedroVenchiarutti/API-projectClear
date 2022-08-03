@@ -1,5 +1,3 @@
-
-
 const bodyValidation = (schema) => async (req, res, next) => {
 
   const body = req.body;
@@ -7,10 +5,15 @@ const bodyValidation = (schema) => async (req, res, next) => {
   try {
 
     await schema.validate(body);
-    return next();
+
+    req.body = body;
+
+    next();
+
   } catch (error) {
+
     return res.status(500).json(error)
   }
 }
 
-module.exports =  bodyValidation
+module.exports = bodyValidation
