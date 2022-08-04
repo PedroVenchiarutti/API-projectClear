@@ -1,10 +1,4 @@
-const validate = require('../middlewares/validationMiddleware');
-const idValidation = require('../validations/idValidation.js');
-
-const clientSchema = require('../validations/clientvalidation');
-
 const genericQuerys = require('../repositories/genericQuerys.js')
-
 const apiError = require('../error/apiError.js')
 
 exports.getByid = async (req, res, next) => {
@@ -19,30 +13,23 @@ exports.getByid = async (req, res, next) => {
      
   */
 
-  try {
+  const id = req.params.id;
 
-    const id = req.params.id;
+  genericQuerys.select("users", id).then(client => {
+      if (client[0])
+        res.send(client[0])
+      else {
+        next(apiError.notFound("Usuario não encontrado"))
+      }
+    })
+    .catch(e => {
+      next(apiError.badRequest(e.message));
 
-    await idValidation.validate(id);
+    })
 
-    genericQuerys.select("users", id).then(client => {
-        if (client[0])
-          res.send(client[0])
-        else {
-          next(apiError.notFound("Usuario não encontrado"))
-        }
-      })
-      .catch(err => {
-        next(apiError.badRequest(e.message));
-
-      })
-
-  } catch (e) {
-    next(apiError.badRequest(e.message));
-  }
 }
 
-exports.add = validate(clientSchema), (req, res) => {
+exports.add = (req, res, next) => {
 
   /*
      #swagger.tags = ['client']
@@ -76,7 +63,7 @@ exports.add = validate(clientSchema), (req, res) => {
 
 }
 
-exports.update = validate(clientSchema), (req, res) => {
+exports.update = (req, res, next) => {
   /*
      #swagger.tags = ['client']  
      #swagger.summary = 'Altera os dados de uma conta client. '
@@ -115,7 +102,7 @@ exports.update = validate(clientSchema), (req, res) => {
 
 }
 
-exports.remove = async (req, res) => {
+exports.remove = async (req, res, next) => {
   /* 
    #swagger.tags = ['client']
    #swagger.summary = 'Deleta um usuario do banco de dado a partir do seu id.'
@@ -126,26 +113,18 @@ exports.remove = async (req, res) => {
    }
    */
 
-  try {
+  const id = req.params.id;
 
-    const id = req.params.id;
+  genericQuerys.deleteTable(id)
+    .then(client => {
+      if (client[0])
+        res.send(client)
+      else {
+        next(apiError.notFound('conta nao encontrada'))
+      }
+    })
+    .catch(err => {
 
-    await idValidation.validate(id);
-
-    genericQuerys.deleteTable(id)
-      .then(client => {
-        if (client[0])
-          res.send(client)
-        else {
-          next(apiError.notFound('conta nao encontrada'))
-        }
-      })
-      .catch(err => {
-
-        next(apiError.badRequest(ermessage));
-      })
-  } catch (e) {
-
-    next(apiError.badRequest(e.message));
-  }
+      next(apiError.badRequest(err.message));
+    })
 }

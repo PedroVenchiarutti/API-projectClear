@@ -1,11 +1,5 @@
-const Utils = require('../helpers/Utils');
-
 const apiError = require('../error/apiError.js');
 const genericQuerys = require('../repositories/genericQuerys.js');
-
-const validationSchema = require('../validations/procedureValidation.js')
-const validate = require('../middlewares/validationMiddleware.js');
-
 
 exports.getAll = (req, res, next) => {
   /**
@@ -22,7 +16,7 @@ exports.getAll = (req, res, next) => {
     })
 }
 
-exports.add = validate(validationSchema), (req, res, next) => {
+exports.add = (req, res, next) => {
 
   /**
       #swagger.tags = ['procedure']
@@ -49,7 +43,7 @@ exports.add = validate(validationSchema), (req, res, next) => {
     })
 }
 
-exports.update = validate(validationSchema), (req, res, next) => {
+exports.update = (req, res, next) => {
   /**
       #swagger.tags = ['procedure']
       #swagger.summary="Atualiza um procedimento"

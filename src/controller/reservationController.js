@@ -4,8 +4,6 @@ const reservationRepository = require('../repositories/reservationRepository.js'
 const utils = require('../helpers/Utils.js');
 const formatter = require('../helpers/jsonFormatter.js');
 
-const validate = require('../middlewares/validationMiddleware.js');
-const reservationSchema = require('../validations/reservationValidation.js');
 
 const apiError = require('../error/apiError.js');
 
@@ -51,7 +49,8 @@ exports.getAll = (req, res, next) => {
     });
 }
 
-exports.add = validate(reservationSchema), (req, res, next) => {
+exports.add = (req, res, next) => {
+
   const reservation = req.body;
 
   reservationRepository.add(reservation.user_id, reservation.date)

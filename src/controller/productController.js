@@ -1,7 +1,4 @@
-const db = require("../config/dbconnect.js");
 const genericQuerys = require('../repositories/genericQuerys');
-const validate = require('../middlewares/validationMiddleware.js');
-const schema = require('../validations/productValidation.js');
 const apiError = require('../error/apiError.js');
 
 /*
@@ -63,7 +60,7 @@ exports.getById = (req, res, next) => {
 
 }
 
-exports.add = validate(schema), (req, res, next) => {
+exports.add = (req, res, next) => {
   /**
     #swagger.tags = ['product']
     #swagger.summary="Adiciona um produto no bando de dados"
@@ -82,7 +79,7 @@ exports.add = validate(schema), (req, res, next) => {
 
   const product = req.body;
 
-  genericQuerys.insertTable("products", prodcut)
+  genericQuerys.insertTable("products", product)
     .then(response => {
       res.send();
     }, (e) => {
@@ -90,7 +87,7 @@ exports.add = validate(schema), (req, res, next) => {
     })
 }
 
-exports.update = validate(schema), (req, res, next) => {
+exports.update = (req, res, next) => {
 
   /**
     #swagger.tags = ['product']

@@ -1,10 +1,6 @@
 const discountRepository = require('../repositories/discountRepository.js');
-const validate = require('../middlewares/validationMiddleware.js');
-const discountSchema = require('../validations/discountValidation.js');
 const genericQuerys = require('../repositories/genericQuerys.js');
-
 const apiError = require('../error/apiError.js');
-
 
 // GET ALL DISCOUNTS
 exports.getAll = (req, res, next) => {
@@ -23,7 +19,7 @@ exports.getAll = (req, res, next) => {
 }
 
 // discount/code
-exports.getByCode = (req, res) => {
+exports.getByCode = (req, res, next) => {
   /**
     #swagger.tags = ['discount']
     #swagger.summary="busca todos os cupons de discontos"
@@ -40,7 +36,7 @@ exports.getByCode = (req, res) => {
 }
 
 //Inserir desconto
-exports.add = validate(discountSchema), (req, res, next) => {
+exports.add = (req, res, next) => {
 
   /**
     #swagger.tags = ['discount']
@@ -58,7 +54,7 @@ exports.add = validate(discountSchema), (req, res, next) => {
 
   const discount = req.body;
 
-  discountRepository.add(disocunt)
+  discountRepository.add(discount)
     .then(response => {
       res.send()
     })
@@ -68,7 +64,7 @@ exports.add = validate(discountSchema), (req, res, next) => {
 
 }
 
-exports.update = validate(discountSchema), (req, res, next) => {
+exports.update = (req, res, next) => {
   /**
     #swagger.tags = ['discount']
     #swagger.summary="Atualiza um novo cupon de disconto"
@@ -97,7 +93,7 @@ exports.update = validate(discountSchema), (req, res, next) => {
 
 // Remover desconto
 
-exports.remove = (req, res) => {
+exports.remove = (req, res, next) => {
 
   /**
       #swagger.tags = ['discount']
@@ -106,6 +102,8 @@ exports.remove = (req, res) => {
         in:"path",
     }
    */
+
+  const id = req.params.id;
 
   genericQuerys.deleteTable("discounts", id)
     .then(resposne => {

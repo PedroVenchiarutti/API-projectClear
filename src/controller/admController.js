@@ -1,5 +1,3 @@
-const validate = require('../middlewares/validationMiddleware.js');
-const admSchema = require('../validations/adminValidation.js');
 const genericQuerys = require('../repositories/genericQuerys.js');
 
 exports.getAll = (req, res) => {
@@ -20,7 +18,6 @@ exports.getAll = (req, res) => {
 exports.getByid = async (req, res) => {
 
   const id = req.params.id;
-
 
   genericQuerys.select('adms', id)
     .then(adm => {
@@ -59,7 +56,7 @@ exports.add = (req, res,next) => {
     });
 }
 
-exports.update = validate(admSchema), (req, res) => {
+exports.update = (req, res) => {
   /*
   #swagger.tags = ['admin']
   #swagger.summary = 'Efetua a alteraçao das informaões do admin.'
@@ -105,4 +102,4 @@ exports.remove = async (req, res) => {
 
 }
 
-exports.dashboard = (req, res, next) => {}
+//exports.dashboard = (req, res, next) => {}

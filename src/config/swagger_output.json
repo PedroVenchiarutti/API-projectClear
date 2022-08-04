@@ -33,6 +33,86 @@
           }
         }
       },
+      "put": {
+        "tags": [
+          "client"
+        ],
+        "summary": "Altera os dados de uma conta client. ",
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "user",
+            "in": "body",
+            "description": "Modelo de Usuario",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "number",
+                  "example": 23
+                },
+                "name": {
+                  "type": "string",
+                  "example": "Oliver"
+                },
+                "email": {
+                  "type": "string",
+                  "example": "oliver@gmail.com"
+                },
+                "password": {
+                  "type": "string",
+                  "example": "auau123"
+                },
+                "phone": {
+                  "type": "number",
+                  "example": 1398765432
+                },
+                "cpf": {
+                  "type": "number",
+                  "example": 88888888888
+                },
+                "sexo": {
+                  "type": "string",
+                  "example": "M"
+                },
+                "birth": {
+                  "type": "number",
+                  "example": 1658757654250
+                },
+                "img_url": {
+                  "type": "string",
+                  "example": "link.com.br/img.png"
+                }
+              },
+              "required": [
+                "id",
+                "name",
+                "email",
+                "password",
+                "phone",
+                "cpf",
+                "sexo",
+                "birth",
+                "img_url"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
       "delete": {
         "tags": [
           "client"
@@ -57,14 +137,70 @@
     },
     "/api/client": {
       "post": {
+        "tags": [
+          "client"
+        ],
+        "summary": "Cria uma nova conta de cliente.",
         "description": "",
-        "parameters": [],
-        "responses": {}
-      },
-      "put": {
-        "description": "",
-        "parameters": [],
-        "responses": {}
+        "parameters": [
+          {
+            "name": "user",
+            "in": "body",
+            "description": "Modelo de Usuario",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "example": "Oliver"
+                },
+                "email": {
+                  "type": "string",
+                  "example": "oliver@gmail.com"
+                },
+                "password": {
+                  "type": "string",
+                  "example": "auau123"
+                },
+                "phone": {
+                  "type": "number",
+                  "example": 1398765432
+                },
+                "cpf": {
+                  "type": "number",
+                  "example": 88888888888
+                },
+                "sexo": {
+                  "type": "string",
+                  "example": "M"
+                },
+                "birth": {
+                  "type": "string",
+                  "example": "1009202001"
+                },
+                "img_url": {
+                  "type": "string",
+                  "example": "link.com.br/img.png"
+                }
+              },
+              "required": [
+                "name",
+                "email",
+                "password",
+                "phone",
+                "cpf",
+                "sexo",
+                "birth",
+                "img_url"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
       }
     },
     "/api/admin": {
@@ -127,11 +263,6 @@
             "description": "Internal Server Error"
           }
         }
-      },
-      "put": {
-        "description": "",
-        "parameters": [],
-        "responses": {}
       }
     },
     "/api/dashboard": {
@@ -142,6 +273,61 @@
       }
     },
     "/api/admin/{id}": {
+      "put": {
+        "tags": [
+          "admin"
+        ],
+        "summary": "Efetua a alteraçao das informaões do admin.",
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "admin",
+            "in": "body",
+            "description": "Modelo de admin",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "number",
+                  "example": 12
+                },
+                "name": {
+                  "type": "string",
+                  "example": "Oliver o adm"
+                },
+                "email": {
+                  "type": "string",
+                  "example": "oliver@gmail.com"
+                },
+                "password": {
+                  "type": "string",
+                  "example": "auau123"
+                }
+              },
+              "required": [
+                "id",
+                "name",
+                "email",
+                "password"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
       "delete": {
         "tags": [
           "admin"
@@ -181,14 +367,44 @@
         }
       },
       "post": {
+        "tags": [
+          "discount"
+        ],
+        "summary": "Cria um novo cupon de disconto",
         "description": "",
-        "parameters": [],
-        "responses": {}
-      },
-      "put": {
-        "description": "",
-        "parameters": [],
-        "responses": {}
+        "parameters": [
+          {
+            "name": "",
+            "in": "body",
+            "description": "modelo de dados do Cupon de disconto",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "disocunt": {
+                  "type": "number",
+                  "example": 50
+                },
+                "code": {
+                  "type": "string",
+                  "example": "AUAU"
+                },
+                "dt_limit": {
+                  "type": "number",
+                  "example": 1658762344027
+                }
+              },
+              "required": [
+                "disocunt",
+                "code"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
       },
       "delete": {
         "tags": [
@@ -211,16 +427,156 @@
         }
       }
     },
+    "/api/dicount/{id}": {
+      "put": {
+        "tags": [
+          "discount"
+        ],
+        "summary": "Atualiza um novo cupon de disconto",
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "",
+            "in": "body",
+            "description": "modelo de dados do Cupon de disconto",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "disocunt": {
+                  "type": "number",
+                  "example": 50
+                },
+                "code": {
+                  "type": "string",
+                  "example": "AUAU"
+                },
+                "dt_limit": {
+                  "type": "number",
+                  "example": 1658762344027
+                }
+              },
+              "required": [
+                "disocunt",
+                "code"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/product": {
       "post": {
+        "tags": [
+          "product"
+        ],
+        "summary": "Adiciona um produto no bando de dados",
         "description": "",
-        "parameters": [],
-        "responses": {}
+        "parameters": [
+          {
+            "name": "product",
+            "in": "body",
+            "description": "modelo de Produto a ser enviado",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "nome": {
+                  "type": "string",
+                  "example": "Creme para pentear"
+                },
+                "value": {
+                  "type": "number",
+                  "example": 45.8
+                },
+                "description": {
+                  "type": "string",
+                  "example": "loren ipsum...."
+                },
+                "qt": {
+                  "type": "number",
+                  "example": 67
+                },
+                "brand": {
+                  "type": "string",
+                  "example": "avon"
+                }
+              },
+              "required": [
+                "nome",
+                "value",
+                "description",
+                "qt",
+                "brand"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
       },
       "put": {
+        "tags": [
+          "product"
+        ],
+        "summary": "Atualizacao dos dados de um produto",
         "description": "",
-        "parameters": [],
-        "responses": {}
+        "parameters": [
+          {
+            "name": "product",
+            "in": "body",
+            "description": "modelo de Produto a ser enviado",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "nome": {
+                  "type": "string",
+                  "example": "Creme para pentear"
+                },
+                "value": {
+                  "type": "number",
+                  "example": 45.8
+                },
+                "description": {
+                  "type": "string",
+                  "example": "loren ipsum...."
+                },
+                "qt": {
+                  "type": "number",
+                  "example": 67
+                },
+                "brand": {
+                  "type": "string",
+                  "example": "avon"
+                }
+              },
+              "required": [
+                "nome",
+                "value",
+                "description",
+                "qt",
+                "brand"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
       },
       "delete": {
         "tags": [
@@ -246,9 +602,45 @@
     },
     "/api/procedure": {
       "post": {
+        "tags": [
+          "procedure"
+        ],
+        "summary": "Adiciona um procedimento",
         "description": "",
-        "parameters": [],
-        "responses": {}
+        "parameters": [
+          {
+            "name": "procedure",
+            "in": "body",
+            "description": "modelo de dados dos Procedimentos",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "example": "Corte de cabelo"
+                },
+                "value": {
+                  "type": "number",
+                  "example": 35
+                },
+                "categorie": {
+                  "type": "string",
+                  "example": "corte"
+                }
+              },
+              "required": [
+                "name",
+                "value",
+                "categorie"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
       },
       "delete": {
         "tags": [
@@ -273,6 +665,10 @@
     },
     "/api/procedure/{id}": {
       "put": {
+        "tags": [
+          "procedure"
+        ],
+        "summary": "Atualiza um procedimento",
         "description": "",
         "parameters": [
           {
@@ -280,9 +676,40 @@
             "in": "path",
             "required": true,
             "type": "string"
+          },
+          {
+            "name": "procedure",
+            "in": "body",
+            "description": "modelo de dados dos Procedimentos",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "example": "Corte de cabelo"
+                },
+                "value": {
+                  "type": "number",
+                  "example": 35
+                },
+                "categorie": {
+                  "type": "string",
+                  "example": "corte"
+                }
+              },
+              "required": [
+                "name",
+                "value",
+                "categorie"
+              ]
+            }
           }
         ],
-        "responses": {}
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
       }
     },
     "/api/reservation": {
@@ -297,8 +724,31 @@
       },
       "post": {
         "description": "",
-        "parameters": [],
-        "responses": {}
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "user_id": {
+                  "example": "any"
+                },
+                "date": {
+                  "example": "any"
+                },
+                "procedures": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
       },
       "delete": {
         "description": "",

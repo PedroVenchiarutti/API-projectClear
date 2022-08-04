@@ -1,3 +1,5 @@
+const apiError = require('../error/apiError.js');
+
 const bodyValidation = (schema) => async (req, res, next) => {
 
   const body = req.body;
@@ -12,7 +14,7 @@ const bodyValidation = (schema) => async (req, res, next) => {
 
   } catch (error) {
 
-    return res.status(500).json(error)
+    return next(apiError.notAcceptable(error.message));
   }
 }
 
