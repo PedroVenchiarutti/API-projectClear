@@ -2,10 +2,14 @@ const db = require('../config/dbconnect.js');
 const genericQuerys = require('./genericQuerys.js');
 const utils = require('../helpers/Utils.js');
 
-module.exports = {
+class reservationRepository extends genericQuerys{
+
+  static getAll(){
+
+  }
 
   // ids = []
-  getReservation_procedures(ids) {
+  static getReservation_procedures(ids) {
 
     return new Promise((resolve, reject) => {
 
@@ -22,9 +26,9 @@ module.exports = {
           reject(e.message)
         })
     });
-  },
-
-  add(userId, date) {
+  }
+  
+  static add(userId, date) {
 
     return new Promise((resolve, reject) => {
 
@@ -46,9 +50,9 @@ module.exports = {
             })
         })
     })
-  },
+  }
 
-  addReservationProcedures(reservationId, procedures) {
+  static addReservationProcedures(reservationId, procedures) {
 
     return new Promise((resolve, reject) => {
 
@@ -72,9 +76,9 @@ module.exports = {
           reject();
         })
     })
-  },
+  }
 
-  refreshReservation(reservationId, procedures) {
+  static refreshReservation(reservationId, procedures) {
 
     console.log(reservationId)
     
@@ -99,3 +103,5 @@ module.exports = {
     })
   }
 }
+
+module.exports = reservationRepository;

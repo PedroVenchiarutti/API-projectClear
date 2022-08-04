@@ -1,5 +1,4 @@
 const discountRepository = require('../repositories/discountRepository.js');
-const genericQuerys = require('../repositories/genericQuerys.js');
 const apiError = require('../error/apiError.js');
 
 // GET ALL DISCOUNTS
@@ -9,7 +8,7 @@ exports.getAll = (req, res, next) => {
   #swagger.summary="busca todos os cupons de discontos"
  */
 
-  genericQuerys.select("discounts")
+  discountRepository.select("discounts")
     .then(discounts => {
       res.send(discounts)
     })
@@ -105,7 +104,7 @@ exports.remove = (req, res, next) => {
 
   const id = req.params.id;
 
-  genericQuerys.deleteTable("discounts", id)
+  discountRepository.deleteTable("discounts", id)
     .then(resposne => {
       res.send();
     }, (e) => {

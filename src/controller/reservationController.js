@@ -71,10 +71,10 @@ exports.update = (req, res, next) => {
   const id = req.params.id;
 
   const reservation = req.body;
-   
-  reservationRepository.refreshReservation(id,reservation.procedures)
+
+  reservationRepository.refreshReservation(id, reservation.procedures)
     .then(e => {
-      
+
       res.send(e);
     }, (e) => {
       next(apiError.badRequest(e.message))

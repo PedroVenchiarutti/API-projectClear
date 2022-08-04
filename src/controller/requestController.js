@@ -1,13 +1,48 @@
-const genericQuerys = require('../repositories/genericQuerys.js');
-const formatter = require('../helpers/formatter');
+const requestRepository = require('../repositories/requestsRepository.js')
+const apiError = require('../error/apiError.js');
+const Utils = require('../helpers/Utils.js');
+const formatter = require('../helpers/jsonFormatter.js');
 
 exports.getAll = (req, res, next) => {
-  
+
+  /*
+   * #swagger.tags = ['request','private']
+   * #swagger.description = "Obtem todos as requisisoes ja realizadas no sistema"
+   */
+
+  const list = []
+  requestRepository.getAll()
+    .then(results => {
+
+      res.send(results)
+    }, (e) => {
+      next(apiError.badRequest(e.message));
+    })
+}
+
+exports.add = (req, res, next) => {
+
+  const request = req.body;
+
 
 }
 
-exports.add = (req, res, next) => {}
-
 exports.update = (req, res, next) => {}
 
-exports.remove = (req, res, next) => {}
+exports.remove = (req, res, next) => {
+
+  const id = req.params.id;
+
+  requestRepository.deleteTable('request_products', id, "request_id")
+    .then(results => {
+
+      requestRepository.deleteTable('requests', id)
+        .then(ok => res.send())
+    }, (e) => {
+
+      next(apiError.badRequest(e.message));
+    }, (e) => {
+
+      next(apiError.badRequest(e.message));
+    })
+}

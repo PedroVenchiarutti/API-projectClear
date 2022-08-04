@@ -18,6 +18,7 @@
         ],
         "summary": "busca um unico cadastro de cliente no banco de dados",
         "description": "",
+        "operationId": "Your_operationId_here",
         "parameters": [
           {
             "name": "id",
@@ -263,13 +264,6 @@
             "description": "Internal Server Error"
           }
         }
-      }
-    },
-    "/api/dashboard": {
-      "get": {
-        "description": "",
-        "parameters": [],
-        "responses": {}
       }
     },
     "/api/admin/{id}": {
@@ -781,6 +775,163 @@
                 }
               }
             }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/request": {
+      "get": {
+        "tags": [
+          "request",
+          "private"
+        ],
+        "description": "Obtem todos as requisisoes ja realizadas no sistema",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/public/procedures": {
+      "get": {
+        "tags": [
+          "procedure"
+        ],
+        "summary": "Busca todos os procedimentos cadastrados.",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/public/products": {
+      "get": {
+        "tags": [
+          "product"
+        ],
+        "summary": "Lista todos os produtos",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/public/discount/{code}": {
+      "get": {
+        "tags": [
+          "discount"
+        ],
+        "summary": "busca todos os cupons de discontos",
+        "description": "",
+        "parameters": [
+          {
+            "name": "code",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/public/resgister": {
+      "post": {
+        "tags": [
+          "client"
+        ],
+        "summary": "Cria uma nova conta de cliente.",
+        "description": "",
+        "parameters": [
+          {
+            "name": "user",
+            "in": "body",
+            "description": "Modelo de Usuario",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "example": "Oliver"
+                },
+                "email": {
+                  "type": "string",
+                  "example": "oliver@gmail.com"
+                },
+                "password": {
+                  "type": "string",
+                  "example": "auau123"
+                },
+                "phone": {
+                  "type": "number",
+                  "example": 1398765432
+                },
+                "cpf": {
+                  "type": "number",
+                  "example": 88888888888
+                },
+                "sexo": {
+                  "type": "string",
+                  "example": "M"
+                },
+                "birth": {
+                  "type": "string",
+                  "example": "1009202001"
+                },
+                "img_url": {
+                  "type": "string",
+                  "example": "link.com.br/img.png"
+                }
+              },
+              "required": [
+                "name",
+                "email",
+                "password",
+                "phone",
+                "cpf",
+                "sexo",
+                "birth",
+                "img_url"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/public/products/{id}": {
+      "get": {
+        "tags": [
+          "product"
+        ],
+        "summary": "Lista todos os produtos",
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
           }
         ],
         "responses": {

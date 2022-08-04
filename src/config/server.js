@@ -17,7 +17,7 @@ server.use(bodyParser.urlencoded({
 server.use(allowCors);
 server.use(cors());
 
-server.use('/api', routes)
+server.use('/', routes)
 server.use(apiErrorHandler)
 server.use("/docs", swaggerUI.serve, swaggerUI.setup(swaggerFile));
 

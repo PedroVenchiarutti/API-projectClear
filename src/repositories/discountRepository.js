@@ -1,9 +1,9 @@
 const db = require('../config/dbconnect.js');
+const genericQuerys = require('./genericQuerys.js');
 
+class dicsountsRepository extends genericQuerys {
 
-module.exports = {
-
-  getByCode(code) {
+  static getByCode(code) {
 
     return new Promise((resolve, reject) => {
       db.exec(`SELECT * FROM discounts WHERE code = $1`,
@@ -18,3 +18,5 @@ module.exports = {
     })
   }
 }
+
+module.exports = dicsountsRepository;

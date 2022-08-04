@@ -29,8 +29,8 @@ exports.getByid = async (req, res) => {
 
 }
 
-exports.add = (req, res,next) => {
-  
+exports.add = (req, res, next) => {
+
   /*
     #swagger.tags = ['admin']
     #swagger.summary = 'Efetua a criação do admin no banco de dados.'

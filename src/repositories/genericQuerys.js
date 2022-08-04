@@ -1,10 +1,10 @@
 const db = require('../config/dbconnect.js');
 const utils = require('../helpers/Utils.js');
 
-module.exports = {
+class genericQuerys {
 
   // select all || por id
-  select(table, id = null) {
+  static select(table, id = null) {
 
     return new Promise((resolve, reject) => {
 
@@ -24,9 +24,9 @@ module.exports = {
           reject(err);
         })
     })
-  },
-  
-  verifyIfExists(table, params) {
+  }
+
+  static verifyIfExists(table, params) {
 
     return new Promise((resolve, reject) => {
 
@@ -48,9 +48,10 @@ module.exports = {
         reject(e);
       })
     })
-  },
+  }
+
   // multiples ids
-  selectMultiID(tableName, ids) {
+  static selectMultiID(tableName, ids) {
     return new Promise((resolve, reject) => {
 
       const params = []
@@ -76,14 +77,9 @@ module.exports = {
         reject(e)
       })
     })
-  },
+  }
 
-  // select for pagination
-  selectPages(table, qt) {
-
-  },
-
-  insertTable(table, params) {
+  static insertTable(table, params) {
 
     return new Promise((resolve, reject) => {
 
@@ -118,9 +114,9 @@ module.exports = {
         })
     })
 
-  },
+  }
 
-  updateTable(table, params) {
+  static updateTable(table, params) {
 
     return new Promise((resolve, reject) => {
 
@@ -152,30 +148,30 @@ module.exports = {
         })
 
     })
-  },
+  }
 
-  deleteTable(table, id,prop="") {
+  static deleteTable(table, id, prop = "") {
 
     return new Promise((resolve, reject) => {
 
-      let query = prop ? 
-        `DELETE FROM ${table} WHERE ${prop} = $1`: 
+      let query = prop ?
+        `DELETE FROM ${table} WHERE ${prop} = $1` :
         `DELETE FROM ${table} WHERE id = $1`
- 
+
       // change to in ids
-      
-      db.exec(query,[id])
-       .then(response => {
+
+      db.exec(query, [id])
+        .then(response => {
           resolve()
         })
         .catch(err => {
           reject(err);
         })
     })
-  },
+  }
 
-  deleteMultiId(table, ids) {
-    
+  static deleteMultiId(table, ids) {
+
     return new Promise((resolve, reject) => {
 
       let query = `DELETE FROM ${table} WHERE id IN (`
@@ -191,3 +187,5 @@ module.exports = {
     })
   }
 }
+
+module.exports = genericQuerys

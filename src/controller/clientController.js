@@ -51,7 +51,7 @@ exports.add = (req, res, next) => {
   */
 
   const client = req.body;
-
+  
   genericQuerys.insertTable("users", client)
     .then(response => {
       res.send("deu bom")
