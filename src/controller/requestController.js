@@ -19,9 +19,15 @@ exports.getAll = (req, res, next) => {
 
 exports.add = (req, res, next) => {
 
+  /*
+   * #swagger.tags = ['requests','private']
+   * #swagger.summary = "Cria novos pedidos" 
+  * */
+  
   const request = req.body;
-
-
+  
+  
+  
 }
 
 exports.update = (req, res, next) => {}

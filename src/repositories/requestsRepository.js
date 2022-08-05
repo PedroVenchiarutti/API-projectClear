@@ -1,6 +1,8 @@
 const genericQuerys = require('./genericQuerys.js');
 const db = require('../config/dbconnect.js');
-const {newPool} = require('../config/dbconnect.js');
+const {
+  newPool
+} = require('../config/dbconnect.js');
 
 class requestRepository extends genericQuerys {
 
@@ -14,7 +16,7 @@ class requestRepository extends genericQuerys {
 	          JOIN requests AS r ON r.id = rp.request_id 
 	          JOIN products AS p ON p.id = rp.product_id 
             JOIN users AS U ON u.id = r.id
-              WHERE u.id = ${id}`:
+              WHERE u.id = ${id}` :
         `SELECT rp.id,rp.product_id,rp.request_id,rp.qt_product, u."name" AS "clientName", p.name AS "productName" 
           FROM request_products AS rp
 	          JOIN requests AS r ON r.id = rp.request_id 
@@ -28,7 +30,16 @@ class requestRepository extends genericQuerys {
         })
     })
   }
+  
+  static insert(request,products){
 
+    return new Promise((resolve,reject)=>{
+
+      const pool = newPool();
+      
+    })
+  }
+  
   static remove(id) {
 
     return new Promise((resolve, reject) => {
@@ -41,7 +52,8 @@ class requestRepository extends genericQuerys {
           pool.query(`
             DELETE FROM requests WHERE id = $1`, [id])
             .then(delR => {
-              resolve()
+              resolve();
+              pool.end();
             }, (e) => {
               reject(e);
             })
@@ -49,6 +61,6 @@ class requestRepository extends genericQuerys {
           reject(e)
         })
     })
-  } 
+  }
 }
 module.exports = requestRepository;

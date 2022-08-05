@@ -24,7 +24,6 @@ exports.getByid = async (req, res, next) => {
     })
     .catch(e => {
       next(apiError.badRequest(e.message));
-
     })
 
 }
@@ -51,7 +50,7 @@ exports.add = (req, res, next) => {
   */
 
   const client = req.body;
-  
+
   genericQuerys.insertTable("users", client)
     .then(response => {
       res.send("deu bom")
@@ -128,3 +127,4 @@ exports.remove = async (req, res, next) => {
       next(apiError.badRequest(err.message));
     })
 }
+

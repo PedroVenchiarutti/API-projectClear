@@ -15,9 +15,10 @@ exports.getBuys = (req, res, next) => {
 }
 
 exports.add = (req, res, next) => {
+  
   // avaliar a possibilidade da compra estar "totalmente realcionada ao discount"
+    
 }
-
 exports.getBuys = (req, res, next) => {
 
   // get All buy And users name;  

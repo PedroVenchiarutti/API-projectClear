@@ -4,6 +4,7 @@ const requestSchema = yup.object().shape({
 
   user_id: yup.number().required().integer(),
   date: yup.date().required(),
+  address_id: yup.number().required().integer().positive(),
   products: yup.array().of(
     yup.object().shape({
       id:yup.number().required().integer()
