@@ -1,7 +1,5 @@
 const requestRepository = require('../repositories/requestsRepository.js')
 const apiError = require('../error/apiError.js');
-const Utils = require('../helpers/Utils.js');
-const formatter = require('../helpers/jsonFormatter.js');
 
 exports.getAll = (req, res, next) => {
 
@@ -10,8 +8,7 @@ exports.getAll = (req, res, next) => {
    * #swagger.description = "Obtem todos as requisisoes ja realizadas no sistema"
    */
 
-  const list = []
-  requestRepository.getAll()
+  requestRepository.getAll(1)
     .then(results => {
 
       res.send(results)

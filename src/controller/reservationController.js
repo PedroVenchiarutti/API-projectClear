@@ -1,52 +1,16 @@
 const genericQuerys = require('../repositories/genericQuerys.js');
-const db = require('../config/dbconnect.js');
 const reservationRepository = require('../repositories/reservationRepository.js');
-const utils = require('../helpers/Utils.js');
-const formatter = require('../helpers/jsonFormatter.js');
-
 
 const apiError = require('../error/apiError.js');
 
 exports.getAll = (req, res, next) => {
 
-  genericQuerys.select('reservations')
+  reservationRepository.getAll()
     .then(reservations => {
-
-      const rpIds = utils.resJsonToArray(reservations, "id");
-
-      const userid = utils.resJsonToArray(reservations, "user_id")
-
-      reservationRepository.getReservation_procedures(rpIds)
-        .then(reservationProcedures => {
-
-          const procedureIds = utils.resJsonToArray(reservationProcedures, "procedure_id");
-
-          genericQuerys.selectMultiID("procedures", procedureIds)
-            .then(procedures => {
-
-              genericQuerys.selectMultiID("users", userid)
-                .then(users => {
-
-                  const list = formatter(reservations, reservationProcedures, procedures, users);
-
-                  res.send(list)
-                }, (e) => {
-                  next(apiError.badRequest(e.message))
-                })
-
-            }, (e) => {
-
-              next(apiError.badRequest(e.message))
-            });
-
-        }, (e) => {
-
-          next(apiError.badRequest(e.message))
-        })
-
+      res.send(reservations)
     }, (e) => {
       next(apiError.badRequest(e.message))
-    });
+    })
 }
 
 exports.add = (req, res, next) => {
@@ -72,13 +36,6 @@ exports.update = (req, res, next) => {
 
   const reservation = req.body;
 
-  reservationRepository.refreshReservation(id, reservation.procedures)
-    .then(e => {
-
-      res.send(e);
-    }, (e) => {
-      next(apiError.badRequest(e.message))
-    })
 }
 
 exports.remove = (req, res, next) => {
@@ -89,7 +46,6 @@ exports.remove = (req, res, next) => {
     .then(() => {
       res.send();
     }, (e) => {
-
       next(apiError.badRequest(e.message))
     })
 

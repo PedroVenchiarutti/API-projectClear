@@ -1,62 +1,54 @@
 const genericQuerys = require('./genericQuerys.js');
-const {
-  newPool
-} = require('../config/dbconnect.js');
-const Utils = require('../helpers/Utils.js');
+const db = require('../config/dbconnect.js');
+const {newPool} = require('../config/dbconnect.js');
 
 class requestRepository extends genericQuerys {
 
-  static getAll(id = null) {
+  static getAll(id = "") {
 
     return new Promise((resolve, reject) => {
 
-      const pool = newPool();
-
-      const queryReq = id ?
-        `SELECT r.id,u.name,r.date 
-          FROM requests AS r
-            JOIN users AS u ON u.id = r.user_id WHERE u.id = ${id}` :
-        `SELECT r.id,u.name,r.date 
-            FROM requests AS r
-              JOIN users AS u ON u.id = r.user_id`;
-
-      pool.query(queryReq)
-        .then(requests => {
-
-          pool.query('SELECT * FROM request_products')
-            .then(rp => {
-
-              const productsId = Utils.resJsonToArray(rp.rows, "product_id");
-
-              let query = `SELECT * FROM products WHERE id IN (`;
-              query = Utils.inIds(query, productsId);
-
-              console.log(query)
-              pool.query(query, productsId)
-                .then(products => {
-
-                  const req = requests.rows;
-                  const reqPro = rp.rows;
-                  const prod = products.rows
-
-                  resolve({
-                    requests: req,
-                    request_produsts: reqPro,
-                    products: prod
-                  })
-                  pool.end();
-                }, (e) => {
-                  reject(e)
-                })
-
-            }, (e) => {
-              reject(e)
-            })
+      const query = id ? ` 
+        SELECT rp.id,rp.product_id,rp.request_id,rp.qt_product, u."name" AS "clientName", p.name AS "productName" 
+          FROM request_products AS rp
+	          JOIN requests AS r ON r.id = rp.request_id 
+	          JOIN products AS p ON p.id = rp.product_id 
+            JOIN users AS U ON u.id = r.id
+              WHERE u.id = ${id}`:
+        `SELECT rp.id,rp.product_id,rp.request_id,rp.qt_product, u."name" AS "clientName", p.name AS "productName" 
+          FROM request_products AS rp
+	          JOIN requests AS r ON r.id = rp.request_id 
+	          JOIN products AS p ON p.id = rp.product_id 
+	          JOIN users AS U ON u.id = r.id; `
+      db.exec(query)
+        .then(res => {
+          resolve(res);
         }, (e) => {
           reject(e)
         })
     })
   }
 
+  static remove(id) {
+
+    return new Promise((resolve, reject) => {
+
+      const pool = newPool();
+
+      pool.query(`
+        DELETE FROM request_products WHERE request_id = $1`, [id])
+        .then(del => {
+          pool.query(`
+            DELETE FROM requests WHERE id = $1`, [id])
+            .then(delR => {
+              resolve()
+            }, (e) => {
+              reject(e);
+            })
+        }, (e) => {
+          reject(e)
+        })
+    })
+  } 
 }
 module.exports = requestRepository;

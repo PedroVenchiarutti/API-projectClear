@@ -1,104 +1,54 @@
 const db = require('../config/dbconnect.js');
 const genericQuerys = require('./genericQuerys.js');
-const utils = require('../helpers/Utils.js');
+const {
+  newPool
+} = require('../config/dbconnect.js');
 
-class reservationRepository extends genericQuerys{
+class reservationRepository extends genericQuerys {
 
-  static getAll(){
-
-  }
-
-  // ids = []
-  static getReservation_procedures(ids) {
+  static getAll(id = "") {
 
     return new Promise((resolve, reject) => {
 
-      let query = `
-        SELECT * FROM reservation_procedures
-          WHERE reservation_id IN (`;
-
-      query = utils.inIds(query, ids);
-
-      db.exec(query, ids)
-        .then(rp => {
-          resolve(rp);
-        }, (e) => {
-          reject(e.message)
-        })
-    });
-  }
-  
-  static add(userId, date) {
-
-    return new Promise((resolve, reject) => {
-
-      db.exec(`
-        INSERT INTO reservations (user_id,"date")
-          VALUES($1,$2)`,
-          [userId, date])
-        .then(results => {
-
-          db.exec(`
-              SELECT id FROM reservations 
-                WHERE user_id = $1 AND "date" = $2
-            `, [userId, date])
-            .then(results => {
-              resolve(results);
-            }, (e) => {
-
-              reject(e)
-            })
-        })
-    })
-  }
-
-  static addReservationProcedures(reservationId, procedures) {
-
-    return new Promise((resolve, reject) => {
-
-      let query = `INSERT INTO reservation_procedures (procedure_id,reservation_id) VALUES`;
-
-      // revisar futuramente
-      procedures.forEach(procedure => {
-
-        query += `(${procedure},${reservationId}),`
-
-      });
-
-      // removendo a ultima virgula
-      query = query.slice(0, -1);
-      console.log(query)
-
+      const query = id ? ` 
+        SELECT rp.id,rp.procedure_id ,rp.reservation_id ,r."date",u.name as "clientName", p."name" as "productName" 
+          FROM reservation_procedures AS rp
+	          JOIN reservations AS r ON r.id = rp.reservation_id
+	          JOIN users AS u ON u.id = r.user_id
+            JOIN "procedures" AS p ON p.id = rp.procedure_id
+              WHERE u.id = ${id};` :
+        `SELECT rp.id,rp.procedure_id ,rp.reservation_id ,r."date",u.name as "clientName", p."name" as "productName" 
+          FROM reservation_procedures as rp
+	          JOIN reservations AS r ON r.id = rp.reservation_id
+	          JOIN users AS u ON u.id = r.user_id
+            JOIN "procedures" AS p ON p.id = rp.procedure_id ;`
       db.exec(query)
         .then(res => {
           resolve(res);
         }, (e) => {
-          reject();
+          reject(e)
         })
     })
   }
 
-  static refreshReservation(reservationId, procedures) {
+  static remove(id) {
 
-    console.log(reservationId)
-    
     return new Promise((resolve, reject) => {
 
-      genericQuerys.deleteTable("reservation_procedures",reservationId, "reservation_id")
-        .then(res => {
+      const pool = newPool();
 
-          this.addReservationProcedures(reservationId, procedures)
-            .then(results => {
-              resolve();
+      pool.query(`
+        DELETE FROM reservation_procedures WHERE reservation_id = $1`, [id])
+        .then(del => {
+          pool.query(`
+            DELETE FROM reservation WHERE id = $1`, [id])
+            .then(delR => {
+              resolve()
             }, (e) => {
-              console.log(e.message)
-              reject(e)
+              reject(e);
             })
-        
-
         }, (e) => {
-          console.log(e.message)
-          reject(e);
+          reject(e)
         })
     })
   }
