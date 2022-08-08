@@ -1,30 +1,31 @@
-const genericQuerys = require('../repositories/genericQuerys.js');
+const adminRepository = require('../repositories/adminRepository.js');
+const apiError = require('../error/apiError.js');
 
-exports.getAll = (req, res) => {
+exports.getAll = (req, res,next) => {
   /* 
     #swagger.tags = ['admin']
     #swagger.summary = 'Busca todos os administradores cadastrados no banco de dados'
   */
 
-  genericQuerys.select("adms")
+  adminRepository.select("adms")
     .then(adms => {
       res.send(adms)
+    }, (e) => {
+      next(apiError.badRequest(e.message))
     })
-    .catch(err => {
-      res.status(400).send(err);
-    })
+
 }
 
-exports.getByid = async (req, res) => {
+exports.getByid = async (req, res,next) => {
 
   const id = req.params.id;
 
-  genericQuerys.select('adms', id)
+  adminRepository.select('adms', id)
     .then(adm => {
       res.send(adm)
-    })
-    .catch(err => {
-      res.status(500).send(err)
+    }, (e) => {
+
+      next(apiError.badRequest(e.message))
     })
 
 }
@@ -47,16 +48,16 @@ exports.add = (req, res, next) => {
 
   const adm = req.body;
 
-  genericQuerys.insertTable("adms", adm)
+  adminRepository.insertTable("adms", adm)
     .then(response => {
       res.send();
+    }, (e) => {
+
+      next(apiError.badRequest(e.message))
     })
-    .catch(err => {
-      res.status(500).send(err)
-    });
 }
 
-exports.update = (req, res) => {
+exports.update = (req, res,next) => {
   /*
   #swagger.tags = ['admin']
   #swagger.summary = 'Efetua a alteraçao das informaões do admin.'
@@ -74,16 +75,16 @@ exports.update = (req, res) => {
 
   const adm = req.body;
 
-  genericQuerys.updateTable(adm)
+  adminRepository.updateTable(adm)
     .then(response => {
       res.send()
-    })
-    .catch(err => {
-      res.status(500).send(err);
+    }, (e) => {
+
+      next(apiError.badRequest(e.message))
     })
 }
 
-exports.remove = async (req, res) => {
+exports.remove = async (req, res,next) => {
   /*
      #swagger.tags = ['admin']
      #swagger.summary = 'Deleta uma conta de administrador.' 
@@ -91,15 +92,20 @@ exports.remove = async (req, res) => {
 
   const id = req.params.id;
 
-  genericQuerys.deleteTable("adms", id)
+  adminRepository.deleteTable("adms", id)
     .then(response => {
       res.send(response)
+    }, (e) => {
+      next(apiError.badRequest(e.message))
     })
-    .catch(err => {
-
-      res.status(500).send(err);
-    })
-
 }
 
-//exports.dashboard = (req, res, next) => {}
+exports.dashboard = (req, res, next) => {
+  
+  adminRepository.dashboard().then(data=>{
+    console.log(data)
+    res.send(data);
+  },(e)=>{
+    next(apiError.badRequest(e.message))
+  })
+}

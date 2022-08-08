@@ -49,7 +49,7 @@ Routes.remove('/client/reviews/:id')
 
 // adms
 Routes.get('/admin', admController.getAll);
-//Routes.get('/dashboard',admController.dashboard);
+Routes.get('/dashboard',admController.dashboard);
 Routes.post('/admin', validationMiddleware(adminSchema), admController.add);
 Routes.put('/admin/:id', validationMiddleware(adminSchema), admController.update);
 Routes.delete('/admin/:id', admController.remove);

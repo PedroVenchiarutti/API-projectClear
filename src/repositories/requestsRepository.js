@@ -10,19 +10,35 @@ class requestRepository extends genericQuerys {
 
     return new Promise((resolve, reject) => {
 
+      // adicionar endereco depois de popular a tabela
       const query = id ? ` 
-        SELECT rp.id,rp.product_id,rp.request_id,rp.qt_product, u."name" AS "clientName", p.name AS "productName" 
-          FROM request_products AS rp
-	          JOIN requests AS r ON r.id = rp.request_id 
-	          JOIN products AS p ON p.id = rp.product_id 
-            JOIN users AS U ON u.id = r.id
-              WHERE u.id = ${id}` :
-        `SELECT rp.id,rp.product_id,rp.request_id,rp.qt_product, u."name" AS "clientName", p.name AS "productName" 
-          FROM request_products AS rp
-	          JOIN requests AS r ON r.id = rp.request_id 
-	          JOIN products AS p ON p.id = rp.product_id 
-	          JOIN users AS U ON u.id = r.id; `
-      db.exec(query)
+        select r.id ,r.status,u."name" , (
+	        select jsonb_agg(pr) 
+		        from (
+			        select rp.qt_product,p."name" ,p.value,p.id as "productId" 
+				        from request_products as rp
+			          	join products as p on p.id = rp.product_id
+			                where rp.request_id = r.id
+		            ) as pr
+            ) as "products"
+          from requests as r
+      join users as u on u.id =r.user_id 
+      where r.user_id = $1
+      ` : `
+      select r.id ,r.status,u."name" , (
+        	select jsonb_agg(pr) 
+		        from (
+			        select rp.qt_product,p."name" ,p.value,p.id as "productId" 
+				        from request_products as rp
+				          join products as p on p.id = rp.product_id
+			          where rp.request_id = r.id
+		          ) as pr
+            ) as "products"
+          from requests as r
+        join users as u on u.id =r.user_id;`
+
+
+      db.exec(query, [id])
         .then(res => {
           resolve(res);
         }, (e) => {
@@ -30,16 +46,35 @@ class requestRepository extends genericQuerys {
         })
     })
   }
-  
-  static insert(request,products){
 
-    return new Promise((resolve,reject)=>{
+  static insert(request, productQuery) {
+
+    return new Promise((resolve, reject) => {
 
       const pool = newPool();
-      
+
+
+
+
+
+      pool.query(`
+        INSERT INTO requests (user_id,date,status,address_id) 
+          VALUES ($1,to_timestamp($2),$3,$4); `,
+          [request.user_id, request.date, "Pendente", request.id])
+        .then(results => {
+
+          pool.query().then(res => {
+
+          }, (e) => {
+            rejec(e)
+          })
+        }, (e) => {
+          reject(e)
+        })
+      pool.end();
     })
   }
-  
+
   static remove(id) {
 
     return new Promise((resolve, reject) => {
