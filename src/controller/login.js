@@ -1,7 +1,20 @@
 const loginRepository = require('../repositories/loginRepository.js');
 const apiError = require("../error/apiError.js");
+const jwt = require("jsonwebtoken");
+
+
+// gerando token
+function tokenGem(id){
+                  
+  const token = jwt.sign({id},process.env.SECRET,{
+    // expira em 3h
+    expiresIn:10800})
+
+  return token;
+}
 
 exports.login = (req, res, next) => {
+  
   /*
    * #swagger.tags = ['login','public']
       #swagger.summary="Login"
@@ -19,12 +32,21 @@ exports.login = (req, res, next) => {
     email,
     password
   } = req.body;
+    console.log(email); 
   try {
 
+    console.log(email,password)
     loginRepository(email, password)
       .then(account => {
+    
+        const token = tokenGem(account.id);
         
-        res.send(account)
+        // bcrypt compare
+        
+        res.json({
+          token,
+          account
+        })
       }, (e) => {
         console.log(e.message);
         next(apiError.badRequest(e.message))

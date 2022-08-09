@@ -27,7 +27,7 @@ exports.add = (req, res, next) => {
    * #swagger.summary = "Cria novos pedidos" 
    * */
 
-  const request = req.body;
+  const request = req.body.content;
 
   requestRepository.insert(request,request.products)
     .then(ok=>{
@@ -40,6 +40,7 @@ exports.add = (req, res, next) => {
 exports.update = (req, res, next) => {
 
   const request = req.body;
+
   const id = req.params.id;
 
   requestRepository.deleteTable('request_products', id)

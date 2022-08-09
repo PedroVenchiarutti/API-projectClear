@@ -21,9 +21,10 @@ Routes.use(idValidation());
 
 // routes
 Routes.get('/procedures', procedures.getAll);
-Routes.get('/products', products.getAll);
+Routes.get('/products/pages/:num', products.getAll);
+Routes.get('/products/:id', products.getById);
 Routes.get('/discount/:code', discount.getByCode);
-Routes.post('/resgister', bodyValidation(clientSchema), client.add);
+Routes.post('/register', bodyValidation(clientSchema), client.add);
 Routes.get('/login', bodyValidation(loginSchema), login.login)
 Routes.get('/products/:id', products.getById);
 

@@ -1,47 +1,18 @@
-const genericQuerys = require('../repositories/genericQuerys');
 const apiError = require('../error/apiError.js');
-
-/*
-// search lists
-getProductList(nLimit, categorie=null){
-  return new Promise((resolve,reject)=>{
-   
-    // paginacao futura
-
-    const query = categorie ? 
-      "SELECT * FROM products WHERE categorie = $2 LIMIT $1 OFFSET $2" :
-      "SELECT * FROM products LIMIT $1  OFFSET $2";
-
-    const params = categorie ? 
-      [nLimit,(nLimit+10),categorie]:
-      [10,0]
-    
-    db.query(query,params,(err,res)=>{
-
-      if(err !=null){
-        reject(err)
-      }
-      else{
-        resolve(res.rows);
-      }
-    })
-  }  
-)},
-*/
+const productRepository = require('../repositories/productRepository.js');
 
 exports.getAll = (req, res, next) => {
-  /**
-    #swagger.tags = ['product']
-    #swagger.summary="Lista todos os produtos"
-   */
 
-  genericQuerys.select("products")
-    .then(products => {
-      res.send(products);
+  const num = req.params.num;
+  
+  productRepository.list(num)
+    .then(list => {
+      res.send(list);
     }, (e) => {
       next(apiError.badRequest(e.message))
     })
 }
+
 
 exports.getById = (req, res, next) => {
   /**
@@ -51,13 +22,12 @@ exports.getById = (req, res, next) => {
 
   const id = req.params.id;
 
-  genericQuerys.select("products", id)
+  productRepository.select("products", id)
     .then(product => {
       res.send(product);
     }, (e) => {
       next(apiError.badRequest(e.message))
     })
-
 }
 
 exports.add = (req, res, next) => {
@@ -79,7 +49,7 @@ exports.add = (req, res, next) => {
 
   const product = req.body;
 
-  genericQuerys.insertTable("products", product)
+  productRepository.insertTable("products", product)
     .then(response => {
       res.send();
     }, (e) => {
@@ -105,9 +75,9 @@ exports.update = (req, res, next) => {
     }
    */
 
-  const product = req.body;
+  const product = req.body.content;
 
-  genericQuerys.updateTable("products", product)
+  productRepository.updateTable("products", product)
     .then(response => {
       res.send()
     }, (e) => {
@@ -128,11 +98,10 @@ exports.remove = (req, res, next) => {
 
   const id = req.params.id;
 
-  genericQuerys.deleteTable('products', id)
+  productRepository.deleteTable('products', id)
     .then(response => {
       res.send();
     }, (e) => {
       next(apiError.badRequest(e.message))
     })
-
 }

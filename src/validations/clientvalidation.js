@@ -7,10 +7,8 @@ const clientSchema = yup.object().shape({
     cpf: yup.number().required(),
     phone: yup.number().nullable().notRequired(),
     sexo: yup.string().nullable(),
-    birth: yup.date().required(),
+    birth: yup.date().notRequired(),
     img_url: yup.string().url().notRequired()
-})
-
-
+})    
 
 module.exports = clientSchema;

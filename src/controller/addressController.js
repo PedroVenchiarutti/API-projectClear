@@ -13,6 +13,10 @@ exports.get = (req, res, next) => {
     })
 }
 
+exports.getByid = (req,res,next)=>{
+
+}
+
 exports.add = (req, res, next) => {
 
   const address = req.body;

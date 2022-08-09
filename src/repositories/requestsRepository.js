@@ -12,31 +12,30 @@ class requestRepository extends genericQuerys {
 
       // adicionar endereco depois de popular a tabela
       const query = id ? ` 
-        select r.id ,r.status,u."name" , (
-	        select jsonb_agg(pr) 
-		        from (
-			        select rp.qt_product,p."name" ,p.value,p.id as "productId" 
-				        from request_products as rp
-			          	join products as p on p.id = rp.product_id
-			                where rp.request_id = r.id
-		            ) as pr
-            ) as "products"
-          from requests as r
-      join users as u on u.id =r.user_id 
-      where r.user_id = $1
+        SELECT r.id ,r.status,u."name" , (
+	        SELECT jsonb_agg(pr) 
+		        FROM (
+			        SELECT rp.qt_product,p."name" ,p.value,p.id AS "productId" 
+				        FROM request_products AS rp
+			          	JOIN products AS p ON p.id = rp.product_id
+			                WHERE rp.request_id = r.id
+		            ) AS pr
+            ) AS "products"
+          FROM requests AS r
+      JOIN users AS u ON u.id = r.user_id 
+      WHERE r.user_id = $1
       ` : `
-      select r.id ,r.status,u."name" , (
-        	select jsonb_agg(pr) 
-		        from (
-			        select rp.qt_product,p."name" ,p.value,p.id as "productId" 
-				        from request_products as rp
-				          join products as p on p.id = rp.product_id
-			          where rp.request_id = r.id
-		          ) as pr
-            ) as "products"
-          from requests as r
-        join users as u on u.id =r.user_id;`
-
+      SELECT r.id ,r.status,u."name" , (
+        	SELECT jsonb_agg(pr) 
+		        FROM (
+			        SELECT rp.qt_product,p."name" ,p.value,p.id AS "productId" 
+				        FROM request_products AS rp
+				          JOIN products AS p ON p.id = rp.product_id
+			          WHERE rp.request_id = r.id
+		          ) AS pr
+            ) AS "products"
+          FROM requests AS r
+        JOIN users AS u ON u.id = r.user_id;`
 
       db.exec(query, [id])
         .then(res => {
@@ -52,10 +51,8 @@ class requestRepository extends genericQuerys {
     return new Promise((resolve, reject) => {
 
       const pool = newPool();
-
-
-
-
+      
+      let query = `INSERT INTO `
 
       pool.query(`
         INSERT INTO requests (user_id,date,status,address_id) 

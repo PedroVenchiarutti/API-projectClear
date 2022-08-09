@@ -11,7 +11,7 @@
     "http"
   ],
   "paths": {
-    "/api/client/{id}": {
+    "/api/protected/client/{id}": {
       "get": {
         "tags": [
           "client"
@@ -135,7 +135,7 @@
         }
       }
     },
-    "/api/client/addresses/{id}": {
+    "/api/protected/client/addresses/{id}": {
       "get": {
         "description": "",
         "parameters": [
@@ -169,10 +169,23 @@
         }
       }
     },
-    "/api/client/addresses/": {
+    "/api/protected/client/addresses/": {
       "post": {
         "description": "",
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "content": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK"
@@ -180,7 +193,7 @@
         }
       }
     },
-    "/api/admin": {
+    "/api/protected/admin": {
       "get": {
         "tags": [
           "admin"
@@ -236,7 +249,7 @@
         }
       }
     },
-    "/api/dashboard": {
+    "/api/protected/dashboard": {
       "get": {
         "description": "",
         "parameters": [],
@@ -247,7 +260,7 @@
         }
       }
     },
-    "/api/admin/{id}": {
+    "/api/protected/admin/{id}": {
       "put": {
         "tags": [
           "admin"
@@ -321,7 +334,7 @@
         }
       }
     },
-    "/api/dicount": {
+    "/api/protected/dicount": {
       "get": {
         "tags": [
           "discount"
@@ -396,7 +409,7 @@
         }
       }
     },
-    "/api/dicount/{id}": {
+    "/api/protected/dicount/{id}": {
       "put": {
         "tags": [
           "discount"
@@ -444,7 +457,7 @@
         }
       }
     },
-    "/api/product": {
+    "/api/protected/product": {
       "post": {
         "tags": [
           "product"
@@ -518,7 +531,7 @@
         }
       }
     },
-    "/api/product/{id}": {
+    "/api/protected/product/{id}": {
       "put": {
         "tags": [
           "product"
@@ -577,7 +590,7 @@
         }
       }
     },
-    "/api/procedure": {
+    "/api/protected/procedure": {
       "post": {
         "tags": [
           "procedure"
@@ -640,7 +653,7 @@
         }
       }
     },
-    "/api/procedure/{id}": {
+    "/api/protected/procedure/{id}": {
       "put": {
         "tags": [
           "procedure"
@@ -689,7 +702,7 @@
         }
       }
     },
-    "/api/reservation": {
+    "/api/protected/reservation": {
       "get": {
         "description": "",
         "parameters": [],
@@ -708,13 +721,7 @@
             "schema": {
               "type": "object",
               "properties": {
-                "user_id": {
-                  "example": "any"
-                },
-                "date": {
-                  "example": "any"
-                },
-                "procedures": {
+                "content": {
                   "example": "any"
                 }
               }
@@ -737,7 +744,7 @@
         }
       }
     },
-    "/api/reservation/{id}": {
+    "/api/protected/reservation/{id}": {
       "put": {
         "description": "",
         "parameters": [
@@ -746,12 +753,24 @@
             "in": "path",
             "required": true,
             "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "content": {
+                  "example": "any"
+                }
+              }
+            }
           }
         ],
         "responses": {}
       }
     },
-    "/api/request": {
+    "/api/protected/request": {
       "get": {
         "tags": [
           "request",
@@ -772,7 +791,20 @@
         ],
         "summary": "Cria novos pedidos",
         "description": "",
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "content": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK"
@@ -780,7 +812,7 @@
         }
       }
     },
-    "/public/procedures": {
+    "/api/public/procedures": {
       "get": {
         "tags": [
           "procedure"
@@ -795,14 +827,17 @@
         }
       }
     },
-    "/public/products": {
+    "/api/public/products/pages/{num}": {
       "get": {
-        "tags": [
-          "product"
-        ],
-        "summary": "Lista todos os produtos",
         "description": "",
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "num",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK"
@@ -810,7 +845,29 @@
         }
       }
     },
-    "/public/discount/{code}": {
+    "/api/public/products/{id}": {
+      "get": {
+        "tags": [
+          "product"
+        ],
+        "summary": "Lista todos os produtos",
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/public/discount/{code}": {
       "get": {
         "tags": [
           "discount"
@@ -832,7 +889,7 @@
         }
       }
     },
-    "/public/resgister": {
+    "/api/public/register": {
       "post": {
         "tags": [
           "client"
@@ -900,7 +957,7 @@
         }
       }
     },
-    "/public/login": {
+    "/api/public/login": {
       "get": {
         "tags": [
           "login",
@@ -930,28 +987,6 @@
                 "password"
               ]
             }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/public/products/{id}": {
-      "get": {
-        "tags": [
-          "product"
-        ],
-        "summary": "Lista todos os produtos",
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {

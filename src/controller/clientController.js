@@ -1,5 +1,6 @@
 const genericQuerys = require('../repositories/genericQuerys.js')
 const apiError = require('../error/apiError.js')
+const crypto = require('../config/bcrypt.js');
 
 exports.getByid = async (req, res, next) => {
   /*
@@ -49,14 +50,15 @@ exports.add = (req, res, next) => {
    } 
   */
 
-  const client = req.body;
+  const client = req.body.content;
+
+ // function gem password
 
   genericQuerys.insertTable("users", client)
     .then(response => {
       res.send("deu bom")
     })
     .catch(e => {
-
       next(apiError.badRequest(e.message));
     });
 
@@ -83,8 +85,7 @@ exports.update = (req, res, next) => {
     } 
      */
 
-
-  const client = req.body;
+  const client = req.body.content;
 
   if (client.id || typeof client.id == "number") {
     res.status(500).send("error");
