@@ -68,9 +68,7 @@ exports.update = (req, res, next) => {
 
       next(apiError.badRequest(e.message))
     })
-
 }
-
 
 exports.remove = (req, res, next) => {
 

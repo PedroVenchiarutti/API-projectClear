@@ -1,7 +1,7 @@
 const loginRepository = require('../repositories/loginRepository.js');
 const apiError = require("../error/apiError.js");
 const jwt = require("jsonwebtoken");
-
+const crypto = require("../config/bcrypt.js");
 
 // gerando token
 function tokenGem(id){
@@ -13,7 +13,7 @@ function tokenGem(id){
   return token;
 }
 
-exports.login = (req, res, next) => {
+exports.login = async (req, res, next) => {
   
   /*
    * #swagger.tags = ['login','public']
@@ -26,16 +26,15 @@ exports.login = (req, res, next) => {
           $password:"caio123",
         }
     }
-
   * */
+
   const {
     email,
     password
   } = req.body;
-    console.log(email); 
+  
   try {
 
-    console.log(email,password)
     loginRepository(email, password)
       .then(account => {
     
@@ -48,7 +47,6 @@ exports.login = (req, res, next) => {
           account
         })
       }, (e) => {
-        console.log(e.message);
         next(apiError.badRequest(e.message))
       })
 

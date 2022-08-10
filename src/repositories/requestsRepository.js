@@ -36,7 +36,7 @@ class requestRepository extends genericQuerys {
             ) AS "products"
           FROM requests AS r
         JOIN users AS u ON u.id = r.user_id;`
-
+      console.log(query)
       db.exec(query, [id])
         .then(res => {
           resolve(res);
@@ -46,31 +46,49 @@ class requestRepository extends genericQuerys {
     })
   }
 
-  static insert(request, productQuery) {
+  static insert(request) {
 
     return new Promise((resolve, reject) => {
 
       const pool = newPool();
       
-      let query = `INSERT INTO `
+      console.log(request)
+      
+      let query = `INSERT INTO request_products (request_id,product_id,qt_product) VALUES`;
 
+      // revisar futuramente
+      request.products.forEach(product => {
+
+        query += `((SELECT id FROM requests
+            WHERE user_id = ${request.user_id} AND date = to_timestamp(${request.date})),${product.id},${product.qt}),`
+      });
+
+      // removendo a ultima virgula
+      query = query.slice(0, -1);
+      
+      console.log(query);
+      
       pool.query(`
         INSERT INTO requests (user_id,date,status,address_id) 
           VALUES ($1,to_timestamp($2),$3,$4); `,
           [request.user_id, request.date, "Pendente", request.id])
         .then(results => {
 
-          pool.query().then(res => {
-
+          pool.query(query).then(ok => {
+            resolve();
           }, (e) => {
-            rejec(e)
+            reject(e);
           })
+
         }, (e) => {
           reject(e)
         })
-      pool.end();
+    }, (e) => {
+      reject(e)
     })
+    pool.end();
   }
+
 
   static remove(id) {
 

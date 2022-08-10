@@ -83,7 +83,6 @@ Routes.post('/request', requestsController.add)
 
 /*
 Routes.get('/request')
-Routes.put('/request')
 Routes.delete('/request')
 */
 

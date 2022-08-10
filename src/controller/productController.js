@@ -3,8 +3,8 @@ const productRepository = require('../repositories/productRepository.js');
 
 exports.getAll = (req, res, next) => {
 
-  const num = req.params.num;
-  
+  const num = (req.params.num - 1) + 10;
+
   productRepository.list(num)
     .then(list => {
       res.send(list);
@@ -12,7 +12,6 @@ exports.getAll = (req, res, next) => {
       next(apiError.badRequest(e.message))
     })
 }
-
 
 exports.getById = (req, res, next) => {
   /**
@@ -25,6 +24,18 @@ exports.getById = (req, res, next) => {
   productRepository.select("products", id)
     .then(product => {
       res.send(product);
+    }, (e) => {
+      next(apiError.badRequest(e.message))
+    })
+}
+
+exports.search = (req, res, next) => {
+
+  const param = req.body.search;
+  
+  productRepository.search(param)
+    .then(results => {
+      res.send(results);
     }, (e) => {
       next(apiError.badRequest(e.message))
     })

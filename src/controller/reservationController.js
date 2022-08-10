@@ -1,6 +1,5 @@
 const genericQuerys = require('../repositories/genericQuerys.js');
 const reservationRepository = require('../repositories/reservationRepository.js');
-
 const apiError = require('../error/apiError.js');
 
 exports.getAll = (req, res, next) => {

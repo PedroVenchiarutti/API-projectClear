@@ -172,20 +172,7 @@
     "/api/protected/client/addresses/": {
       "post": {
         "description": "",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "content": {
-                  "example": "any"
-                }
-              }
-            }
-          }
-        ],
+        "parameters": [],
         "responses": {
           "200": {
             "description": "OK"
@@ -721,7 +708,13 @@
             "schema": {
               "type": "object",
               "properties": {
-                "content": {
+                "user_id": {
+                  "example": "any"
+                },
+                "date": {
+                  "example": "any"
+                },
+                "procedures": {
                   "example": "any"
                 }
               }
@@ -753,18 +746,6 @@
             "in": "path",
             "required": true,
             "type": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "content": {
-                  "example": "any"
-                }
-              }
-            }
           }
         ],
         "responses": {}
@@ -786,22 +767,127 @@
       },
       "post": {
         "tags": [
-          "requests",
-          "private"
+          "request"
         ],
-        "summary": "Cria novos pedidos",
+        "summary": "Cria um novo pedido.",
         "description": "",
         "parameters": [
           {
-            "name": "body",
+            "name": "request",
             "in": "body",
+            "description": "Modelo de Usuario",
             "schema": {
               "type": "object",
               "properties": {
-                "content": {
-                  "example": "any"
+                "user_id": {
+                  "type": "string",
+                  "example": "Oliver"
+                },
+                "date": {
+                  "type": "string",
+                  "example": "oliver@gmail.com"
+                },
+                "address_id": {
+                  "type": "number",
+                  "example": 1398765432
+                },
+                "products": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "qt": {
+                        "type": "number",
+                        "example": 11
+                      },
+                      "id": {
+                        "type": "number",
+                        "example": 1
+                      }
+                    },
+                    "required": [
+                      "qt",
+                      "id"
+                    ]
+                  }
                 }
-              }
+              },
+              "required": [
+                "user_id",
+                "date",
+                "address_id",
+                "products"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/protected/request/{id}": {
+      "put": {
+        "tags": [
+          "request"
+        ],
+        "summary": "Cria um novo pedido.",
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "request",
+            "in": "body",
+            "description": "Modelo de Usuario",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "user_id": {
+                  "type": "string",
+                  "example": "Oliver"
+                },
+                "date": {
+                  "type": "string",
+                  "example": "oliver@gmail.com"
+                },
+                "address_id": {
+                  "type": "number",
+                  "example": 1398765432
+                },
+                "products": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "qt": {
+                        "type": "number",
+                        "example": 11
+                      },
+                      "id": {
+                        "type": "number",
+                        "example": 1
+                      }
+                    },
+                    "required": [
+                      "qt",
+                      "id"
+                    ]
+                  }
+                }
+              },
+              "required": [
+                "user_id",
+                "date",
+                "address_id",
+                "products"
+              ]
             }
           }
         ],
@@ -833,28 +919,6 @@
         "parameters": [
           {
             "name": "num",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/public/products/{id}": {
-      "get": {
-        "tags": [
-          "product"
-        ],
-        "summary": "Lista todos os produtos",
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
             "in": "path",
             "required": true,
             "type": "string"
@@ -987,6 +1051,39 @@
                 "password"
               ]
             }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/public/search": {
+      "get": {
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/public/products/{id}": {
+      "get": {
+        "tags": [
+          "product"
+        ],
+        "summary": "Lista todos os produtos",
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
           }
         ],
         "responses": {

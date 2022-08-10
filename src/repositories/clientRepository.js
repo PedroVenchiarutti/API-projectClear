@@ -9,7 +9,8 @@ class clientRepository extends genericQuerys{
       // pedidos
       // compras
       // reservas
-
+      
+  
     }
 }
 

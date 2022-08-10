@@ -13,12 +13,26 @@ exports.get = (req, res, next) => {
     })
 }
 
-exports.getByid = (req,res,next)=>{
-
-}
 
 exports.add = (req, res, next) => {
-
+   /*
+     #swagger.tags = ['address']
+     #swagger.summary = 'Cadastra um novop endereço.'
+     #swagger.parameters['adress']=>{
+      in: 'body',
+      description: "address Model",
+      schema:{
+        $name:"Oliver",
+        $email:"oliver@gmail.com",
+        $password:"auau123",
+        $phone:1398765432,
+        $cpf:88888888888,
+        $sexo:"M",
+        $birth:"1009202001",
+        $img_url:"link.com.br/img.png"
+     }
+   } 
+  */
   const address = req.body;
 
   genericQuerys.insertTable("addresses", address)

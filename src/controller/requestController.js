@@ -8,8 +8,6 @@ exports.getAll = (req, res, next) => {
    * #swagger.description = "Obtem todos as requisisoes ja realizadas no sistema"
    */
 
-  const list = [];
-
   requestRepository.getAll(1)
     .then(results => {
 
@@ -22,39 +20,34 @@ exports.getAll = (req, res, next) => {
 
 exports.add = (req, res, next) => {
 
-  /*
-   * #swagger.tags = ['requests','private']
-   * #swagger.summary = "Cria novos pedidos" 
-   * */
+/*
+     #swagger.tags = ['request']
+     #swagger.summary = 'Cria um novo pedido.'
+     #swagger.parameters['request']=>{
+      in: 'body',
+      description: "Modelo de Usuario",
+      schema:{
+        $user_id:"Oliver",
+        $date:"oliver@gmail.com",
+        $address_id:1398765432,
+        $products: [
+          {
+            $qt:11,
+            $id:1,
+          }
+        ]
+     }
+   } 
+  */
+  const request = req.body;
 
-  const request = req.body.content;
-
-  requestRepository.insert(request,request.products)
+  requestRepository.insert(request)
     .then(ok=>{
       res.send()
     },(e)=>{
       next(apiError.badRequest(e.message));
     })
 }   
-
-exports.update = (req, res, next) => {
-
-  const request = req.body;
-
-  const id = req.params.id;
-
-  requestRepository.deleteTable('request_products', id)
-    .then(results => {
-      requestRepository.insert(request)
-        .then(ok => {
-          res.send()
-        }, (e) => {
-          next(apiError.badRequest(e.message));
-        })
-    }, (e) => {
-      next(apiError.badRequest(e.message));
-    })
-}
 
 exports.remove = (req, res, next) => {
 

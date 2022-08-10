@@ -29,7 +29,7 @@ exports.getByid = async (req, res, next) => {
 
 }
 
-exports.add = (req, res, next) => {
+exports.add = async (req, res, next) => {
 
   /*
      #swagger.tags = ['client']
@@ -50,18 +50,32 @@ exports.add = (req, res, next) => {
    } 
   */
 
-  const client = req.body.content;
+  let client = req.body;
 
- // function gem password
+  // function gem password
 
-  genericQuerys.insertTable("users", client)
-    .then(response => {
-      res.send("deu bom")
-    })
-    .catch(e => {
-      next(apiError.badRequest(e.message));
-    });
+  try {
 
+    const newPassword = await crypto.gemPassword(client.password);
+
+    genericQuerys.verifyIfExists("users", [client.email,client.password])
+      .then(resp => {
+
+        client.password = newPassword;
+
+        genericQuerys.insertTable("users", client)
+          .then(response => {
+            res.send("deu bom")
+          })
+          .catch(e => {
+            next(apiError.badRequest(e.message));
+          });
+      }, (e) => {
+        next(apiError.badRequest(e.message));
+      })
+  } catch (e) {
+    next(apiError.badRequest(e.message));
+  }
 }
 
 exports.update = (req, res, next) => {
@@ -99,7 +113,6 @@ exports.update = (req, res, next) => {
 
       next(apiError.badRequest(e.message));
     });
-
 }
 
 exports.remove = async (req, res, next) => {
@@ -128,4 +141,3 @@ exports.remove = async (req, res, next) => {
       next(apiError.badRequest(err.message));
     })
 }
-

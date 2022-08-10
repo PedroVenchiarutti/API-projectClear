@@ -21,7 +21,6 @@ class AdminRepository extends genericQuerys {
 
   static dashboard() {
 
-
     return new Promise((resolve, reject) => {
 
       db.exec(`

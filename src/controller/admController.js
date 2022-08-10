@@ -1,7 +1,8 @@
 const adminRepository = require('../repositories/adminRepository.js');
 const apiError = require('../error/apiError.js');
+const crypto = require('../config/bcrypt.js');
 
-exports.getAll = (req, res,next) => {
+exports.getAll = (req, res, next) => {
   /* 
     #swagger.tags = ['admin']
     #swagger.summary = 'Busca todos os administradores cadastrados no banco de dados'
@@ -16,7 +17,7 @@ exports.getAll = (req, res,next) => {
 
 }
 
-exports.getByid = async (req, res,next) => {
+exports.getByid = async (req, res, next) => {
 
   const id = req.params.id;
 
@@ -30,7 +31,7 @@ exports.getByid = async (req, res,next) => {
 
 }
 
-exports.add = (req, res, next) => {
+exports.add = async (req, res, next) => {
 
   /*
     #swagger.tags = ['admin']
@@ -46,18 +47,33 @@ exports.add = (req, res, next) => {
     } 
     */
 
-  const adm = req.body;
+  let adm = req.body;
 
-  adminRepository.insertTable("adms", adm)
-    .then(response => {
-      res.send();
-    }, (e) => {
+  try {
 
-      next(apiError.badRequest(e.message))
-    })
+    const newPassword = await crypto.gemPassword(adm.password);
+
+    adminRepository.verifyIfExists("adms", [adm.email, adm.password])
+      .then(resp => {
+
+        adm.password = newPassword;
+
+        adminRepository.insertTable("adms", adm)
+          .then(response => {
+            res.send();
+          }, (e) => {
+            next(apiError.badRequest(e.message))
+          });
+      }, (e) => {
+        next(apiError.badRequest(e.message))
+      })
+  } catch (e) {
+    next(apiError.badRequest(e.message))
+  }
 }
 
-exports.update = (req, res,next) => {
+exports.update = (req, res, next) => {
+
   /*
   #swagger.tags = ['admin']
   #swagger.summary = 'Efetua a alteraçao das informaões do admin.'
@@ -84,7 +100,7 @@ exports.update = (req, res,next) => {
     })
 }
 
-exports.remove = async (req, res,next) => {
+exports.remove = async (req, res, next) => {
   /*
      #swagger.tags = ['admin']
      #swagger.summary = 'Deleta uma conta de administrador.' 
@@ -101,11 +117,11 @@ exports.remove = async (req, res,next) => {
 }
 
 exports.dashboard = (req, res, next) => {
-  
-  adminRepository.dashboard().then(data=>{
+
+  adminRepository.dashboard().then(data => {
     console.log(data)
     res.send(data);
-  },(e)=>{
+  }, (e) => {
     next(apiError.badRequest(e.message))
   })
 }

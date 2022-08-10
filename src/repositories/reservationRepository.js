@@ -11,17 +11,31 @@ class reservationRepository extends genericQuerys {
     return new Promise((resolve, reject) => {
 
       const query = id ? ` 
-        SELECT rp.id,rp.procedure_id ,rp.reservation_id ,r."date",u.name as "clientName", p."name" as "productName" 
-          FROM reservation_procedures AS rp
-	          JOIN reservations AS r ON r.id = rp.reservation_id
-	          JOIN users AS u ON u.id = r.user_id
-            JOIN "procedures" AS p ON p.id = rp.procedure_id
-              WHERE u.id = ${id};`:
-        `SELECT rp.id,rp.procedure_id ,rp.reservation_id ,r."date",u.name as "clientName", p."name" as "productName" 
-          FROM reservation_procedures as rp
-	          JOIN reservations AS r ON r.id = rp.reservation_id
-	          JOIN users AS u ON u.id = r.user_id
-            JOIN "procedures" AS p ON p.id = rp.procedure_id;`
+         SELECT r.id ,r.date,u."name" , (
+	        SELECT jsonb_agg(pr) 
+		        FROM (
+			        select p.id, p.name,p.value,p.categorie 
+			        	from reservation_procedures as rp 
+			        		join "procedures" as p on p.id = rp.procedure_id  
+			        			where rp.reservation_id  = r.id 
+		            ) AS pr
+            ) AS "products"
+          FROM reservations AS r
+      JOIN users AS u ON u.id = r.user_id 
+      WHERE r.user_id = $1;
+      `:`
+        SELECT r.id ,r.date,u."name" , (
+	        SELECT jsonb_agg(pr) 
+		        FROM (
+			        select p.id, p.name,p.value,p.categorie 
+			        	from reservation_procedures as rp 
+			        		join "procedures" as p on p.id = rp.procedure_id  
+			        			where rp.reservation_id  = r.id 
+		            ) AS pr
+            ) AS "products"
+          FROM reservations AS r
+        JOIN users AS u ON u.id = r.user_id 
+      `;
       db.exec(query)
         .then(res => {
           resolve(res);
@@ -30,7 +44,17 @@ class reservationRepository extends genericQuerys {
         })
     })
   }
+  
+  static add(procedures){
+    
+    return new Promise((resolve,reject)=>{
+    
+      const pool = newPool();
 
+        
+    });
+  }
+  
   static remove(id) {
 
     return new Promise((resolve, reject) => {

@@ -1,6 +1,4 @@
-const {
-  newPool
-} = require('../config/dbconnect.js');
+const {newPool} = require('../config/dbconnect.js');
 
 const login = (email, password) => {
 
@@ -10,7 +8,7 @@ const login = (email, password) => {
 
     pool.query(`
       SELECT * FROM adms 
-        WHERE email =$1 AND password = $2`, [email, password])
+          WHERE email = $1 AND password = $2`, [email, password])
       .then(adm => {
 
         if (adm.rows.length != 0) {

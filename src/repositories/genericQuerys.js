@@ -1,5 +1,6 @@
 const db = require('../config/dbconnect.js');
 const utils = require('../helpers/Utils.js');
+const crypto = require('../config/bcrypt.js');
 
 class genericQuerys {
 
@@ -26,27 +27,34 @@ class genericQuerys {
     })
   }
 
-  static verifyIfExists(table, params) {
+  static verifyIfExists(table, param) {
 
     return new Promise((resolve, reject) => {
 
-      let query = `SELECT * FROM ${table} WHERE email = $1 AND password = $2`;
+      let query = `SELECT password FROM ${table} WHERE email = $1 ;`;
 
-      let param = [];
+      db.exec(query, [param[0]])
+        .then(response => {
 
-      param.push(params.email);
-      param.push(params.password)
+          console.log(response.length != 0)
+          console.log(response)
 
-      db.exec(query, param).then(response => {
-
-        if (!response[0]) {
-          resolve()
-        } else {
-          reject("ja cadastrado");
-        }
-      }, (e) => {
-        reject(e);
-      })
+          if (response.length != 0) {
+            
+            crypto.verifyPassword(param[1], response[0].password)
+              .then(response => {
+                reject({
+                  senha: `Senha ja cadastrada.`
+                })
+              }, (e) => {
+                reject(e);
+              })
+          } else {
+            resolve();
+          }
+        }, (e) => {
+          reject(e);
+        })
     })
   }
 
