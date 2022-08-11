@@ -3,8 +3,14 @@ const productRepository = require('../repositories/productRepository.js');
 
 exports.getAll = (req, res, next) => {
 
-  const num = (req.params.num - 1) + 10;
+  let num = 0;
 
+  if(req.params.num == 1)
+    num = 0;  
+  else
+    num = (req.params.num - 1) + 10;
+  
+  
   productRepository.list(num)
     .then(list => {
       res.send(list);

@@ -10,6 +10,8 @@ class ProductRepository extends genericQuerys {
       db.exec(`
         SELECT * FROM products LIMIT 10 OFFSET $1;`, [NuPage])
         .then(products => {
+
+          console.log(products)
           resolve(products)
         }, (e) => {
           reject(e);
