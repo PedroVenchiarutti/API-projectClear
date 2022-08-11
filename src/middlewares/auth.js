@@ -2,8 +2,9 @@ const jwt = require('jsonwebtoken');
 const apiError = require('../error/apiError.js');
 require('dotenv/config');
 
-const authMiddleware = () => (req, res, next) => {
-
+const authMiddleware = (permision = false ) => (req, res, next) => {
+  
+  
   const token = req.headers['authorization'];
 
   if (!token) {
@@ -16,9 +17,14 @@ const authMiddleware = () => (req, res, next) => {
 
       next(apiError.forbidden("acesso negado"))
 
-    } else {
+    // access to all routes for the admToken
+    } else if(decoded.adm == permision || decoded.adm == true) {
       //req.decoded = decoded
       next();
+    }
+    else{
+
+      next(apiError.forbidden("Voce não tem a Permisão necessaria"))
     }
   })
 }

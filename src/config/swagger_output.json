@@ -2,10 +2,10 @@
   "swagger": "2.0",
   "info": {
     "title": "ElegancceAPI",
-    "description": "",
-    "version": "1.0.0"
+    "version": "0.8.2",
+    "description": "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
   },
-  "host": "localhost:3333",
+  "host": "localhost:3333/api",
   "basePath": "/",
   "schemes": [
     "http"
@@ -135,24 +135,12 @@
         }
       }
     },
-    "/api/protected/client/addresses/{id}": {
+    "/api/protected/addresses/{id}": {
       "get": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
+        "tags": [
+          "address"
         ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      },
-      "delete": {
+        "summary": "Retorna um endereço pelo id.",
         "description": "",
         "parameters": [
           {
@@ -169,10 +157,450 @@
         }
       }
     },
-    "/api/protected/client/addresses/": {
+    "/api/protected/client/addresses/all/{id}": {
+      "get": {
+        "tags": [
+          "address"
+        ],
+        "summary": "Retorna todos os endereço pelo id do usuario.",
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/protected/client/addresses": {
       "post": {
+        "tags": [
+          " "
+        ],
+        "summary": "Cadastra um novop endereço.",
+        "description": "",
+        "parameters": [
+          {
+            "name": " ",
+            "in": "body",
+            "description": "address Model",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "example": "Oliver"
+                },
+                "email": {
+                  "type": "string",
+                  "example": "oliver@gmail.com"
+                },
+                "password": {
+                  "type": "string",
+                  "example": "auau123"
+                },
+                "phone": {
+                  "type": "number",
+                  "example": 1398765432
+                },
+                "cpf": {
+                  "type": "number",
+                  "example": 88888888888
+                },
+                "sexo": {
+                  "type": "string",
+                  "example": "M"
+                },
+                "birth": {
+                  "type": "string",
+                  "example": "1009202001"
+                },
+                "img_url": {
+                  "type": "string",
+                  "example": "link.com.br/img.png"
+                }
+              },
+              "required": [
+                "name",
+                "email",
+                "password",
+                "phone",
+                "cpf",
+                "sexo",
+                "birth",
+                "img_url"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/protected/client/addresses/{id}": {
+      "delete": {
+        "tags": [
+          "address"
+        ],
+        "summary": "Deleta um endereço a partir do Id.",
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/protected/client/reviews/{id}": {
+      "get": {
+        "tags": [
+          "review",
+          "client"
+        ],
+        "summary": "Retorna uma unica avalicao de cliente.",
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "description": "O codigo identificador do usuario no banco de dados"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "review",
+          "client"
+        ],
+        "summary": "Cria uma unica avalicao.",
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "review",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "stars": {
+                  "type": "number",
+                  "example": 3
+                },
+                "user_id": {
+                  "type": "number",
+                  "example": 1
+                },
+                "product_id": {
+                  "type": "number",
+                  "example": 2
+                }
+              },
+              "required": [
+                "stars",
+                "user_id",
+                "product_id"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "review",
+          "client"
+        ],
+        "summary": "Deleta uma unica avalicao de cliente.",
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "description": "O codigo identificador do usuario no banco de dados"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/protected/client/reviews": {
+      "post": {
+        "tags": [
+          "review",
+          "client"
+        ],
+        "summary": "Cria uma unica avalicao.",
+        "description": "",
+        "parameters": [
+          {
+            "name": "review",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "stars": {
+                  "type": "number",
+                  "example": 3
+                },
+                "user_id": {
+                  "type": "number",
+                  "example": 1
+                },
+                "product_id": {
+                  "type": "number",
+                  "example": 2
+                }
+              },
+              "required": [
+                "stars",
+                "user_id",
+                "product_id"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/protected/reservation": {
+      "get": {
+        "tags": [
+          "reservation"
+        ],
+        "summary": "Retorna todas as reservas realizadas",
         "description": "",
         "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "reservation"
+        ],
+        "summary": "Atualiza uma reservas.",
+        "description": "",
+        "parameters": [
+          {
+            "name": "reservation",
+            "in": "body",
+            "description": "modelo de dados dos Procedimentos",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "date": {
+                  "type": "number",
+                  "example": 1
+                },
+                "user_id": {
+                  "type": "number",
+                  "example": 1
+                },
+                "procedures": {
+                  "type": "array",
+                  "example": [
+                    1
+                  ],
+                  "items": {
+                    "type": "number"
+                  }
+                }
+              },
+              "required": [
+                "date",
+                "user_id"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "reservation"
+        ],
+        "summary": "Deleta uma reserva.",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/protected/reservation/{id}": {
+      "put": {
+        "tags": [
+          "reservation"
+        ],
+        "summary": "Atualiza uma reservas.",
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "reservation",
+            "in": "body",
+            "description": "modelo de dados dos Procedimentos",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "date": {
+                  "type": "number",
+                  "example": 1
+                },
+                "user_id": {
+                  "type": "number",
+                  "example": 1
+                },
+                "procedures": {
+                  "type": "array",
+                  "example": [
+                    1
+                  ],
+                  "items": {
+                    "type": "number"
+                  }
+                }
+              },
+              "required": [
+                "date",
+                "user_id"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/protected/request": {
+      "get": {
+        "tags": [
+          "request",
+          "private"
+        ],
+        "description": "Obtem todos as requisisoes ja realizadas no sistema",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "request"
+        ],
+        "summary": "Cria um novo pedido.",
+        "description": "",
+        "parameters": [
+          {
+            "name": "request",
+            "in": "body",
+            "description": "Modelo de Usuario",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "user_id": {
+                  "type": "string",
+                  "example": "Oliver"
+                },
+                "date": {
+                  "type": "string",
+                  "example": "oliver@gmail.com"
+                },
+                "address_id": {
+                  "type": "number",
+                  "example": 1398765432
+                },
+                "products": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "qt": {
+                        "type": "number",
+                        "example": 11
+                      },
+                      "id": {
+                        "type": "number",
+                        "example": 1
+                      }
+                    },
+                    "required": [
+                      "qt",
+                      "id"
+                    ]
+                  }
+                }
+              },
+              "required": [
+                "user_id",
+                "date",
+                "address_id",
+                "products"
+              ]
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK"
@@ -459,7 +887,7 @@
             "schema": {
               "type": "object",
               "properties": {
-                "nome": {
+                "name": {
                   "type": "string",
                   "example": "Creme para pentear"
                 },
@@ -481,7 +909,7 @@
                 }
               },
               "required": [
-                "nome",
+                "name",
                 "value",
                 "description",
                 "qt",
@@ -689,215 +1117,6 @@
         }
       }
     },
-    "/api/protected/reservation": {
-      "get": {
-        "description": "",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      },
-      "post": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "user_id": {
-                  "example": "any"
-                },
-                "date": {
-                  "example": "any"
-                },
-                "procedures": {
-                  "example": "any"
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      },
-      "delete": {
-        "description": "",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/protected/reservation/{id}": {
-      "put": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {}
-      }
-    },
-    "/api/protected/request": {
-      "get": {
-        "tags": [
-          "request",
-          "private"
-        ],
-        "description": "Obtem todos as requisisoes ja realizadas no sistema",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "request"
-        ],
-        "summary": "Cria um novo pedido.",
-        "description": "",
-        "parameters": [
-          {
-            "name": "request",
-            "in": "body",
-            "description": "Modelo de Usuario",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "user_id": {
-                  "type": "string",
-                  "example": "Oliver"
-                },
-                "date": {
-                  "type": "string",
-                  "example": "oliver@gmail.com"
-                },
-                "address_id": {
-                  "type": "number",
-                  "example": 1398765432
-                },
-                "products": {
-                  "type": "array",
-                  "items": {
-                    "type": "object",
-                    "properties": {
-                      "qt": {
-                        "type": "number",
-                        "example": 11
-                      },
-                      "id": {
-                        "type": "number",
-                        "example": 1
-                      }
-                    },
-                    "required": [
-                      "qt",
-                      "id"
-                    ]
-                  }
-                }
-              },
-              "required": [
-                "user_id",
-                "date",
-                "address_id",
-                "products"
-              ]
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/protected/request/{id}": {
-      "put": {
-        "tags": [
-          "request"
-        ],
-        "summary": "Cria um novo pedido.",
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "request",
-            "in": "body",
-            "description": "Modelo de Usuario",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "user_id": {
-                  "type": "string",
-                  "example": "Oliver"
-                },
-                "date": {
-                  "type": "string",
-                  "example": "oliver@gmail.com"
-                },
-                "address_id": {
-                  "type": "number",
-                  "example": 1398765432
-                },
-                "products": {
-                  "type": "array",
-                  "items": {
-                    "type": "object",
-                    "properties": {
-                      "qt": {
-                        "type": "number",
-                        "example": 11
-                      },
-                      "id": {
-                        "type": "number",
-                        "example": 1
-                      }
-                    },
-                    "required": [
-                      "qt",
-                      "id"
-                    ]
-                  }
-                }
-              },
-              "required": [
-                "user_id",
-                "date",
-                "address_id",
-                "products"
-              ]
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
     "/api/public/procedures": {
       "get": {
         "tags": [
@@ -1062,8 +1281,30 @@
     },
     "/api/public/search": {
       "get": {
+        "tags": [
+          "product"
+        ],
+        "summary": "Busca um produto.",
         "description": "",
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "product",
+            "in": "body",
+            "description": "modelo de Produto a ser enviado",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "search": {
+                  "type": "string",
+                  "example": "Creme"
+                }
+              },
+              "required": [
+                "search"
+              ]
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK"

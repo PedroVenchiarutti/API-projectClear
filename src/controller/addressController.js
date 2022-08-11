@@ -1,11 +1,15 @@
-const genericQuerys = require("../repositories/genericQuerys.js");
+const apiError  = require("../error/apiError.js");
+const addressRepository = require('../repositories/addressRepository.js')
 
-// client addresses
-exports.get = (req, res, next) => {
+exports.getById = (req, res, next) => {
+  /*
+     #swagger.tags = ['address']
+     #swagger.summary = 'Retorna um endereço pelo id.'
+  */
 
   const id = req.params.id;
 
-  genericQuerys.select('addresses', id)
+  addressRepository.select('addresses', id)
     .then(addresses => {
       res.send(addresses)
     }, (e) => {
@@ -13,12 +17,27 @@ exports.get = (req, res, next) => {
     })
 }
 
+exports.getByUserId = (req, res, next) => {
+  /*
+     #swagger.tags = ['address']
+     #swagger.summary = 'Retorna todos os endereço pelo id do usuario.'
+    */
+
+  const id = req.params.id;
+
+  addressRepository.select('addresses', id)
+    .then(addresses => {
+      res.send(addresses)
+    }, (e) => {
+      next(apiError.badRequest(e.message));
+    })
+}
 
 exports.add = (req, res, next) => {
    /*
      #swagger.tags = ['address']
      #swagger.summary = 'Cadastra um novop endereço.'
-     #swagger.parameters['adress']=>{
+     #swagger.parameters['address']=>{
       in: 'body',
       description: "address Model",
       schema:{
@@ -35,7 +54,7 @@ exports.add = (req, res, next) => {
   */
   const address = req.body;
 
-  genericQuerys.insertTable("addresses", address)
+  addressRepository.insertTable("addresses", address)
     .then(results => {
       res.send();
     }, (e) => {
@@ -45,10 +64,14 @@ exports.add = (req, res, next) => {
 }
 
 exports.remove = (req, res, next) => {
-
+ /*
+     #swagger.tags = ['address']
+     #swagger.summary = 'Deleta um endereço a partir do Id.'
+   
+    */
   const id = req.params.id;
 
-  genericQuerys.deleteTable("addresses", id)
+  addressRepository.deleteTable("addresses", id)
     .then(results => {
       res.send();
     }, (e) => {

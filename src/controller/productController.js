@@ -1,16 +1,17 @@
 const apiError = require('../error/apiError.js');
 const productRepository = require('../repositories/productRepository.js');
+const cripto = require('../config/bcrypt.js');
 
-exports.getAll = (req, res, next) => {
+exports.getAll = async (req, res, next) => {
 
   let num = 0;
+  let a = 'caiocaiocaoi';
 
   if(req.params.num == 1)
     num = 0;  
   else
     num = (req.params.num - 1) + 10;
-  
-  
+
   productRepository.list(num)
     .then(list => {
       res.send(list);
@@ -36,7 +37,17 @@ exports.getById = (req, res, next) => {
 }
 
 exports.search = (req, res, next) => {
-
+/**
+    #swagger.tags = ['product']
+    #swagger.summary="Busca um produto."
+    #swagger.parameters['product'] => {
+      in: "body",
+      description: "modelo de Produto a ser enviado",
+      schema:{
+        $search:"Creme"
+      }
+    }
+    */
   const param = req.body.search;
   
   productRepository.search(param)
@@ -55,7 +66,7 @@ exports.add = (req, res, next) => {
       in: "body",
       description: "modelo de Produto a ser enviado",
       schema:{
-        $nome:"Creme para pentear",
+        $name:"Creme para pentear",
         $value:45.80,
         $description:"loren ipsum....",
         $qt:67,

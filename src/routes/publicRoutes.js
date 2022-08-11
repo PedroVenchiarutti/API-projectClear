@@ -17,7 +17,6 @@ const loginSchema = require('../validations/loginValidation.js');
 
 const Routes = express.Router();
 
-
 // routes
 Routes.get('/procedures', procedures.getAll);
 Routes.get('/products/pages/:num', products.getAll);

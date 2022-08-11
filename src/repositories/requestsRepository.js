@@ -52,7 +52,6 @@ class requestRepository extends genericQuerys {
 
       const pool = newPool();
       
-      console.log(request)
       
       let query = `INSERT INTO request_products (request_id,product_id,qt_product) VALUES`;
 

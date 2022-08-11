@@ -15,10 +15,8 @@ exports.verifyPassword = (password, hash) => {
 
     bcrypt.compare(password, hash)
       .then(results => {
-        
-        if(!results)resolve()
+        resolve(results)
 
-        else reject({message:"Senha ja cadastra"})
       }, (e) => {
         reject(e)
       })

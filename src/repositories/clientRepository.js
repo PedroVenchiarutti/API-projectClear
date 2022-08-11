@@ -10,7 +10,7 @@ class clientRepository extends genericQuerys{
       // compras
       // reservas
       
-  
+      
     }
 }
 

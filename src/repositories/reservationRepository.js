@@ -23,7 +23,7 @@ class reservationRepository extends genericQuerys {
           FROM reservations AS r
       JOIN users AS u ON u.id = r.user_id 
       WHERE r.user_id = $1;
-      `:`
+      ` : `
         SELECT r.id ,r.date,u."name" , (
 	        SELECT jsonb_agg(pr) 
 		        FROM (
@@ -44,33 +44,75 @@ class reservationRepository extends genericQuerys {
         })
     })
   }
-  
-  static add(procedures){
-    
-    return new Promise((resolve,reject)=>{
-    
-      const pool = newPool();
 
-        
-    });
-  }
-  
-  static remove(id) {
+
+  static add(reservation) {
 
     return new Promise((resolve, reject) => {
 
-      const pool = newPool();
-
-      pool.query(`
-        DELETE FROM reservation_procedures WHERE reservation_id = $1`, [id])
-        .then(del => {
-          pool.query(`
-            DELETE FROM reservation WHERE id = $1`, [id])
-            .then(delR => {
+      db.exec(`
+        INSERT INTO reservation (date,user_id) 
+          VALUES (to_timestamp($1),$2)`,
+          [reservation.date, reservation.user_id])
+        .then(res => {
+          this.addRp(reservation.procedures, reservation.date, reservation.user_id)
+            .then(respose => {
               resolve();
-              pool.end();
             }, (e) => {
               reject(e);
+            })
+        }, (e) => {
+          reject(e);
+        })
+    })
+
+  }
+
+  static addRp(procedures, date, user_id) {
+
+    return new Promise((resolve, reject) => {
+
+      let query = `INSERT INTO reseravtion_procedures (reservation_id,procedure_id) VALUES`;
+
+      // revisar futuramente
+      procedures.forEach(procedure => {
+
+        query += `((SELECT id FROM reservation
+            WHERE user_id = ${user_id} AND date = to_timestamp(${date})),${procedure}),`
+      });
+
+      query = query.slice(0, -1);
+
+      db.exec(query)
+        .then(res => {
+          resolve(res)
+        }, (e) => {
+          reject(e)
+        })
+    });
+  }
+
+  static update(reservation, id) {
+
+    return new Promise((resolve, reject) => {
+
+      db.exec(`
+          UPDATE TABLE reservations 
+            SET date = to_timestamp($1), user_id = $2`,
+          [reservation.date, reservation.user_id])
+        .then(resp => {
+
+          this.deleteTable("reservation_procedures", id, "reservation_id")
+            .then(resp => {
+
+              this.addRp(reservation.procedures)
+                .then(res => {
+                  resolve();
+                }, (e) => {
+                  reject(e);
+                })
+            }, (e) => {
+              reject(e)
             })
         }, (e) => {
           reject(e)

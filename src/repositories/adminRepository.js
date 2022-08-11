@@ -26,15 +26,14 @@ class AdminRepository extends genericQuerys {
       db.exec(`
         SELECT 
           (SELECT COUNT(*) FROM reservations) AS "reservations", 
-          (SELECT count(*) FROM discounts) AS "discounts",
-          (SELECT count(*) FROM requests ) AS "requests",
-          (SELECT count(*) FROM users) AS "users";`)
+          (SELECT COUNT(*) FROM discounts) AS "discounts",
+          (SELECT COUNT(*) FROM requests ) AS "requests",
+          (SELECT COUNT(*) FROM users) AS "users";`)
         .then(data => {
           resolve(data);
         }, (e) => {
           reject(e)
         })
-
     })
   }
 }

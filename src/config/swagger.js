@@ -1,14 +1,15 @@
 const swaggerAutogen = require('swagger-autogen')()
 const doc = {
-    info: {
-      title: 'ElegancceAPI',
-      description: '',
-    },
-    host: 'localhost:3333',
-    schemes: ['http'],
-  };
-  
+  info: {
+    title: 'ElegancceAPI',
+    version: "0.8.2",
+    description: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+  },
+  host: 'localhost:3333/api',
+  schemes: ['http'],
+};
+
 const outputFile = './src/config/swagger_output.json'
 const endpointsFiles = ['./src/config/server.js'];
 
-swaggerAutogen(outputFile, endpointsFiles,doc);
+swaggerAutogen(outputFile, endpointsFiles, doc);

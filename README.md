@@ -2,9 +2,6 @@
 
 <img src="./logo.png">
 
-![GitHub last commit](https://img.shields.io/github/last-commit/d3xt3er/FrontEnd-Recyclo)
-![GitHub top language](https://img.shields.io/github/languages/top/d3xt3er/FrontEnd-Recyclo)
-
 </div>
 
  
@@ -25,6 +22,7 @@
 
 <br>
 <br>
+<div align="center">
 
 ### Local na maquina
 | Serviço | Link |
@@ -32,6 +30,7 @@
 | Swagger Docs | http://localhost:3333/docs |
 | Rotas | https://localhost:3333/api |
 
+<div>
 
 ## Integrantes
 
@@ -42,7 +41,7 @@
 </a>
 
 <a href="https://github.com/BrenoOliveira2002">
-  <img src="https://avatars.githubusercontent.com/u/103545297?v=4" title="Shape de Grillo" style="height:50px; border-radius:100%"/>
+  <img src="https://avatars.githubusercontent.com/u/103545297?v=4" title="Hulk Magrelo" style="height:50px; border-radius:100%"/>
 </a>
 
 <a href="https://github.com/CaioCDJ">
@@ -54,9 +53,16 @@
 </a>
 
 <a href="https://github.com/RyanGualberto">
-  <img src="https://avatars.githubusercontent.com/u/88859663?v=4" style="height:50px; border-radius:100%"/>
+  <img src="https://avatars.githubusercontent.com/u/88859663?v=4" title="Sofredor Amador" style="height:50px; border-radius:100%"/>
 </a>
 
+<a href="https://github.com/MatheusSimoes13">
+  <img src="https://avatars.githubusercontent.com/u/61594761?v=4" title="Amante de Ruby" style="height:50px; border-radius:100%"/>
+</a>
+
+<a href="https://github.com/Doug-Vitor">
+  <img src="https://avatars.githubusercontent.com/u/86269254?v=4" title="Fiquei sem ideias" style="height:50px; border-radius:100%"/>
+</a>
 </div>
 
 ## FrontEnd do Projeto

@@ -1,4 +1,7 @@
-const {newPool} = require('../config/dbconnect.js');
+const {
+  newPool
+} = require('../config/dbconnect.js');
+const cripto = require('../config/bcrypt.js');
 
 const login = (email, password) => {
 
@@ -8,43 +11,57 @@ const login = (email, password) => {
 
     pool.query(`
       SELECT * FROM adms 
-          WHERE email = $1 AND password = $2`, [email, password])
+          WHERE email = $1`, [email])
       .then(adm => {
 
         if (adm.rows.length != 0) {
+          cripto.verifyPassword(password, adm.rows[0].password)
+            .then(resp => {
 
-          const json = {
-            "adm": adm.rows[0],
-          }
-          resolve(adm.rows[0])
-
-        } else {
-          pool.query(`
-            SELECT * FROM users 
-              WHERE email = $1 AND password = $2`, [email, password])
-            .then(client => {
-
-              if (client.rows.length == 0) {
-                reject({
-                  message: "Usuario não encontrado"
+              if (resp === true) 
+                resolve({
+                  "adm":true,
+                  "info":adm.rows[0]
                 });
-              } else {
 
-                const json = {
-                  "client": client.rows[0],
-                }
+              else {
+                pool.query(`
+                    SELECT * FROM users 
+                      WHERE email = $1`, [email])
+                  .then(client => {
 
-                resolve(json);
+                    if (client.rows.length == 0) {
+                      reject({
+                        message: "Usuario não encontrado"
+                      });
+                    } else {
+
+                      if (client.rows.length != 0) {
+
+                        cripto.verifyPassword(password, client.rows[0].password)
+                          .then(result => {
+                            if (result) 
+                              resolve({
+                                "adm":false,
+                                "info":client.rows[0]
+                              });
+
+                            else reject({
+                              message: "Senhas diferentes"
+                            })
+                          })
+                      }
+                    }
+                  }, (e) => {
+                    reject(e);
+                  })
               }
             }, (e) => {
-              reject(e);
+              reject(e)
             })
         }
-      }, (e) => {
-        reject(e);
       })
   })
-
   pool.end();
 }
 module.exports = login;

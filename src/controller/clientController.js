@@ -11,7 +11,6 @@ exports.getByid = async (req, res, next) => {
         description:"O codigo identificador do usuario no banco de dados",
         type:"integer"
       }
-     
   */
 
   const id = req.params.id;
