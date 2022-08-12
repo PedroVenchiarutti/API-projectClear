@@ -45,6 +45,24 @@ class requestRepository extends genericQuerys {
         })
     })
   }
+  
+  static getValue(id){
+    
+    return new Promise((resolve,reject)=>{
+
+        db.exec(`
+          SELECT p.value,rp.qt_product FROM request_products AS rp
+            JOIN products AS p ON p.id = rp.product_id 
+            JOIN requests AS r ON r.id  = rp.request_id
+              WHERE rp.request_id = $1;`,[id])
+        .then(productsInfo=>{
+        
+          resolve(productsInfo)
+        },(e)=>{
+          reject(e)
+        })
+    })
+  }
 
   static insert(request) {
 

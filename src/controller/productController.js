@@ -1,11 +1,9 @@
 const apiError = require('../error/apiError.js');
 const productRepository = require('../repositories/productRepository.js');
-const cripto = require('../config/bcrypt.js');
 
 exports.getAll = async (req, res, next) => {
 
   let num = 0;
-  let a = 'caiocaiocaoi';
 
   if(req.params.num == 1)
     num = 0;  

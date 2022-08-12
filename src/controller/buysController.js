@@ -14,14 +14,24 @@ exports.getBuys = (req, res, next) => {
 
 }
 
+exports.getBuys = (req, res, next) => {
+  
+  
+} 
+
 exports.add = (req, res, next) => {
   
   // avaliar a possibilidade da compra estar "totalmente realcionada ao discount"
+  
+  const buy = req.body;
+
+  // add Compra e update Requests
+
+  buysRepository.getValue(buy.request_id)
+    .then(requestValue=>{
 
 
-}
-
-exports.getBuys = (req, res, next) => {
-
-  // get All buy And users name;  
+    },(e)=>{
+      next(apiError.badRequest(e.message))
+    })
 }
