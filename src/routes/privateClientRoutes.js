@@ -47,6 +47,7 @@ Routes.delete('/reservation', reservationController.remove)
 // request
 Routes.get('/request', requestsController.getAll)
 Routes.post('/request', requestsController.add)
+Routes.delete('/request/:id', requestsController.remove)
 
 /*
 Routes.get('/request')

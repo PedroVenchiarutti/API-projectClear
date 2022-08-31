@@ -53,6 +53,7 @@ exports.add = (req, res, next) => {
    } 
   */
   const address = req.body;
+  console.log(address)
 
   addressRepository.insertTable("addresses", address)
     .then(results => {

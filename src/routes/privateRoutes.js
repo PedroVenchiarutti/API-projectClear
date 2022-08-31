@@ -35,12 +35,12 @@ Routes.delete('/admin/:id', admController.remove);
 Routes.get("/dicount", discountController.getAll);
 Routes.post("/dicount", validationMiddleware(discountSchema), discountController.add);
 Routes.put("/dicount/:id", validationMiddleware(discountSchema), discountController.update);
-Routes.delete("/dicount", discountController.remove);
+Routes.delete("/dicount/:id", discountController.remove);
 
 // product
 Routes.post("/product", validationMiddleware(productSchema), productController.add)
 Routes.put("/product/:id", validationMiddleware(productSchema), productController.update)
-Routes.delete("/product", productController.remove)
+Routes.delete("/product/:id", productController.remove)
 
 // procedure
 Routes.post('/procedure', validationMiddleware(procedureSchema), procedureController.add)

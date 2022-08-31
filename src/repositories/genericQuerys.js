@@ -138,7 +138,6 @@ class genericQuerys {
       let props = []
 
       keys.forEach(key => {
-
         paramKey.push(key);
         query += `${key}=$${count},`;
         count++;
@@ -146,6 +145,7 @@ class genericQuerys {
       })
 
       query = query.slice(0, -1);
+      query += ' WHERE id = $1'
 
       db.exec(query, props)
         .then(res => {
@@ -159,7 +159,6 @@ class genericQuerys {
   }
 
   static deleteTable(table, id, prop = "") {
-
     return new Promise((resolve, reject) => {
 
       let query = prop ?

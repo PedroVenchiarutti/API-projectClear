@@ -802,26 +802,6 @@
             "description": "OK"
           }
         }
-      },
-      "delete": {
-        "tags": [
-          "discount"
-        ],
-        "summary": "Remove o cupon de disconto",
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
       }
     },
     "/api/protected/dicount/{id}": {
@@ -863,6 +843,26 @@
                 "code"
               ]
             }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "discount"
+        ],
+        "summary": "Remove o cupon de disconto",
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
           }
         ],
         "responses": {

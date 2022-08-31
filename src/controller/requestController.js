@@ -52,6 +52,7 @@ exports.add = (req, res, next) => {
 exports.remove = (req, res, next) => {
 
   const id = req.params.id;
+  console.log(id);
 
   requestRepository.remove(id)
     .then(results => {
