@@ -74,6 +74,7 @@ exports.add = (req, res, next) => {
     */
 
   const product = req.body;
+  console.log(product);
 
   productRepository.insertTable("products", product)
     .then(response => {
@@ -101,7 +102,7 @@ exports.update = (req, res, next) => {
     }
    */
 
-  const product = req.body.content;
+  const product = req.body;
 
   productRepository.updateTable("products", product)
     .then(response => {
@@ -123,7 +124,7 @@ exports.remove = (req, res, next) => {
    */
 
   const id = req.params.id;
-
+  console.log(id)
   productRepository.deleteTable('products', id)
     .then(response => {
       res.send();

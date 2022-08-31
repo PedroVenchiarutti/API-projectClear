@@ -24,7 +24,7 @@ exports.getByCode = (req, res, next) => {
     #swagger.summary="busca todos os cupons de discontos"
  */
 
-  const code = req.body.code;
+  const code = req.params.code;
 
   discountRepository.getByCode(code)
     .then(response => {
@@ -52,8 +52,9 @@ exports.add = (req, res, next) => {
  */
 
   const discount = req.body;
+  console.log(discount)
 
-  discountRepository.add(discount)
+  discountRepository.insertTable("discounts", discount)
     .then(response => {
       res.send()
     })
@@ -80,7 +81,7 @@ exports.update = (req, res, next) => {
 
   const discount = req.body;
 
-  discountRepository.update(discount)
+  discountRepository.update("discounts", discount)
     .then(response => {
       res.send(response)
     })
