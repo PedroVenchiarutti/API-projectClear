@@ -10,7 +10,6 @@ exports.getAll = (req, res, next) => {
 
   requestRepository.getAll(1)
     .then(results => {
-
       res.send(results)
 
     }, (e) => {

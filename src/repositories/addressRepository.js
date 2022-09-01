@@ -12,6 +12,7 @@ class AddressRepository extends genericQuerys {
           SELECT * FROM addresses WHERE user_id = $1`,
           [user_id])
           .then(addresses=>{
+            console.log(addresses);
             resolve(addresses)
           },(e)=>{
 
