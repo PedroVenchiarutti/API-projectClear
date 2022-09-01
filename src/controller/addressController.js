@@ -25,7 +25,7 @@ exports.getByUserId = (req, res, next) => {
 
   const id = req.params.id;
 
-  addressRepository.select('addresses', id)
+  addressRepository.getAllUser(id)
     .then(addresses => {
       res.send(addresses)
     }, (e) => {
