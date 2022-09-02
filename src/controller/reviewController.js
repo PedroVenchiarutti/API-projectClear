@@ -1,4 +1,5 @@
-const genericQuerys = require("../repositories/genericQuerys.js");
+const reviewRepository = require("../repositories/reviewRepository");
+const apiError = require('../error/apiError.js');
 
 exports.getById = (req, res, next) => {
  /*
@@ -12,12 +13,22 @@ exports.getById = (req, res, next) => {
   */
   const id = req.params.id;
 
-  genericQuerys.select("reviews", id)
+  reviewRepository.select("reviews", id)
     .then(reviews => {
       res.send(reviews);
     }, (e) => {
       next(apiError.badRequest(e.message));
     })
+}
+
+exports.getByUserId = (req, res, next) => {
+  const userId = req.params.userId;
+
+  reviewRepository.getByUserId(userId).then(reviews => {
+    res.send(reviews);
+  }, error => {
+    next(apiError.badRequest(error.message));
+  });
 }
 
 exports.add = (req, res, next) => {
@@ -36,7 +47,7 @@ exports.add = (req, res, next) => {
   */
   const review = req.body;
 
-  genericQuerys.insertTable("reviews", review)
+  reviewRepository.insertTable("reviews", review)
     .then(results => {
       res.send("ok");
     }, (e) => {
@@ -59,7 +70,7 @@ exports.update = (req, res, next) => {
   */
   const review = req.body;
 
-  genericQuerys.updateTable("reviews", review)
+  reviewRepository.updateTable("reviews", review)
     .then(results => {
       res.send()
     }, (e) => {
@@ -79,7 +90,7 @@ exports.remove = (req, res, next) => {
   */
   const id = req.params.id;
 
-  genericQuerys.deleteTable("reviews", id)
+  reviewRepository.deleteTable("reviews", id)
     .then(results => {
       res.send()
     }, (e) => {
