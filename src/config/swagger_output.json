@@ -608,6 +608,24 @@
         }
       }
     },
+    "/api/protected/request/{id}": {
+      "delete": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/protected/admin": {
       "get": {
         "tags": [
@@ -923,27 +941,6 @@
             "description": "OK"
           }
         }
-      },
-      "delete": {
-        "tags": [
-          "product"
-        ],
-        "summary": "Remove um produto do banco de dados",
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "Codigo identificador do produto",
-            "type": "intenger",
-            "required": true
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
       }
     },
     "/api/protected/product/{id}": {
@@ -996,6 +993,27 @@
                 "brand"
               ]
             }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "product"
+        ],
+        "summary": "Remove um produto do banco de dados",
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "intenger",
+            "description": "Codigo identificador do produto"
           }
         ],
         "responses": {
