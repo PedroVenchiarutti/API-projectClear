@@ -16,8 +16,7 @@ function tokenGem(id,adm) {
   return token;
 }
 
-exports.login = async (req, res, next) => {
-
+exports.login = (req, res, next) => {
   /*
    * #swagger.tags = ['login','public']
       #swagger.summary="Login"
@@ -31,29 +30,8 @@ exports.login = async (req, res, next) => {
     }
   * */
 
-  const {
-    email,
-    password
-  } = req.body;
-
-  try {
-
-    loginRepository(email, password)
-      .then(account => {
-
-        const token = tokenGem(account.info.id,account.adm);
-        
-        console.log(account.adm)
-        
-        res.json({
-          token,
-          "account":account.info
-        })
-      }, (e) => {
-        next(apiError.badRequest(e.message))
-      })
-
-  } catch (e) {
-    next(apiError.badRequest(e.message))
-  }
+  const { email, password } = req.body;
+  loginRepository(email, password).then(user => {
+    res.send({ user, token: tokenGem(user) })
+  }).catch(error => next(apiError.badRequest(error.message)));
 }
