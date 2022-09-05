@@ -34,7 +34,6 @@ exports.login = (req, res, next) => {
   loginRepository(email, password).then(user => {
     res.send({ user, token: tokenGem(user) })
   }).catch(error => {
-    console.log(error);
     next(apiError.badRequest(error));
   });
 }
