@@ -4,10 +4,10 @@ const cripto = require('../config/bcrypt.js');
 const getQuery = table => `SELECT * FROM ${table} WHERE EMAIL = $1`;
 
 const getMatchedLogin = email => {
-  return new Promise(resolve => {
+  return new Promise((resolve, reject) => {
     exec(getQuery("adms"), [email]).then(results => {
       if (results.length) resolve(results[0])
-      else getMatchedUser(email).then(user => resolve(user)).catch(() => reject());
+      else getMatchedUser(email).then(user => resolve(user)).catch(error => reject(error));
     }).catch(error => reject(error));
   });
 }
@@ -24,7 +24,10 @@ const getMatchedUser = email => {
 const login = (email, password) => {
   return new Promise((resolve, reject) => {
     getMatchedLogin(email).then(user => {
-      cripto.verifyPassword(password, user.password).then(() => resolve()).catch(() => reject("Senha incorreta"));
+      cripto.verifyPassword(password, user.password).then(resp => {
+        if (resp) resolve(user);
+        else reject("Senha incorreta");
+      }).catch(error => reject(error));
     }).catch(error => reject(error));
   });
 }

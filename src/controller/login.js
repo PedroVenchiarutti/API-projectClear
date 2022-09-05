@@ -33,5 +33,8 @@ exports.login = (req, res, next) => {
   const { email, password } = req.body;
   loginRepository(email, password).then(user => {
     res.send({ user, token: tokenGem(user) })
-  }).catch(error => next(apiError.badRequest(error.message)));
+  }).catch(error => {
+    console.log(error);
+    next(apiError.badRequest(error));
+  });
 }
