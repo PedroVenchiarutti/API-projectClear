@@ -31,6 +31,16 @@ exports.getByUserId = (req, res, next) => {
   });
 }
 
+exports.getByUserAndProductId = (req, res, next) => {
+  const { userId, productId } = req.params;
+  
+  reviewRepository.getByUserAndProductId(userId, productId).then(review => {
+    res.send(review);
+  }, error => {
+    next(apiError.badRequest(error));
+  });
+}
+
 exports.add = (req, res, next) => {
   
   /*
