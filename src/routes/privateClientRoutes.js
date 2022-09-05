@@ -32,9 +32,10 @@ Routes.get('/client/addresses/all/:id', addressController.getByUserId );
 Routes.post('/client/addresses', validationMiddleware(addressSchema), addressController.add);
 Routes.delete('/client/addresses/:id', addressController.remove);
 
-Routes.get('/client/reviews/:id',reviewController.getById);
+Routes.get('/client/reviews/:userId',reviewController.getByUserId);
+Routes.get('/client/reviews/:userId/:productId',reviewController.getByUserAndProductId);
 Routes.post('/client/reviews', validationMiddleware(reviewSchema), reviewController.add);
-Routes.put('/client/reviews/:id', validationMiddleware(reviewSchema), reviewController.add);
+Routes.put('/client/reviews/:id', validationMiddleware(reviewSchema), reviewController.update);
 Routes.delete('/client/reviews/:id', reviewController.remove);
 
 // reservation
