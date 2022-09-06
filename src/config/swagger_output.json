@@ -269,21 +269,15 @@
         }
       }
     },
-    "/api/protected/client/reviews/{id}": {
+    "/api/protected/client/reviews/{userId}": {
       "get": {
-        "tags": [
-          "review",
-          "client"
-        ],
-        "summary": "Retorna uma unica avalicao de cliente.",
         "description": "",
         "parameters": [
           {
-            "name": "id",
+            "name": "userId",
             "in": "path",
             "required": true,
-            "type": "integer",
-            "description": "O codigo identificador do usuario no banco de dados"
+            "type": "string"
           }
         ],
         "responses": {
@@ -291,13 +285,82 @@
             "description": "OK"
           }
         }
-      },
-      "put": {
+      }
+    },
+    "/api/protected/client/reviews/{userId}/{productId}": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "productId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/protected/client/reviews": {
+      "post": {
         "tags": [
           "review",
           "client"
         ],
         "summary": "Cria uma unica avalicao.",
+        "description": "",
+        "parameters": [
+          {
+            "name": "review",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "stars": {
+                  "type": "number",
+                  "example": 3
+                },
+                "user_id": {
+                  "type": "number",
+                  "example": 1
+                },
+                "product_id": {
+                  "type": "number",
+                  "example": 2
+                }
+              },
+              "required": [
+                "stars",
+                "user_id",
+                "product_id"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/protected/client/reviews/{id}": {
+      "put": {
+        "tags": [
+          "review",
+          "client"
+        ],
+        "summary": "-- NOt Working --Cria uma unica avalicao.",
         "description": "",
         "parameters": [
           {
@@ -353,49 +416,6 @@
             "required": true,
             "type": "integer",
             "description": "O codigo identificador do usuario no banco de dados"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/protected/client/reviews": {
-      "post": {
-        "tags": [
-          "review",
-          "client"
-        ],
-        "summary": "Cria uma unica avalicao.",
-        "description": "",
-        "parameters": [
-          {
-            "name": "review",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "stars": {
-                  "type": "number",
-                  "example": 3
-                },
-                "user_id": {
-                  "type": "number",
-                  "example": 1
-                },
-                "product_id": {
-                  "type": "number",
-                  "example": 2
-                }
-              },
-              "required": [
-                "stars",
-                "user_id",
-                "product_id"
-              ]
-            }
           }
         ],
         "responses": {
@@ -599,6 +619,95 @@
                 "products"
               ]
             }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/protected/request/{id}": {
+      "delete": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/protected/client/favorites/{userId}": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/protected/client/favorites/{userId}/{productId}": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "productId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/protected/client/favorites": {
+      "post": {
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/protected/client/favorites/{id}": {
+      "delete": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
           }
         ],
         "responses": {
@@ -923,27 +1032,6 @@
             "description": "OK"
           }
         }
-      },
-      "delete": {
-        "tags": [
-          "product"
-        ],
-        "summary": "Remove um produto do banco de dados",
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "Codigo identificador do produto",
-            "type": "intenger",
-            "required": true
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
       }
     },
     "/api/protected/product/{id}": {
@@ -996,6 +1084,27 @@
                 "brand"
               ]
             }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "product"
+        ],
+        "summary": "Remove um produto do banco de dados",
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "intenger",
+            "description": "Codigo identificador do produto"
           }
         ],
         "responses": {
@@ -1241,7 +1350,7 @@
       }
     },
     "/api/public/login": {
-      "get": {
+      "post": {
         "tags": [
           "login",
           "public"
