@@ -2,15 +2,7 @@ const apiError = require('../error/apiError.js');
 const productRepository = require('../repositories/productRepository.js');
 
 exports.getAll = async (req, res, next) => {
-
-  let num = 0;
-
-  if(req.params.num == 1)
-    num = 0;  
-  else
-    num = (req.params.num - 1) + 10;
-
-  productRepository.list(num)
+  productRepository.list(req.params.num)
     .then(list => {
       res.send(list);
     }, (e) => {

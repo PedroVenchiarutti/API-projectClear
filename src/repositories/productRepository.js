@@ -3,19 +3,11 @@ const db = require('../config/dbconnect.js');
 
 class ProductRepository extends genericQuerys {
 
-  static list(NuPage) {
-
-    return new Promise((resolve, reject) => {
-
-      db.exec(`
-        SELECT * FROM products LIMIT 10 OFFSET $1;`, [NuPage])
-        .then(products => {
-          resolve(products)
-        }, (e) => {
-          reject(e);
-        })
-    });
-  }
+  static list = (page = 1, itemsPerPage = 10) => new Promise((resolve, reject) => {
+    db.exec(`SELECT * from PRODUCTS ORDER BY id LIMIT $1 OFFSET $2 ROWS`, [+itemsPerPage, (+page - 1) * +itemsPerPage])
+      .then(results => resolve(results))
+      .catch(error => reject(error));
+  })
 
   static search(param) {
 
