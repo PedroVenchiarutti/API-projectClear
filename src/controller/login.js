@@ -4,7 +4,6 @@ const jwt = require("jsonwebtoken");
 
 // gerando token
 function tokenGem(id,adm) {
-  console.log(adm)
   const token = jwt.sign({
     id,
     "adm":adm
