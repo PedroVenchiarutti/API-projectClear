@@ -4,7 +4,8 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "start": "nodemon ./src/loader.js",
+    "start": "node ./src/loader.js",
+    "dev": "nodemon ./src/loader.js",
     "swagger": "node ./src/config/swagger.js"
   },
   "dependencies": {
