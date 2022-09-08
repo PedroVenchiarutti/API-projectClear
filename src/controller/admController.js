@@ -1,6 +1,17 @@
 const adminRepository = require('../repositories/adminRepository.js');
 const apiError = require('../error/apiError.js');
 const crypto = require('../config/bcrypt.js');
+const jwt = require("jsonwebtoken");
+
+const generateToken = (id) => jwt.sign({ id, isAdmin: true }, process.env.SECRET, { expiresIn: 10800 });
+
+exports.login = (req, res, next) => {
+    const { email, password } = req.body;
+    adminRepository.getByLogin(email, password).then(admin => {
+        admin.password = null;
+        res.send({ admin, token: generateToken(adm => id) })
+    }).catch(error => next(apiError.badRequest(error)));
+}
 
 exports.getAll = (req, res, next) => {
   /* 
@@ -117,7 +128,6 @@ exports.remove = async (req, res, next) => {
 }
 
 exports.dashboard = (req, res, next) => {
-
   adminRepository.dashboard().then(data => {
     console.log(data)
     res.send(data);

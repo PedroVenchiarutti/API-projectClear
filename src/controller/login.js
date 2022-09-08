@@ -2,36 +2,15 @@ const loginRepository = require('../repositories/loginRepository.js');
 const apiError = require("../error/apiError.js");
 const jwt = require("jsonwebtoken");
 
-// gerando token
-function tokenGem(id,adm) {
-  const token = jwt.sign({
-    id,
-    "adm":adm
-  }, process.env.SECRET, {
-    // expira em 3h
-    expiresIn: 10800
-  })
-
-  return token;
+function tokenGem(id) {
+  return jwt.sign({ id }, process.env.SECRET, { expiresIn: 10800 });
 }
 
 exports.login = (req, res, next) => {
-  /*
-   * #swagger.tags = ['login','public']
-      #swagger.summary="Login"
-      #swagger.parameters['Login'] => {
-        in:"body",
-        description:"modelo de dados dos Procedimentos",
-        schema:{
-          $email:"caiodjesus1@gmail.com",
-          $password:"caio123",
-        }
-    }
-  * */
-
   const { email, password } = req.body;
+
   loginRepository(email, password).then(user => {
-    res.send({ user, token: tokenGem(user) })
+    res.send({ user, token: tokenGem(user.id) })
   }).catch(error => {
     next(apiError.badRequest(error));
   });
