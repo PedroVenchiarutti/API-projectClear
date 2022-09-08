@@ -12,12 +12,14 @@ const idValidation = require('../middlewares/idValidationMiddleware.js');
 const validationMiddleware = require('../middlewares/validationMiddleware.js');
 const reservationController = require('../controller/reservationController');
 const requestsController = require('../controller/requestController.js');
+const favoritesController = require('../controller/favoritesController');
 
 // yup Schemas
 const clientSchema = require('../validations/clientvalidation.js');
 const reservationSchema = require("../validations/reservationValidation.js");
 const addressSchema = require('../validations/addressValidation.js');
 const reviewSchema = require('../validations/reviewValidation.js');
+// const favoriteSchema = require('../validations/favoriteValidation.js');
 
 Routes.use(idValidation());
 
@@ -28,12 +30,12 @@ Routes.delete('/client/:id', clientController.remove)
 
 // addresses
 Routes.get('/addresses/:id', addressController.getById);
-Routes.get('/client/addresses/all/:id', addressController.getByUserId );
+Routes.get('/client/addresses/all/:id', addressController.getByUserId);
 Routes.post('/client/addresses', validationMiddleware(addressSchema), addressController.add);
 Routes.delete('/client/addresses/:id', addressController.remove);
 
-Routes.get('/client/reviews/:userId',reviewController.getByUserId);
-Routes.get('/client/reviews/:userId/:productId',reviewController.getByUserAndProductId);
+Routes.get('/client/reviews/:userId', reviewController.getByUserId);
+Routes.get('/client/reviews/:userId/:productId', reviewController.getByUserAndProductId);
 Routes.post('/client/reviews', validationMiddleware(reviewSchema), reviewController.add);
 Routes.put('/client/reviews/:id', validationMiddleware(reviewSchema), reviewController.update);
 Routes.delete('/client/reviews/:id', reviewController.remove);
@@ -49,6 +51,12 @@ Routes.delete('/reservation', reservationController.remove)
 Routes.get('/request', requestsController.getAll)
 Routes.post('/request', requestsController.add)
 Routes.delete('/request/:id', requestsController.remove)
+
+// favorites
+Routes.get('/client/favorites/:userId', favoritesController.getByUserId);
+Routes.get('/client/favorites/:userId/:productId', favoritesController.getByUserAndProductId);
+Routes.post('/client/favorites', /*validationMiddleware(favoritesSchema),*/ favoritesController.add);
+Routes.delete('/client/favorites/:id', favoritesController.delete);
 
 /*
 Routes.get('/request')
