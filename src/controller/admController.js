@@ -9,7 +9,7 @@ exports.login = (req, res, next) => {
     const { email, password } = req.body;
     adminRepository.getByLogin(email, password).then(admin => {
         admin.password = null;
-        res.send({ admin, token: generateToken(adm => id) })
+        res.send({ admin, token: generateToken(adm => adm.id) })
     }).catch(error => next(apiError.badRequest(error)));
 }
 
