@@ -6,6 +6,7 @@ const procedures = require('../controller/procedureController.js')
 const products = require('../controller/productController.js');
 const login = require('../controller/login.js');
 const discount = require('../controller/discountsController.js');
+const adminController = require('../controller/admController')
 
 // validations middlewares
 const idValidation = require('../middlewares/idValidationMiddleware.js');
@@ -28,5 +29,7 @@ Routes.get("/search",products.search);
 Routes.use(idValidation());
 Routes.get('/products/:id', products.getById);
 Routes.get('/products/:id', products.getById);
+
+Routes.post('/admin/login', adminController.login);
 
 module.exports = Routes;
