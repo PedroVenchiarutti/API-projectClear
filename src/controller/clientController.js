@@ -1,6 +1,7 @@
 const genericQuerys = require('../repositories/genericQuerys.js')
 const apiError = require('../error/apiError.js')
 const crypto = require('../config/bcrypt.js');
+const ApiError = require('../error/apiError.js');
 
 exports.getByid = async (req, res, next) => {
   /*
@@ -16,12 +17,12 @@ exports.getByid = async (req, res, next) => {
   const id = req.params.id;
 
   genericQuerys.select("users", id).then(client => {
-      if (client[0])
-        res.send(client[0])
-      else {
-        next(apiError.notFound("Usuario não encontrado"))
-      }
-    })
+    if (client[0])
+      res.send(client[0])
+    else {
+      next(apiError.notFound("Usuario não encontrado"))
+    }
+  })
     .catch(e => {
       next(apiError.badRequest(e.message));
     })
@@ -57,7 +58,7 @@ exports.add = async (req, res, next) => {
 
     const newPassword = await crypto.gemPassword(client.password);
 
-    genericQuerys.verifyIfExists("users", [client.email,client.password])
+    genericQuerys.verifyIfExists("users", [client.email, client.password])
       .then(resp => {
 
         client.password = newPassword;
@@ -98,20 +99,13 @@ exports.update = (req, res, next) => {
     } 
      */
 
-  const client = req.body.content;
-
-  if (client.id || typeof client.id == "number") {
-    res.status(500).send("error");
-  }
-
-  genericQuerys.insertTable(client)
-    .then(reponse => {
-      res.send()
-    })
-    .catch(e => {
-
-      next(apiError.badRequest(e.message));
-    });
+  const client = req.body;
+  genericQuerys.updateTable("users", client).then(() => {
+    res.status(200).send();
+  }).catch(error => {
+    console.log(error);
+    next(ApiError.badRequest(error))
+  });
 }
 
 exports.remove = async (req, res, next) => {
