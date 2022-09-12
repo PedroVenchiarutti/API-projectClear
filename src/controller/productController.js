@@ -1,7 +1,15 @@
 const apiError = require("../error/apiError.js");
 const productRepository = require("../repositories/productRepository.js");
 
-exports.getAll = async (req, res, next) => {
+exports.getAll = (req, res, next) => {
+  productRepository.getAll()
+    .then(results => res.send(results))
+    .catch(error => {
+      next(apiError.badRequest(error.message));
+    })
+}
+
+exports.getWithPagination = async (req, res, next) => {
   productRepository.list(req.params.num).then(
     (list) => {
       res.send(list);

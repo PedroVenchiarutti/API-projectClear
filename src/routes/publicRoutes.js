@@ -20,15 +20,15 @@ const Routes = express.Router();
 
 // routes
 Routes.get("/procedures", procedures.getAll);
-Routes.get("/products/pages/:num", products.getAll);
+Routes.get("/products/:id", products.getById);
+Routes.get("/products/pages/:num", products.getWithPagination);
+Routes.get("/products/", products.getAll);
 Routes.get("/discount/:code", discount.getByCode);
 Routes.post("/register", bodyValidation(clientSchema), client.add);
 Routes.post("/login", bodyValidation(loginSchema), login.login);
 Routes.get("/search/:search", products.search);
 
 Routes.use(idValidation());
-Routes.get("/products/:id", products.getById);
-Routes.get("/products/:id", products.getById);
 
 Routes.post("/admin/login", adminController.login);
 
