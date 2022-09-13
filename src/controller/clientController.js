@@ -161,13 +161,15 @@ exports.updatePassword = async (req, res, next) => {
               console.log(newPassword);
               genericQuerys
                 .updatePassword("users", [newPassword, req.authenticatedUserId])
-                .then((res) => {
-                  res.status(200).send();
+                .then((resp) => {
+                  res.status(200).send("Senha alterada com sucesso");
                 })
                 .catch((e) => {
                   next(apiError.badRequest(e.message));
                 });
             });
+          } else {
+            next(apiError.badRequest("senha incorreta"));
           }
         });
     });
