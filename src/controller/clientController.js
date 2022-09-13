@@ -1,6 +1,7 @@
-const genericQuerys = require('../repositories/genericQuerys.js')
-const apiError = require('../error/apiError.js')
-const crypto = require('../config/bcrypt.js');
+const genericQuerys = require("../repositories/genericQuerys.js");
+const apiError = require("../error/apiError.js");
+const crypto = require("../config/bcrypt.js");
+const ApiError = require("../error/apiError.js");
 
 exports.getByid = async (req, res, next) => {
   /*
@@ -15,21 +16,20 @@ exports.getByid = async (req, res, next) => {
 
   const id = req.params.id;
 
-  genericQuerys.select("users", id).then(client => {
-      if (client[0])
-        res.send(client[0])
+  genericQuerys
+    .select("users", id)
+    .then((client) => {
+      if (client[0]) res.send(client[0]);
       else {
-        next(apiError.notFound("Usuario não encontrado"))
+        next(apiError.notFound("Usuario não encontrado"));
       }
     })
-    .catch(e => {
+    .catch((e) => {
       next(apiError.badRequest(e.message));
-    })
-
-}
+    });
+};
 
 exports.add = async (req, res, next) => {
-
   /*
      #swagger.tags = ['client']
      #swagger.summary = 'Cria uma nova conta de cliente.'
@@ -54,28 +54,29 @@ exports.add = async (req, res, next) => {
   // function gem password
 
   try {
-
     const newPassword = await crypto.gemPassword(client.password);
 
-    genericQuerys.verifyIfExists("users", [client.email,client.password])
-      .then(resp => {
-
+    genericQuerys.verifyIfExists("users", [client.email, client.password]).then(
+      (resp) => {
         client.password = newPassword;
 
-        genericQuerys.insertTable("users", client)
-          .then(response => {
-            res.send("deu bom")
+        genericQuerys
+          .insertTable("users", client)
+          .then((response) => {
+            res.send("deu bom");
           })
-          .catch(e => {
+          .catch((e) => {
             next(apiError.badRequest(e.message));
           });
-      }, (e) => {
+      },
+      (e) => {
         next(apiError.badRequest(e.message));
-      })
+      }
+    );
   } catch (e) {
     next(apiError.badRequest(e.message));
   }
-}
+};
 
 exports.update = (req, res, next) => {
   /*
@@ -98,21 +99,17 @@ exports.update = (req, res, next) => {
     } 
      */
 
-  const client = req.body.content;
-
-  if (client.id || typeof client.id == "number") {
-    res.status(500).send("error");
-  }
-
-  genericQuerys.insertTable(client)
-    .then(reponse => {
-      res.send()
+  const client = req.body;
+  genericQuerys
+    .updateTable("users", client)
+    .then(() => {
+      res.status(200).send();
     })
-    .catch(e => {
-
-      next(apiError.badRequest(e.message));
+    .catch((error) => {
+      console.log(error);
+      next(ApiError.badRequest(error));
     });
-}
+};
 
 exports.remove = async (req, res, next) => {
   /* 
@@ -127,16 +124,56 @@ exports.remove = async (req, res, next) => {
 
   const id = req.params.id;
 
-  genericQuerys.deleteTable(id)
-    .then(client => {
-      if (client[0])
-        res.send(client)
+  genericQuerys
+    .deleteTable(id)
+    .then((client) => {
+      if (client[0]) res.send(client);
       else {
-        next(apiError.notFound('conta nao encontrada'))
+        next(apiError.notFound("conta nao encontrada"));
       }
     })
-    .catch(err => {
-
+    .catch((err) => {
       next(apiError.badRequest(err.message));
-    })
-}
+    });
+};
+
+exports.updatePassword = async (req, res, next) => {
+  /*
+      #swagger.tags = ['client']
+      #swagger.summary = 'Altera a senha de um usuario.'
+      #swagger.parameters['user'] = {
+        in: 'body',
+        description: "Modelo de Usuario",
+        schema:{
+          $password:"auau123",
+          $newPassword:"auau123"
+        }
+      }
+  */
+
+  try {
+    genericQuerys.select("users", req.authenticatedUserId).then((client) => {
+      crypto
+        .verifyPassword(req.body.password, client[0].password)
+        .then((resp) => {
+          if (resp) {
+            crypto.gemPassword(req.body.newPassword).then((newPassword) => {
+              console.log(newPassword);
+              genericQuerys
+                .updatePassword("users", [newPassword, req.authenticatedUserId])
+                .then((resp) => {
+                  res.status(200).send("Senha alterada com sucesso");
+                })
+                .catch((e) => {
+                  next(apiError.badRequest(e.message));
+                });
+            });
+          } else {
+            next(apiError.badRequest("senha incorreta"));
+          }
+        });
+    });
+  } catch (err) {
+    next(apiError.badRequest(err.message));
+  }
+};

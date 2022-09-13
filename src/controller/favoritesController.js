@@ -23,7 +23,7 @@ exports.getByUserAndProductId = (req, res, next) => {
   });
 }
 
-exports.delete = (req, res, next) => {  
-  favoritesRepository.deleteTable(TABLE_NAME, req.params.id).then(() => res.status(200))
+exports.delete = (req, res, next) => {
+  favoritesRepository.deleteTable(TABLE_NAME, req.params.id).then(() => res.status(200).send())
     .catch(error => next(ApiError.badRequest(error.message)));
 }

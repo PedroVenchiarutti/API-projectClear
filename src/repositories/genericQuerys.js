@@ -163,7 +163,7 @@ class genericQuerys {
 
       let query = prop ?
         `DELETE FROM ${table} WHERE ${prop} = $1` :
-        `DELETE FROM ${table} WHERE id = $1`
+        `DELETE FROM ${table} WHERE id = $1`;
 
       // change to in ids
 
