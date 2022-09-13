@@ -18,6 +18,11 @@ class AdminRepository extends genericQuerys {
    * qt valor total
    * */
 
+  static getByLogin = (email, password) => new Promise((resolve, reject) => {
+    db.exec(`SELECT * FROM adms WHERE email = $1 AND password = $2`, [email, password])
+      .then(results => resolve(results[0]))
+      .catch(error => reject(error))
+  });
 
   static dashboard() {
 

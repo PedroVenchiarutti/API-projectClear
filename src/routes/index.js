@@ -11,6 +11,10 @@ const Routes = express.Router();
 
 Routes.use("/protected", authMiddleware(false), privateClientRoutes);
 Routes.use("/protected", authMiddleware(false), privateRoutes);
+
+/* Routes.use("/protected", privateClientRoutes);
+Routes.use("/protected", privateRoutes); */
+
 Routes.use("/public", publicRoutes);
 
 module.exports = Routes;
