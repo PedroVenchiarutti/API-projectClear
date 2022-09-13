@@ -2,6 +2,7 @@ const genericQuerys = require("../repositories/genericQuerys.js");
 const apiError = require("../error/apiError.js");
 const crypto = require("../config/bcrypt.js");
 const ApiError = require("../error/apiError.js");
+const { object } = require("yup");
 
 exports.getByid = async (req, res, next) => {
   /*
@@ -171,6 +172,58 @@ exports.updatePassword = async (req, res, next) => {
           } else {
             next(apiError.badRequest("senha incorreta"));
           }
+        });
+    });
+  } catch (err) {
+    next(apiError.badRequest(err.message));
+  }
+};
+
+exports.updateDateClient = async (req, res, next) => {
+  /*
+      #swagger.tags = ['client']
+      #swagger.summary = 'Altera os dados de um usuario.'
+      #swagger.parameters['user'] = {
+        in: 'body',
+        description: "Modelo de Usuario",
+        schema:{
+          $name:"Oliver",
+          $email:"",
+          $password:"",
+          $phone:1398765432,
+          $cpf:88888888888,
+          $sexo:"Masculino",
+          $birth:"1009202001",
+          $img_url:"link.com.br/img.png"
+        }
+      }
+  */
+
+  try {
+    genericQuerys.select("users", req.authenticatedUserId).then((client) => {
+      const clientUpdate = {};
+
+      const { name, email, phone, cpf, sexo, img_url } = client[0];
+
+      const data = {
+        name: req.body.name || name,
+        email: req.body.email || email,
+        phone: req.body.phone || phone,
+        cpf: req.body.cpf || cpf,
+        sexo: req.body.sexo || sexo,
+        img_url: req.body.img_url || img_url,
+      };
+
+      Object.assign(clientUpdate, data, req.body);
+
+      genericQuerys
+        .updateClient("users", data, req.authenticatedUserId)
+        .then((resp) => {
+          res.status(200).send("Dados alterados com sucesso");
+        })
+        .catch((e) => {
+          res.status(200).send("deu ruim");
+          console.log(e);
         });
     });
   } catch (err) {

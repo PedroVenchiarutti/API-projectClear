@@ -151,6 +151,36 @@ class genericQuerys {
     });
   }
 
+  static updateClient(table, params, id) {
+    return new Promise((resolve, reject) => {
+      let query = `UPDATE ${table} SET `;
+      const keys = Object.keys(params);
+
+      let count = 1;
+
+      let paramKey = [];
+      let props = [];
+
+      keys.forEach((key) => {
+        paramKey.push(key);
+        query += `${key}=$${count},`;
+        count++;
+        props.push(params[key]);
+      });
+
+      query = query.slice(0, -1);
+      query += ` WHERE id = ${id}`;
+
+      db.exec(query, props)
+        .then((res) => {
+          resolve(res);
+        })
+        .catch((err) => {
+          reject(err);
+        });
+    });
+  }
+
   static deleteTable(table, id, prop = "") {
     return new Promise((resolve, reject) => {
       let query = prop

@@ -25,14 +25,16 @@ Routes.use(idValidation());
 
 // clients Routes
 Routes.get("/client/:id", clientController.getByid);
-
 Routes.put("/client/password", clientController.updatePassword);
+
+Routes.put("/client/updateclient", clientController.updateDateClient);
 
 Routes.put(
   "/client/:id",
   validationMiddleware(clientSchema),
   clientController.update
 );
+
 
 Routes.delete("/client/:id", clientController.remove);
 
