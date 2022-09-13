@@ -135,6 +135,7 @@ class genericQuerys {
         query += `${key}=$${count},`;
         count++;
         props.push(params[key]);
+        console.log(params[key]);
       });
 
       query = query.slice(0, -1);

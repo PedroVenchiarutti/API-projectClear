@@ -33,6 +33,7 @@ Routes.put(
   validationMiddleware(clientSchema),
   clientController.update
 );
+
 Routes.delete("/client/:id", clientController.remove);
 
 // addresses
