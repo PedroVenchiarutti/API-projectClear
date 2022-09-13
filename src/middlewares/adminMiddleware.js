@@ -1,5 +1,7 @@
 const apiError = require('../error/apiError.js');
-require('dotenv/config');
+
+const { config } = require("dotenv");
+config();
 
 const adminMiddleware = () => (req, res, next) => {
     if (req.isAdmin) next();
