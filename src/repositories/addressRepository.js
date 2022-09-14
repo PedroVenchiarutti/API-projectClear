@@ -4,22 +4,30 @@ const db = require('../config/dbconnect.js');
 class AddressRepository extends genericQuerys {
 
 
-  static getAllUser(user_id){
+  static getAllUser(user_id) {
 
-      return new Promise((resolve,reject)=>{
+    return new Promise((resolve, reject) => {
 
-        db.exec(`
+      db.exec(`
           SELECT * FROM addresses WHERE user_id = $1`,
-          [user_id])
-          .then(addresses=>{
-            console.log(addresses);
-            resolve(addresses)
-          },(e)=>{
+        [user_id])
+        .then(addresses => {
+          console.log(addresses);
+          resolve(addresses)
+        }, (e) => {
 
-            reject(e);
-          })
+          reject(e);
+        })
 
-      })
+    })
+  }
+
+  static getByAddressIdAndUserId(addressId, userId) {
+    return new Promise((resolve, reject) => {
+      db.exec(`SELECT * FROM addresses WHERE id = $1 AND user_id = $2`, [addressId, userId])
+        .then(results => resolve(results[0]))
+        .catch(error => reject(error))
+    })
   }
 }
 

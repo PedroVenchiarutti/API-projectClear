@@ -41,11 +41,8 @@ Routes.delete("/client/:id", clientController.remove);
 // addresses
 Routes.get("/addresses/:id", addressController.getById);
 Routes.get("/client/addresses/all/:id", addressController.getByUserId);
-Routes.post(
-  "/client/addresses",
-  validationMiddleware(addressSchema),
-  addressController.add
-);
+Routes.post("/client/addresses", validationMiddleware(addressSchema), addressController.add);
+Routes.patch("/client/addresses/:id", addressController.update);
 Routes.delete("/client/addresses/:id", addressController.remove);
 
 Routes.get("/client/reviews/:userId", reviewController.getByUserId);
