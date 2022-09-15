@@ -7,15 +7,11 @@
   },
   "host": "localhost:3333/api",
   "basePath": "/",
-  "schemes": [
-    "http"
-  ],
+  "schemes": ["http"],
   "paths": {
     "/api/protected/client/{id}": {
       "get": {
-        "tags": [
-          "client"
-        ],
+        "tags": ["client"],
         "summary": "busca um unico cadastro de cliente no banco de dados",
         "description": "",
         "parameters": [
@@ -34,9 +30,7 @@
         }
       },
       "put": {
-        "tags": [
-          "client"
-        ],
+        "tags": ["client"],
         "summary": "Altera os dados de uma conta client. ",
         "description": "",
         "parameters": [
@@ -114,9 +108,7 @@
         }
       },
       "delete": {
-        "tags": [
-          "client"
-        ],
+        "tags": ["client"],
         "summary": "Deleta um usuario do banco de dado a partir do seu id.",
         "description": "",
         "parameters": [
@@ -137,9 +129,7 @@
     },
     "/api/protected/addresses/{id}": {
       "get": {
-        "tags": [
-          "address"
-        ],
+        "tags": ["address"],
         "summary": "Retorna um endereço pelo id.",
         "description": "",
         "parameters": [
@@ -159,9 +149,7 @@
     },
     "/api/protected/client/addresses/all/{id}": {
       "get": {
-        "tags": [
-          "address"
-        ],
+        "tags": ["address"],
         "summary": "Retorna todos os endereço pelo id do usuario.",
         "description": "",
         "parameters": [
@@ -181,9 +169,7 @@
     },
     "/api/protected/client/addresses": {
       "post": {
-        "tags": [
-          " "
-        ],
+        "tags": [" "],
         "summary": "Cadastra um novop endereço.",
         "description": "",
         "parameters": [
@@ -249,9 +235,7 @@
     },
     "/api/protected/client/addresses/{id}": {
       "delete": {
-        "tags": [
-          "address"
-        ],
+        "tags": ["address"],
         "summary": "Deleta um endereço a partir do Id.",
         "description": "",
         "parameters": [
@@ -313,10 +297,7 @@
     },
     "/api/protected/client/reviews": {
       "post": {
-        "tags": [
-          "review",
-          "client"
-        ],
+        "tags": ["review", "client"],
         "summary": "Cria uma unica avalicao.",
         "description": "",
         "parameters": [
@@ -339,11 +320,7 @@
                   "example": 2
                 }
               },
-              "required": [
-                "stars",
-                "user_id",
-                "product_id"
-              ]
+              "required": ["stars", "user_id", "product_id"]
             }
           }
         ],
@@ -356,10 +333,7 @@
     },
     "/api/protected/client/reviews/{id}": {
       "put": {
-        "tags": [
-          "review",
-          "client"
-        ],
+        "tags": ["review", "client"],
         "summary": "-- NOt Working --Cria uma unica avalicao.",
         "description": "",
         "parameters": [
@@ -388,11 +362,7 @@
                   "example": 2
                 }
               },
-              "required": [
-                "stars",
-                "user_id",
-                "product_id"
-              ]
+              "required": ["stars", "user_id", "product_id"]
             }
           }
         ],
@@ -403,10 +373,7 @@
         }
       },
       "delete": {
-        "tags": [
-          "review",
-          "client"
-        ],
+        "tags": ["review", "client"],
         "summary": "Deleta uma unica avalicao de cliente.",
         "description": "",
         "parameters": [
@@ -427,9 +394,7 @@
     },
     "/api/protected/reservation": {
       "get": {
-        "tags": [
-          "reservation"
-        ],
+        "tags": ["reservation"],
         "summary": "Retorna todas as reservas realizadas",
         "description": "",
         "parameters": [],
@@ -440,9 +405,7 @@
         }
       },
       "post": {
-        "tags": [
-          "reservation"
-        ],
+        "tags": ["reservation"],
         "summary": "Atualiza uma reservas.",
         "description": "",
         "parameters": [
@@ -463,18 +426,13 @@
                 },
                 "procedures": {
                   "type": "array",
-                  "example": [
-                    1
-                  ],
+                  "example": [1],
                   "items": {
                     "type": "number"
                   }
                 }
               },
-              "required": [
-                "date",
-                "user_id"
-              ]
+              "required": ["date", "user_id"]
             }
           }
         ],
@@ -485,9 +443,7 @@
         }
       },
       "delete": {
-        "tags": [
-          "reservation"
-        ],
+        "tags": ["reservation"],
         "summary": "Deleta uma reserva.",
         "description": "",
         "parameters": [],
@@ -500,9 +456,7 @@
     },
     "/api/protected/reservation/{id}": {
       "put": {
-        "tags": [
-          "reservation"
-        ],
+        "tags": ["reservation"],
         "summary": "Atualiza uma reservas.",
         "description": "",
         "parameters": [
@@ -529,18 +483,13 @@
                 },
                 "procedures": {
                   "type": "array",
-                  "example": [
-                    1
-                  ],
+                  "example": [1],
                   "items": {
                     "type": "number"
                   }
                 }
               },
-              "required": [
-                "date",
-                "user_id"
-              ]
+              "required": ["date", "user_id"]
             }
           }
         ],
@@ -553,10 +502,7 @@
     },
     "/api/protected/request": {
       "get": {
-        "tags": [
-          "request",
-          "private"
-        ],
+        "tags": ["request", "private"],
         "description": "Obtem todos as requisisoes ja realizadas no sistema",
         "parameters": [],
         "responses": {
@@ -566,9 +512,7 @@
         }
       },
       "post": {
-        "tags": [
-          "request"
-        ],
+        "tags": ["request"],
         "summary": "Cria um novo pedido.",
         "description": "",
         "parameters": [
@@ -605,19 +549,11 @@
                         "example": 1
                       }
                     },
-                    "required": [
-                      "qt",
-                      "id"
-                    ]
+                    "required": ["qt", "id"]
                   }
                 }
               },
-              "required": [
-                "user_id",
-                "date",
-                "address_id",
-                "products"
-              ]
+              "required": ["user_id", "date", "address_id", "products"]
             }
           }
         ],
@@ -719,9 +655,7 @@
     },
     "/api/protected/admin": {
       "get": {
-        "tags": [
-          "admin"
-        ],
+        "tags": ["admin"],
         "summary": "Busca todos os administradores cadastrados no banco de dados",
         "description": "",
         "parameters": [],
@@ -732,9 +666,7 @@
         }
       },
       "post": {
-        "tags": [
-          "admin"
-        ],
+        "tags": ["admin"],
         "summary": "Efetua a criação do admin no banco de dados.",
         "description": "",
         "parameters": [
@@ -758,11 +690,7 @@
                   "example": "auau123"
                 }
               },
-              "required": [
-                "name",
-                "email",
-                "password"
-              ]
+              "required": ["name", "email", "password"]
             }
           }
         ],
@@ -786,9 +714,7 @@
     },
     "/api/protected/admin/{id}": {
       "put": {
-        "tags": [
-          "admin"
-        ],
+        "tags": ["admin"],
         "summary": "Efetua a alteraçao das informaões do admin.",
         "description": "",
         "parameters": [
@@ -822,12 +748,7 @@
                   "example": "auau123"
                 }
               },
-              "required": [
-                "id",
-                "name",
-                "email",
-                "password"
-              ]
+              "required": ["id", "name", "email", "password"]
             }
           }
         ],
@@ -838,9 +759,7 @@
         }
       },
       "delete": {
-        "tags": [
-          "admin"
-        ],
+        "tags": ["admin"],
         "summary": "Deleta uma conta de administrador.",
         "description": "",
         "parameters": [
@@ -860,9 +779,7 @@
     },
     "/api/protected/dicount": {
       "get": {
-        "tags": [
-          "discount"
-        ],
+        "tags": ["discount"],
         "summary": "busca todos os cupons de discontos",
         "description": "",
         "parameters": [],
@@ -873,9 +790,7 @@
         }
       },
       "post": {
-        "tags": [
-          "discount"
-        ],
+        "tags": ["discount"],
         "summary": "Cria um novo cupon de disconto",
         "description": "",
         "parameters": [
@@ -899,10 +814,7 @@
                   "example": 1658762344027
                 }
               },
-              "required": [
-                "disocunt",
-                "code"
-              ]
+              "required": ["disocunt", "code"]
             }
           }
         ],
@@ -915,9 +827,7 @@
     },
     "/api/protected/dicount/{id}": {
       "put": {
-        "tags": [
-          "discount"
-        ],
+        "tags": ["discount"],
         "summary": "Atualiza um novo cupon de disconto",
         "description": "",
         "parameters": [
@@ -947,10 +857,7 @@
                   "example": 1658762344027
                 }
               },
-              "required": [
-                "disocunt",
-                "code"
-              ]
+              "required": ["disocunt", "code"]
             }
           }
         ],
@@ -961,9 +868,7 @@
         }
       },
       "delete": {
-        "tags": [
-          "discount"
-        ],
+        "tags": ["discount"],
         "summary": "Remove o cupon de disconto",
         "description": "",
         "parameters": [
@@ -983,9 +888,7 @@
     },
     "/api/protected/product": {
       "post": {
-        "tags": [
-          "product"
-        ],
+        "tags": ["product"],
         "summary": "Adiciona um produto no bando de dados",
         "description": "",
         "parameters": [
@@ -1017,13 +920,7 @@
                   "example": "avon"
                 }
               },
-              "required": [
-                "name",
-                "value",
-                "description",
-                "qt",
-                "brand"
-              ]
+              "required": ["name", "value", "description", "qt", "brand"]
             }
           }
         ],
@@ -1036,9 +933,7 @@
     },
     "/api/protected/product/{id}": {
       "put": {
-        "tags": [
-          "product"
-        ],
+        "tags": ["product"],
         "summary": "Atualizacao dos dados de um produto",
         "description": "",
         "parameters": [
@@ -1076,13 +971,7 @@
                   "example": "avon"
                 }
               },
-              "required": [
-                "nome",
-                "value",
-                "description",
-                "qt",
-                "brand"
-              ]
+              "required": ["nome", "value", "description", "qt", "brand"]
             }
           }
         ],
@@ -1093,9 +982,7 @@
         }
       },
       "delete": {
-        "tags": [
-          "product"
-        ],
+        "tags": ["product"],
         "summary": "Remove um produto do banco de dados",
         "description": "",
         "parameters": [
@@ -1116,9 +1003,7 @@
     },
     "/api/protected/procedure": {
       "post": {
-        "tags": [
-          "procedure"
-        ],
+        "tags": ["procedure"],
         "summary": "Adiciona um procedimento",
         "description": "",
         "parameters": [
@@ -1142,11 +1027,7 @@
                   "example": "corte"
                 }
               },
-              "required": [
-                "name",
-                "value",
-                "categorie"
-              ]
+              "required": ["name", "value", "categorie"]
             }
           }
         ],
@@ -1157,9 +1038,7 @@
         }
       },
       "delete": {
-        "tags": [
-          "procedure"
-        ],
+        "tags": ["procedure"],
         "summary": "Remove um procedimento",
         "description": "",
         "parameters": [
@@ -1179,9 +1058,7 @@
     },
     "/api/protected/procedure/{id}": {
       "put": {
-        "tags": [
-          "procedure"
-        ],
+        "tags": ["procedure"],
         "summary": "Atualiza um procedimento",
         "description": "",
         "parameters": [
@@ -1211,11 +1088,7 @@
                   "example": "corte"
                 }
               },
-              "required": [
-                "name",
-                "value",
-                "categorie"
-              ]
+              "required": ["name", "value", "categorie"]
             }
           }
         ],
@@ -1228,9 +1101,7 @@
     },
     "/api/public/procedures": {
       "get": {
-        "tags": [
-          "procedure"
-        ],
+        "tags": ["procedure"],
         "summary": "Busca todos os procedimentos cadastrados.",
         "description": "",
         "parameters": [],
@@ -1261,9 +1132,7 @@
     },
     "/api/public/discount/{code}": {
       "get": {
-        "tags": [
-          "discount"
-        ],
+        "tags": ["discount"],
         "summary": "busca todos os cupons de discontos",
         "description": "",
         "parameters": [
@@ -1283,9 +1152,7 @@
     },
     "/api/public/register": {
       "post": {
-        "tags": [
-          "client"
-        ],
+        "tags": ["client"],
         "summary": "Cria uma nova conta de cliente.",
         "description": "",
         "parameters": [
@@ -1296,6 +1163,10 @@
             "schema": {
               "type": "object",
               "properties": {
+                "username": {
+                  "type": "string",
+                  "example": "Oliver"
+                },
                 "name": {
                   "type": "string",
                   "example": "Oliver"
@@ -1330,6 +1201,7 @@
                 }
               },
               "required": [
+                "username",
                 "name",
                 "email",
                 "password",
@@ -1351,10 +1223,7 @@
     },
     "/api/public/login": {
       "post": {
-        "tags": [
-          "login",
-          "public"
-        ],
+        "tags": ["login", "public"],
         "summary": "Login",
         "description": "",
         "parameters": [
@@ -1374,10 +1243,7 @@
                   "example": "caio123"
                 }
               },
-              "required": [
-                "email",
-                "password"
-              ]
+              "required": ["email", "password"]
             }
           }
         ],
@@ -1390,9 +1256,7 @@
     },
     "/api/public/search": {
       "get": {
-        "tags": [
-          "product"
-        ],
+        "tags": ["product"],
         "summary": "Busca um produto.",
         "description": "",
         "parameters": [
@@ -1408,9 +1272,7 @@
                   "example": "Creme"
                 }
               },
-              "required": [
-                "search"
-              ]
+              "required": ["search"]
             }
           }
         ],
@@ -1423,9 +1285,7 @@
     },
     "/api/public/products/{id}": {
       "get": {
-        "tags": [
-          "product"
-        ],
+        "tags": ["product"],
         "summary": "Lista todos os produtos",
         "description": "",
         "parameters": [

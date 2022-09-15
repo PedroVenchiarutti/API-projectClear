@@ -3,6 +3,7 @@ const yup = require("yup");
 const clientSchema = yup.object().shape({
   username: yup.string().required(),
   name: yup.string().required(),
+  username: yup.string().required(),
   password: yup.string().required().min(6),
   email: yup.string().email().required(),
   cpf: yup.number().required(),
@@ -11,5 +12,4 @@ const clientSchema = yup.object().shape({
   birth: yup.date().notRequired(),
   img_url: yup.string().url().notRequired(),
 });
-
 module.exports = clientSchema;

@@ -8,45 +8,47 @@ exports.getAll = (req, res, next) => {
    * #swagger.description = "Obtem todos as requisisoes ja realizadas no sistema"
    */
 
-  requestRepository.getAll(1)
-    .then(results => {
-      res.send(results)
+  requestRepository.getAll()
+    .then(results => res.send(results))
+    .catch(error => next(apiError.badRequest(error.message)));
+}
 
-    }, (e) => {
-      next(apiError.badRequest(e.message));
-    })
+exports.getByUser = (req, res, next) => {
+  requestRepository.getByUserId(req.authenticatedUserId)
+    .then(results => res.send(results))
+    .catch(error => next(apiError.badRequest(error.message)));
 }
 
 exports.add = (req, res, next) => {
 
-/*
-     #swagger.tags = ['request']
-     #swagger.summary = 'Cria um novo pedido.'
-     #swagger.parameters['request']=>{
-      in: 'body',
-      description: "Modelo de Usuario",
-      schema:{
-        $user_id:"Oliver",
-        $date:"oliver@gmail.com",
-        $address_id:1398765432,
-        $products: [
-          {
-            $qt:11,
-            $id:1,
-          }
-        ]
-     }
-   } 
-  */
+  /*
+       #swagger.tags = ['request']
+       #swagger.summary = 'Cria um novo pedido.'
+       #swagger.parameters['request']=>{
+        in: 'body',
+        description: "Modelo de Usuario",
+        schema:{
+          $user_id:"Oliver",
+          $date:"oliver@gmail.com",
+          $address_id:1398765432,
+          $products: [
+            {
+              $qt:11,
+              $id:1,
+            }
+          ]
+       }
+     } 
+    */
   const request = req.body;
 
   requestRepository.insert(request)
-    .then(ok=>{
+    .then(ok => {
       res.send()
-    },(e)=>{
+    }, (e) => {
       next(apiError.badRequest(e.message));
     })
-}   
+}
 
 exports.remove = (req, res, next) => {
 

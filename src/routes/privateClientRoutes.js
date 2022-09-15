@@ -10,6 +10,7 @@ const reviewController = require("../controller/reviewController.js");
 // validation Middlewares
 const idValidation = require("../middlewares/idValidationMiddleware.js");
 const validationMiddleware = require("../middlewares/validationMiddleware.js");
+const adminMiddleware = require('../middlewares/adminMiddleware');
 const reservationController = require("../controller/reservationController");
 const requestsController = require("../controller/requestController.js");
 const favoritesController = require("../controller/favoritesController");
@@ -41,11 +42,8 @@ Routes.delete("/client/:id", clientController.remove);
 // addresses
 Routes.get("/addresses/:id", addressController.getById);
 Routes.get("/client/addresses/all/:id", addressController.getByUserId);
-Routes.post(
-  "/client/addresses",
-  validationMiddleware(addressSchema),
-  addressController.add
-);
+Routes.post("/client/addresses", validationMiddleware(addressSchema), addressController.add);
+Routes.patch("/client/addresses/:id", addressController.update);
 Routes.delete("/client/addresses/:id", addressController.remove);
 
 Routes.get("/client/reviews/:userId", reviewController.getByUserId);
@@ -81,7 +79,8 @@ Routes.put(
 Routes.delete("/reservation", reservationController.remove);
 
 // request
-Routes.get("/request", requestsController.getAll);
+Routes.get('/admin/requests', requestsController.getAll);
+Routes.get("/requests", requestsController.getByUser);
 Routes.post("/request", requestsController.add);
 Routes.delete("/request/:id", requestsController.remove);
 

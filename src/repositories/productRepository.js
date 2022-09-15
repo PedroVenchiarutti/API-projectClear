@@ -35,6 +35,14 @@ class ProductRepository extends genericQuerys {
       );
     });
   }
+
+  static getBrands() {
+    return new Promise((resolve, reject) => {
+      db.exec(`SELECT DISTINCT brand FROM products`)
+        .then(results => resolve(results))
+        .catch(error => reject(error));
+    });
+  }
 }
 
 module.exports = ProductRepository;
