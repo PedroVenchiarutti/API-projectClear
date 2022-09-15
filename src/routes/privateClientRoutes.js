@@ -10,6 +10,7 @@ const reviewController = require("../controller/reviewController.js");
 // validation Middlewares
 const idValidation = require("../middlewares/idValidationMiddleware.js");
 const validationMiddleware = require("../middlewares/validationMiddleware.js");
+const adminMiddleware = require('../middlewares/adminMiddleware');
 const reservationController = require("../controller/reservationController");
 const requestsController = require("../controller/requestController.js");
 const favoritesController = require("../controller/favoritesController");
@@ -78,7 +79,8 @@ Routes.put(
 Routes.delete("/reservation", reservationController.remove);
 
 // request
-Routes.get("/request", requestsController.getAll);
+Routes.get('/admin/requests', requestsController.getAll);
+Routes.get("/requests", requestsController.getByUser);
 Routes.post("/request", requestsController.add);
 Routes.delete("/request/:id", requestsController.remove);
 
