@@ -3,9 +3,9 @@ const ApiError = require("../error/apiError");
 
 const TABLE_NAME = "favorites";
 
-exports.add = (req, res, next) => {  
-    favoritesRepository.insertTable(TABLE_NAME, req.body).then(review => res.send(review))
-        .catch(error => next(ApiError.badRequest(error.message)));
+exports.add = (req, res, next) => {
+  favoritesRepository.insertTable(TABLE_NAME, req.body).then(review => res.send(review))
+    .catch(error => next(ApiError.badRequest(error.message)));
 }
 
 exports.getByUserId = (req, res, next) => {
@@ -15,7 +15,7 @@ exports.getByUserId = (req, res, next) => {
 
 exports.getByUserAndProductId = (req, res, next) => {
   const { userId, productId } = req.params;
-  
+
   favoritesRepository.getByUserAndProductId(userId, productId).then(review => {
     res.send(review);
   }, error => {
@@ -23,7 +23,8 @@ exports.getByUserAndProductId = (req, res, next) => {
   });
 }
 
-exports.delete = (req, res, next) => {  
-  favoritesRepository.deleteTable(TABLE_NAME, req.params.id).then(() => res.status(200))
+exports.delete = (req, res, next) => {
+  favoritesRepository.deleteTable(TABLE_NAME, req.params.id)
+    .then(() => res.status(200).send())
     .catch(error => next(ApiError.badRequest(error.message)));
 }
