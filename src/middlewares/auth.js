@@ -7,6 +7,9 @@ const authMiddleware = (permision = false ) => (req, res, next) => {
   
   const token = req.headers['authorization'];
 
+
+  console.log(token)
+
   if (!token) {
     next(apiError.forbidden("acesso negado"))
   }

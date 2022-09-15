@@ -43,8 +43,6 @@ exports.login = async (req, res, next) => {
 
         const token = tokenGem(account.info.id,account.adm);
         
-        console.log(account.adm)
-        
         res.json({
           token,
           "account":account.info

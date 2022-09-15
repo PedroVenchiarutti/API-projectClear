@@ -25,8 +25,8 @@ Routes.post('/register', bodyValidation(clientSchema), client.add);
 Routes.get('/login', bodyValidation(loginSchema), login.login)
 Routes.get("/search",products.search);
 
+Routes.get('/products/:id', products.getById);
+
 Routes.use(idValidation());
-Routes.get('/products/:id', products.getById);
-Routes.get('/products/:id', products.getById);
 
 module.exports = Routes;

@@ -25,11 +25,12 @@ exports.getById = (req, res, next) => {
   */
 
   const id = req.params.id;
-
-  productRepository.select("products", id)
+  
+  productRepository.byId(id)
     .then(product => {
       res.send(product);
     }, (e) => {
+      console.log(e)
       next(apiError.badRequest(e.message))
     })
 }

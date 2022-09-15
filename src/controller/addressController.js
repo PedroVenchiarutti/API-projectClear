@@ -52,6 +52,7 @@ exports.add = (req, res, next) => {
      }
    } 
   */
+  
   const address = req.body;
 
   addressRepository.insertTable("addresses", address)
