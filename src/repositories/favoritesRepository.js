@@ -11,7 +11,8 @@ const getFavoriteProducts = favorite => new Promise((resolve, reject) => {
                 product: {
                     url_img: product.url_img,
                     name: product.name,
-                    value: product.value
+                    value: product.value,
+                    offer: product.offer
                 }
             });
         })
