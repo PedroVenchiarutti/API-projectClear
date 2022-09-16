@@ -20,6 +20,7 @@ const Routes = express.Router();
 // routes
 Routes.get('/procedures', procedures.getAll);
 Routes.get('/products/pages/:num', products.getAll);
+Routes.get("/products/search/",products.searchFilter);// queryFilter
 Routes.get('/discount/:code', discount.getByCode);
 Routes.post('/register', bodyValidation(clientSchema), client.add);
 Routes.get('/login', bodyValidation(loginSchema), login.login)

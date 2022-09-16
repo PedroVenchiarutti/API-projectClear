@@ -1,6 +1,7 @@
 const genericQuerys = require('./genericQuerys.js');
 const db = require('../config/dbconnect.js');
 const { newPool } = require("../config/dbconnect.js");
+const Utils = require('../helpers/Utils.js');
 
 class ProductRepository extends genericQuerys {
 
@@ -16,6 +17,42 @@ class ProductRepository extends genericQuerys {
           reject(e);
         })
     });
+  }
+
+  static filter(params){
+
+    return new Promise((resolve,reject)=>{
+      let query = `SELECT * FROM products`;
+      
+      query += " WHERE";
+      
+      if(params.brand.length>0){
+        query+=" brand IN (";
+        query = Utils.inIds(query,params.brand);        
+      }
+      
+      if( params.from || params.to){
+        
+        query+='AND';  
+        
+        if( params.from > 0 && params.to > 0
+           && params.to > params.from){       
+          query += ` value BETWEEN ${params.from} AND ${params.to}`;
+        }else if(params.to > 0 || params.from > 0){
+          query += params.from ? 
+          `value > ${params.from}` :
+          `value < ${params.to}`
+        }
+      }
+      query +=" ORDER BY value"; 
+
+      db.exec(query,params.brand)
+      .then(list=>{
+        resolve(list)
+      })
+      .catch(err=>reject(err))
+    })
+    
   }
 
   static search(param) {

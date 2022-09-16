@@ -57,6 +57,29 @@ exports.search = (req, res, next) => {
     })
 }
 
+exports.searchFilter = (req,res,next) =>{
+
+  const query = req.query; 
+
+  if(!Array.isArray(query.brand)){
+    query.brand = [query.brand];
+  }
+  
+  const padrao = {
+    from:"",
+    to:"",
+    brands:["ola","ddd","dd"]
+  }
+
+  productRepository.filter(query).
+    then(response=>{
+        console.log(response)
+        res.send(response)
+  })
+
+
+}
+
 exports.add = (req, res, next) => {
   /**
     #swagger.tags = ['product']
