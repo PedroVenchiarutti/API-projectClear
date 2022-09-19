@@ -58,18 +58,18 @@ class ProductRepository extends genericQuerys {
     return new Promise((resolve,reject)=>{
       
       let query = `SELECT * FROM products`;
-      
-      query += " WHERE";
-      
-      if(params.brand.length>0){
+
+      query += " WHERE ";
+
+      if(params.brand.length>0 && params.brand[0]!==undefined){
         query+=" brand IN (";
         query = Utils.inIds(query,params.brand);        
-      }
-      
-      if( params.from || params.to){
-        
+
         query+=' AND ';  
-        
+      }
+
+      if( params.from || params.to){
+
         if( params.from > 0 && params.to > 0
            && params.to > params.from){       
           query += ` value BETWEEN ${params.from} AND ${params.to}`;
@@ -79,13 +79,20 @@ class ProductRepository extends genericQuerys {
           `value < ${params.to}`
         }
       }
+     
       query +=" ORDER BY value"; 
-      console.log(query)
-      db.exec(query,params.brand)
-      .then(list=>{
-        resolve(list)
-      })
-      .catch(err=>reject(err))
+      
+      if(params.brand[0]==undefined){
+      
+        db.exec(query)
+        .then(list => resolve(list))
+        .catch(err => reject(err))
+      
+      }else{
+        db.exec(query,params.brand)
+        .then(list => resolve(list))
+        .catch(err => reject(err))
+        }     
     })
     
   }

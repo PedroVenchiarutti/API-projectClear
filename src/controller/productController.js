@@ -84,10 +84,11 @@ exports.searchFilter = (req,res,next) =>{
 exports.searchFilter = (req,res,next) =>{
 
   const query = req.query; 
+  
   if(!Array.isArray(query.brand)){
     query.brand = [query.brand];
   }
- 
+  
 
   productRepository.filter(query).
     then(response=>{
