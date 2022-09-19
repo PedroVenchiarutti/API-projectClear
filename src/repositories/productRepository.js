@@ -65,6 +65,11 @@ class ProductRepository extends genericQuerys {
         query+=" brand IN (";
         query = Utils.inIds(query,params.brand);        
 
+
+      }
+      
+      if(params.brand[0]!==undefined || params.to || params.from){
+
         query+=' AND ';  
       }
 
@@ -81,7 +86,6 @@ class ProductRepository extends genericQuerys {
       }
      
       query +=" ORDER BY value"; 
-      
       if(params.brand[0]==undefined){
       
         db.exec(query)
