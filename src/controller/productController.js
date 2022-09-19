@@ -118,7 +118,6 @@ exports.add = (req, res, next) => {
     */
 
   const product = req.body;
-  console.log(product);
 
   productRepository.insertTable("products", product).then(
     (response) => {

@@ -64,17 +64,14 @@ class ProductRepository extends genericQuerys {
       if(params.brand.length>0 && params.brand[0]!==undefined){
         query+=" brand IN (";
         query = Utils.inIds(query,params.brand);        
-
-
       }
       
-      if(params.brand[0]!==undefined || params.to || params.from){
-
-        query+=' AND ';  
-      }
+      
 
       if( params.from || params.to){
-
+        if(params.brand[0]){
+          query+=' AND ';  
+        }
         if( params.from > 0 && params.to > 0
            && params.to > params.from){       
           query += ` value BETWEEN ${params.from} AND ${params.to}`;
@@ -86,6 +83,7 @@ class ProductRepository extends genericQuerys {
       }
      
       query +=" ORDER BY value"; 
+      console.log(query)
       if(params.brand[0]==undefined){
       
         db.exec(query)
