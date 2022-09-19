@@ -170,7 +170,7 @@ exports.remove = (req, res, next) => {
    */
 
   const id = req.params.id;
-  console.log(id);
+  //console.log(id);
   productRepository.deleteTable("products", id).then(
     (response) => {
       res.send();
