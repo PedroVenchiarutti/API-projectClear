@@ -19,7 +19,7 @@ exports.getByUserAndProductId = (req, res, next) => {
   favoritesRepository.getByUserAndProductId(userId, productId).then(review => {
     res.send(review);
   }, error => {
-    next(ApiError.badRequest(error.message));
+    next(ApiError.badRequest(error));
   });
 }
 
