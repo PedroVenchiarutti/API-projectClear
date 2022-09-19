@@ -1,3 +1,4 @@
+const ApiError = require("../error/apiError.js");
 const apiError = require("../error/apiError.js");
 const productRepository = require("../repositories/productRepository.js");
 
@@ -70,12 +71,6 @@ exports.searchFilter = (req,res,next) =>{
   if(!Array.isArray(query.brand)){
     query.brand = [query.brand];
   }
-  
-  const padrao = {
-    from:"",
-    to:"",
-    brands:["ola","ddd","dd"]
-  }
 
   productRepository.filter(query).
     then(response=>{
@@ -89,21 +84,16 @@ exports.searchFilter = (req,res,next) =>{
 exports.searchFilter = (req,res,next) =>{
 
   const query = req.query; 
-
   if(!Array.isArray(query.brand)){
     query.brand = [query.brand];
   }
-  
-  const padrao = {
-    from:"",
-    to:"",
-    brands:["ola","ddd","dd"]
-  }
+ 
 
   productRepository.filter(query).
     then(response=>{
-        console.log(response)
         res.send(response)
+  }).catch(e=>{
+    next(ApiError.badRequest(e.message))
   })
 
 

@@ -56,6 +56,7 @@ class ProductRepository extends genericQuerys {
   static filter(params){
 
     return new Promise((resolve,reject)=>{
+      
       let query = `SELECT * FROM products`;
       
       query += " WHERE";
@@ -67,7 +68,7 @@ class ProductRepository extends genericQuerys {
       
       if( params.from || params.to){
         
-        query+='AND';  
+        query+=' AND ';  
         
         if( params.from > 0 && params.to > 0
            && params.to > params.from){       
@@ -79,7 +80,7 @@ class ProductRepository extends genericQuerys {
         }
       }
       query +=" ORDER BY value"; 
-
+      console.log(query)
       db.exec(query,params.brand)
       .then(list=>{
         resolve(list)
