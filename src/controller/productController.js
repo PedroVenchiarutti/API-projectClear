@@ -27,12 +27,13 @@ exports.getById = (req, res, next) => {
   */
 
   const id = req.params.id;
-
-  productRepository.select("products", id).then(
+  
+  productRepository.byId(id).then(
     (product) => {
       res.send(product);
     },
     (e) => {
+      console.log(e)
       next(apiError.badRequest(e.message));
     }
   );
@@ -61,6 +62,52 @@ exports.search = (req, res, next) => {
     }
   );
 };
+
+exports.searchFilter = (req,res,next) =>{
+
+  const query = req.query; 
+
+  if(!Array.isArray(query.brand)){
+    query.brand = [query.brand];
+  }
+  
+  const padrao = {
+    from:"",
+    to:"",
+    brands:["ola","ddd","dd"]
+  }
+
+  productRepository.filter(query).
+    then(response=>{
+        console.log(response)
+        res.send(response)
+  })
+
+
+}
+
+exports.searchFilter = (req,res,next) =>{
+
+  const query = req.query; 
+
+  if(!Array.isArray(query.brand)){
+    query.brand = [query.brand];
+  }
+  
+  const padrao = {
+    from:"",
+    to:"",
+    brands:["ola","ddd","dd"]
+  }
+
+  productRepository.filter(query).
+    then(response=>{
+        console.log(response)
+        res.send(response)
+  })
+
+
+}
 
 exports.add = (req, res, next) => {
   /**

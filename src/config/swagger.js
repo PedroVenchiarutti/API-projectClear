@@ -7,6 +7,9 @@ const doc = {
   },
   host: 'localhost:3333/api',
   schemes: ['http'],
+  securytiDefinitions:{
+    
+  }
 };
 
 const outputFile = './src/config/swagger_output.json'

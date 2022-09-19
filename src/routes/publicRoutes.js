@@ -23,6 +23,7 @@ const Routes = express.Router();
 Routes.get("/procedures", procedures.getAll);
 Routes.get("/products/:id", products.getById);
 Routes.get("/products/pages/:num", products.getWithPagination);
+Routes.get("/products/search/",products.searchFilter);// queryFilter
 Routes.get("/products/", products.getAll);
 Routes.get('/brands', brands.getAll);
 Routes.get("/discount/:code", discount.getByCode);
@@ -33,5 +34,7 @@ Routes.get("/search/:search", products.search);
 Routes.use(idValidation());
 
 Routes.post("/admin/login", adminController.login);
+
+Routes.use(idValidation());
 
 module.exports = Routes;

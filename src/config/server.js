@@ -19,6 +19,8 @@ server.use(cors());
 
 server.use('/api', routes)
 server.use(apiErrorHandler)
+
+// NAO ENVIAR O SWAGGER NA PRODUCAO
 server.use("/docs", swaggerUI.serve, swaggerUI.setup(swaggerFile));
 
 
