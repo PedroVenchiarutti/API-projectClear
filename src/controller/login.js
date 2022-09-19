@@ -7,7 +7,6 @@ const generateToken = (id) => {
   const expires = new Date(Date.now()+10800000);
   const generatedToken = jwt.sign({ id, isAdmin: false }, process.env.SECRET, { expiresIn: 10800 });
  
-  console.log(expires.getHours(),expires.getMinutes())  
   return {generatedToken,expires};
 
 }

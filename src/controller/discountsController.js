@@ -52,7 +52,7 @@ exports.add = (req, res, next) => {
  */
 
   const discount = req.body;
-  console.log(discount)
+  // console.log(discount)
 
   discountRepository.insertTable("discounts", discount)
     .then(response => {

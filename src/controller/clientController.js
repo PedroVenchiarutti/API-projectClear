@@ -107,8 +107,8 @@ exports.update = (req, res, next) => {
       res.status(200).send();
     })
     .catch((error) => {
-      console.log(error);
-      next(ApiError.badRequest(error));
+      //console.log(error);
+      next(ApiError.badRequest(error.message));
     });
 };
 
@@ -159,7 +159,7 @@ exports.updatePassword = async (req, res, next) => {
         .then((resp) => {
           if (resp) {
             crypto.gemPassword(req.body.newPassword).then((newPassword) => {
-              console.log(newPassword);
+              //console.log(newPassword);
               genericQuerys
                 .updatePassword("users", [newPassword, req.authenticatedUserId])
                 .then((resp) => {
@@ -222,8 +222,7 @@ exports.updateDateClient = async (req, res, next) => {
           res.status(200).send("Dados alterados com sucesso");
         })
         .catch((e) => {
-          res.status(200).send("deu ruim");
-          console.log(e);
+          next(apiError.badRequest(e.message));
         });
     });
   } catch (err) {
