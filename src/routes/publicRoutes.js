@@ -1,4 +1,5 @@
 const express = require("express");
+const jwt = require("jsonwebtoken");
 
 // Controllers
 const client = require("../controller/clientController.js");
